@@ -12,24 +12,31 @@ connection = pymysql.connect(
 #create a json list
 #TODO: fix this so that it can output images
 json = []
-try:
-    #code from github, adjust as necessary
-    with connection.cursor() as cursor:
-        # Create a new record
-        sql = "INSERT INTO `users` (`email`, `password`) VALUES (%s, %s)"
-        cursor.execute(sql, ('webmaster@python.org', 'very-secret'))
 
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    connection.commit()
-
-    with connection.cursor() as cursor:
-        # Read a single record
-        sql = "SELECT `id`, `password` FROM `users` WHERE `email`=%s"
-        cursor.execute(sql, ('webmaster@python.org',))
-        result = cursor.fetchone()
-        print(json)
-        json = result
+    
+# try:
+#     # code from github, adjust as necessary
+# 
+#     # inserting into the database
+#     # TODO: insert path into the database
+#     with connection.cursor() as cursor:
+#         # Create a new record
+#         sql = "INSERT INTO `users` (`email`, `password`) VALUES (%s, %s)"
+#         cursor.execute(sql, ('suraj98@gwu.edu', 'very-secret'))
+# 
+#     # connection is not autocommit by default. So you must commit to save
+#     # your changes.
+#     connection.commit()
+# 
+# 
+#     # Selecting what you want to put into the database
+#     with connection.cursor() as cursor:
+#         # Read a single record
+#         sql = "SELECT `email`, `password` FROM `users` WHERE `email`=%s"
+#         cursor.execute(sql, ('suraj98@gwu.edu',))
+#         result = cursor.fetchone()
+#         print(json)
+#         json = result
 
 finally:
     connection.close()
@@ -49,4 +56,3 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
 
 
-    
