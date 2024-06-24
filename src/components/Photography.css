@@ -1,0 +1,20 @@
+.photography {
+    padding: 20px;
+  }
+  
+  .photography .gallery {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .photography .gallery img {
+    max-width: 30%;
+    margin: 10px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .photography .gallery img:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
