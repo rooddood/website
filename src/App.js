@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Photography from './components/Photography';
 import Clothing from './components/Clothing';
 import Cooking from './components/Cooking';
+import Resume from './components/Resume'; // Import Resume component
 import NavBar from './components/NavBar'; // Import NavBar component
 import './App.css';
 
@@ -14,7 +15,8 @@ function App() {
       <div className="App">
         <NavBar /> {/* Include NavBar component here */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} /> {/* Home page at / */}
+          <Route path="/resume" element={<Resume />} /> {/* Resume page at /resume */}
           <Route path="/photography" element={<Photography />} />
           <Route path="/clothing" element={<Clothing />} />
           <Route path="/cooking" element={<Cooking />} />

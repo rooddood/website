@@ -1,0 +1,83 @@
+/* Resume.css */
+
+.resume {
+    max-width: 1200px; /* Adjusted max-width for a wider layout */
+    width: 90%; /* Set width to 90% of the viewport width */
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  @media (max-width: 1400px) {
+    .resume {
+      max-width: 1000px; /* Reduce max-width for medium-sized screens */
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .resume {
+      max-width: 800px; /* Further reduce max-width for smaller screens */
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .resume {
+      max-width: 95%; /* Adjust max-width for very small screens */
+    }
+  }
+  
+  .resume__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .resume__header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #333;
+  }
+  
+  .resume__tagline {
+    font-size: 1.2em;
+    color: #555;
+  }
+  
+  .resume__contact p {
+    margin: 5px 0;
+  }
+  
+  .resume__contact a {
+    color: #2980b9;
+    text-decoration: none;
+  }
+  
+  .resume__contact a:hover {
+    text-decoration: underline;
+  }
+  
+  .resume__section {
+    margin-bottom: 40px;
+  }
+  
+  .resume__section-title {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .resume__list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .resume__list li {
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 2px solid #2980b9;
+    color: #555;
+  }
+  

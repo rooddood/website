@@ -1,94 +1,62 @@
 /* Home.css */
 
 .home {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .home__header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
-  .home__header h1 {
-    color: #333;
-  }
-  
-  .home__tagline {
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
-  .home__section {
-    margin-bottom: 40px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .home__section-title {
-    color: #333;
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-  }
-  
-  .home__list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .home__list li {
-    margin-bottom: 10px;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .home__list li:hover .hidden-detail {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .hidden-detail {
-    opacity: 0;
-    position: absolute;
-    top: -20px;
-    left: 0;
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-  }
-  
-  .skills__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .skills__item {
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .skills__item i {
-    font-size: 1.5rem;
-    margin-right: 10px;
-    color: #333;
-  }
-  
-  .skills__item span {
-    font-size: 1.2rem;
-    color: #555;
-  }
+  width: 100%;
+  height: 100vh; /* Make the container full height of viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('/images/img_bg_2.jpg') no-repeat center center fixed;
+  background-size: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.home__header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #fff; /* Ensure text is readable against background */
+}
+
+.home__header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+.home__tagline {
+  font-size: 1.2em;
+}
+
+.home__contact {
+  text-align: center;
+  color: #fff; /* Link color */
+  margin-top: 20px;
+}
+
+.home__contact p {
+  margin: 5px 0;
+}
+
+.home__contact a {
+  color: #fff; /* Link color */
+  text-decoration: none;
+}
+
+.home__contact a:hover {
+  text-decoration: underline;
+}
+
+.home__download-btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.home__download-btn:hover {
+  background-color: #2980b9;
+}
