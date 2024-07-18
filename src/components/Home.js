@@ -31,12 +31,11 @@ const Home = () => {
   return (
     <div className="home">
       <header className="home__header">
-        <h1>Welcome to My Portfolio</h1>
-        <p className="home__tagline">Hi, I'm Kyle Rood, a Freelance AI Software Developer / Engineering Manager.</p>
+        <h1>Hi, I'm Kyle Rood</h1>
+        <p className="home__tagline">Freelance AI Software Developer / Engineering Manager.</p>
         <div className="home__contact">
           <p>Email: kylerood16@gmail.com</p>
           <p>LinkedIn: <a href="https://www.linkedin.com/in/kyle-rood/" target="_blank" rel="noopener noreferrer">Kyle Rood</a></p>
-          <p>Website: <a href="https://rooddood.github.io/website/" target="_blank" rel="noopener noreferrer">rooddood.github.io/website</a></p>
           <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
         </div>
       </header>
