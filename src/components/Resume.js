@@ -57,6 +57,12 @@ const Resume = () => {
     "Making + selling clothes"
   ];
 
+  const skills = [
+    "Python", "React", "AWS (Lambda, EC2, etc.)", "OpenAI + Local NLP models",
+    "AWS Pipelines + Builds", "Jira / Linear", "SCRUM Master Certification",
+    "Computer Vision", "Big Data + Databases", "Angular", "Java Spring", "Unity", "Docker"
+  ];
+
   const [expandedItem, setExpandedItem] = useState(null);
 
   const handleExpand = (index) => {
@@ -72,7 +78,8 @@ const Resume = () => {
   return (
     <div className="resume">
       <header className="resume__header">
-        <h1>Kyle Rood</h1>
+        <img src="/images/about.jpg" alt="Profile Picture" className="resume__profile-pic" />
+        <br /><br /><br /><h1>Kyle Rood</h1>
         <p className="resume__tagline">Freelance AI Software Developer / Engineering Manager</p>
         <div className="resume__contact">
           <p>Email: kylerood16@gmail.com</p>
@@ -125,12 +132,11 @@ const Resume = () => {
 
       <section className="resume__section">
         <h2 className="resume__section-title">Skills</h2>
-        <ul className="resume__list">
-          <li>Python, React, AWS (Lambda, EC2, etc.), OpenAI + Local NLP models</li>
-          <li>AWS Pipelines + Builds, Jira / Linear, SCRUM Master Certification</li>
-          <li>Computer Vision, Big Data + Databases</li>
-          <li>Angular, Java Spring, Unity, Docker</li>
-        </ul>
+        <div className="resume__skills">
+          {skills.map((skill, index) => (
+            <span key={index} className="resume__skill">{skill}</span>
+          ))}
+        </div>
       </section>
 
       <section className="resume__section">
