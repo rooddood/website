@@ -1,83 +1,143 @@
 /* Resume.css */
+body {
+  font-size: 18px;
+  line-height: 1.6;
+  font-family: 'Arial', sans-serif;
+}
 
 .resume {
-    max-width: 1200px; /* Adjusted max-width for a wider layout */
-    width: 90%; /* Set width to 90% of the viewport width */
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+  max-width: 1400px;
+  width: 95%;
+  margin: 20px auto;
+  padding: 40px;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+
+.resume__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.resume__header h1 {
+  margin: 0;
+  font-size: 3em;
+  color: #2c3e50;
+}
+
+.resume__tagline {
+  font-size: 1.5em;
+  color: #34495e;
+}
+
+.resume__contact p {
+  margin: 10px 0;
+}
+
+.resume__contact a {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+.resume__contact a:hover {
+  text-decoration: underline;
+}
+
+.resume__section {
+  margin-bottom: 50px;
+}
+
+.resume__section-title {
+  font-size: 2em;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 15px;
+}
+
+.resume__list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.resume__item {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-left: 5px solid #2980b9;
+  color: #555;
+  background: #ecf0f1;
+  border-radius: 10px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.resume__item:hover {
+  background: #d0e6f7;
+}
+
+.resume__item-header {
+  font-size: 1.2em;
+  color: #2c3e50;
+}
+
+.resume__tags {
+  margin-top: 10px;
+}
+
+.resume__tag {
+  display: inline-block;
+  background: #2980b9;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+.resume__item-details {
+  margin-top: 15px;
+  font-size: 1em;
+  color: #34495e;
+}
+
+.resume__item-bubble {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-left: 5px solid #2980b9;
+  color: #555;
+  background: #ecf0f1;
+  border-radius: 10px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.resume__item-bubble:hover {
+  background: #d0e6f7;
+}
+
+@media (max-width: 1200px) {
+  .resume {
+      max-width: 95%;
+      padding: 20px;
   }
-  
-  @media (max-width: 1400px) {
-    .resume {
-      max-width: 1000px; /* Reduce max-width for medium-sized screens */
-    }
+}
+
+@media (max-width: 900px) {
+  .resume {
+      padding: 10px;
   }
-  
-  @media (max-width: 1200px) {
-    .resume {
-      max-width: 800px; /* Further reduce max-width for smaller screens */
-    }
-  }
-  
-  @media (max-width: 900px) {
-    .resume {
-      max-width: 95%; /* Adjust max-width for very small screens */
-    }
-  }
-  
-  .resume__header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
+
   .resume__header h1 {
-    margin: 0;
-    font-size: 2.5em;
-    color: #333;
+      font-size: 2.5em;
   }
-  
+
   .resume__tagline {
-    font-size: 1.2em;
-    color: #555;
+      font-size: 1.2em;
   }
-  
-  .resume__contact p {
-    margin: 5px 0;
-  }
-  
-  .resume__contact a {
-    color: #2980b9;
-    text-decoration: none;
-  }
-  
-  .resume__contact a:hover {
-    text-decoration: underline;
-  }
-  
-  .resume__section {
-    margin-bottom: 40px;
-  }
-  
+
   .resume__section-title {
-    font-size: 1.8em;
-    color: #333;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
+      font-size: 1.5em;
   }
-  
-  .resume__list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .resume__list li {
-    margin-bottom: 20px;
-    padding-left: 15px;
-    border-left: 2px solid #2980b9;
-    color: #555;
-  }
-  
+}
