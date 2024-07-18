@@ -1,7 +1,7 @@
 /* Resume.css */
 body {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 16px; /* Slightly smaller text */
+  line-height: 1.5;
   font-family: 'Arial', sans-serif;
 }
 
@@ -22,12 +22,12 @@ body {
 
 .resume__header h1 {
   margin: 0;
-  font-size: 3em;
+  font-size: 2.8em; /* Slightly smaller than before */
   color: #2c3e50;
 }
 
 .resume__tagline {
-  font-size: 1.5em;
+  font-size: 1.4em; /* Slightly smaller */
   color: #34495e;
 }
 
@@ -44,12 +44,34 @@ body {
   text-decoration: underline;
 }
 
+.resume__download {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.resume__download a {
+  display: inline-block;
+  background: #2980b9;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.resume__download a:hover {
+  background: #1f648b;
+}
+
 .resume__section {
   margin-bottom: 50px;
 }
 
 .resume__section-title {
-  font-size: 2em;
+  font-size: 1.8em;
+  font-weight: bold; /* Bold titles */
   color: #2c3e50;
   margin-bottom: 25px;
   border-bottom: 2px solid #ddd;
@@ -77,7 +99,8 @@ body {
 }
 
 .resume__item-header {
-  font-size: 1.2em;
+  font-size: 1.2em; /* Slightly larger */
+  font-weight: bold; /* Bold text */
   color: #2c3e50;
 }
 
@@ -98,7 +121,7 @@ body {
 
 .resume__item-details {
   margin-top: 15px;
-  font-size: 1em;
+  font-size: 0.9em; /* Slightly smaller details */
   color: #34495e;
 }
 
@@ -117,6 +140,20 @@ body {
   background: #d0e6f7;
 }
 
+.resume__education-item {
+  padding: 15px;
+  border-left: 5px solid #2980b9;
+  color: #555;
+  background: #ecf0f1;
+  border-radius: 10px;
+  transition: background 0.3s;
+  cursor: default;
+}
+
+.resume__education-item:hover {
+  background: #d0e6f7;
+}
+
 @media (max-width: 1200px) {
   .resume {
       max-width: 95%;
@@ -130,7 +167,7 @@ body {
   }
 
   .resume__header h1 {
-      font-size: 2.5em;
+      font-size: 2.2em;
   }
 
   .resume__tagline {
@@ -138,6 +175,6 @@ body {
   }
 
   .resume__section-title {
-      font-size: 1.5em;
+      font-size: 1.4em;
   }
 }

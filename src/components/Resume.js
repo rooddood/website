@@ -63,6 +63,12 @@ const Resume = () => {
     setExpandedItem(expandedItem === index ? null : index);
   };
 
+  const handleDownload = () => {
+    // Replace 'resume.pdf' with the path to your actual resume file
+    const resumePath = '/Kyle_Rood_Resume_2024_Freelance.pdf';
+    window.open(resumePath, '_blank');
+  };
+
   return (
     <div className="resume">
       <header className="resume__header">
@@ -71,7 +77,7 @@ const Resume = () => {
         <div className="resume__contact">
           <p>Email: kylerood16@gmail.com</p>
           <p>LinkedIn: <a href="https://www.linkedin.com/in/kyle-rood/" target="_blank" rel="noopener noreferrer">Kyle Rood</a></p>
-          <p>Website: <a href="https://rooddood.github.io/website/" target="_blank" rel="noopener noreferrer">rooddood.github.io/website</a></p>
+          <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
         </div>
       </header>
 
