@@ -19,6 +19,7 @@ function App() {
         <NavBar /> {/* Include NavBar component here */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Home page at / */}
+          <Route path="/website" element={<Home />} />
           <Route path="/resume" element={<Resume />} /> {/* Resume page at /resume */}
           <Route path="/photography" element={<Photography />} />
           <Route path="/clothing" element={<Clothing />} />
