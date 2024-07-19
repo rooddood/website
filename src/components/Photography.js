@@ -1,12 +1,24 @@
 import React, { useEffect, useRef } from 'react';
+import Slider from 'react-slick';
 import './Photography.css';
-import ImageWithCaption from './ImageWithCaption';
+
+// Function to get a list of image paths
+const getImagePaths = () => {
+  return [
+    '/images/photography/000065420005.jpg',
+    '/images/photography/000065440005.jpg',
+    '/images/photography/000065440006.jpg',
+    '/images/photography/000065440007.jpg',
+    '/images/photography/000065440008.jpg',
+    // Add more images as needed
+  ];
+};
 
 const Photography = () => {
   const containerRef = useRef(null);
+  const images = getImagePaths(); // Get the list of image paths
 
   useEffect(() => {
-    // Function to run the Redbubble portfolio script
     const initializePortfolio = () => {
       if (!document.getElementById('rb-xzfcxvzx')) {
         const portfolioScript = document.createElement('script');
@@ -17,18 +29,15 @@ const Photography = () => {
       }
     };
 
-    // Create and append the external script
     const externalScript = document.createElement('script');
     externalScript.src = 'https://www.redbubble.com/assets/external_portfolio.js';
     externalScript.async = true;
     externalScript.onload = initializePortfolio;
 
-    // Append the external script to the container
     if (containerRef.current && !containerRef.current.firstChild) {
       containerRef.current.appendChild(externalScript);
     }
 
-    // Cleanup function to remove scripts when component unmounts
     return () => {
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
@@ -36,22 +45,40 @@ const Photography = () => {
     };
   }, []);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: true,
+    focusOnSelect: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
+
   return (
     <div className="photography">
       <h1>Photography</h1>
 
-      {/* Custom Image with Caption */}
-      <div className="gallery-container">
-        <ImageWithCaption
-          src="/images/img_bg_2.jpg"  // Replace with your actual image path
-          alt="Sample Image"
-          caption="This is a sample caption for the image."
-        />
-      </div>
+      {/* Scrolling Gallery */}
+      <div className="scrolling-gallery">
+        <Slider {...settings}>
+          {images.map((image, index) => (
+            <div key={index} className="slide">
+              <img src={image} alt={`Gallery Image ${index + 1}`} />
+            </div>
+          ))}
+        </Slider>
+      </div><br /><br /><br />
 
-      {/* Embed Redbubble Portfolio */}
-      <div className="embed-container">
-        <div id="rb-embed-container" ref={containerRef}></div>
+      {/* Redbubble Section */}
+      <div className="redbubble-section">
+        <h2>Redbubble</h2>
+        <p>This is my online shop where you can find prints and other merchandise.</p>
+        <div className="embed-container">
+          <div id="rb-embed-container" ref={containerRef}></div>
+        </div>
       </div>
     </div>
   );
