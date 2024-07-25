@@ -1,0 +1,71 @@
+/* Home.css */
+
+body {
+  overflow: hidden; /* Prevent scrolling */
+  margin: 0; /* Remove default margin */
+}
+
+.home {
+  width: 100%;
+  height: 100vh; /* Full height of viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the left */
+  padding-left: 50px; /* Add padding to the left for better alignment */
+  background: url('/images/img_bg_2.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.home__header {
+  text-align: left; /* Align text to the left */
+  color: #fff; /* Ensure text is readable against background */
+}
+
+.home__header h1 {
+  margin: 0;
+  font-size: 3em; /* Larger font size */
+}
+
+.home__tagline {
+  font-size: 1.5em; /* Larger font size */
+}
+
+.home__contact {
+  text-align: left; /* Align text to the left */
+  color: #fff;
+  margin-top: 20px;
+  font-size: 1.2em; /* Larger font size */
+}
+
+.home__contact p {
+  margin: 5px 0;
+}
+
+.home__contact a {
+  color: #fff; /* Link color */
+  text-decoration: none;
+}
+
+.home__contact a:hover {
+  text-decoration: underline;
+}
+
+.home__download-btn {
+  margin-top: 20px; /* Space between contact info and button */
+  padding: 12px 24px; /* Button padding */
+  font-size: 1.1em; /* Button text size */
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start; /* Align button to the left */
+  margin-left: 200px; /* Move the button to the right by 100 pixels */
+  /* To move the button more to the right, increase the value of margin-left */
+}
+
+.home__download-btn:hover {
+  background-color: #2980b9;
+}
