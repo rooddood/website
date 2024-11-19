@@ -2,21 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import Slider from 'react-slick';
 import './Shops.css';
 
-// Function to get a list of image paths
-const getImagePaths = () => {
-  return [
-    '/images/photography/000065420005.jpg',
-    '/images/photography/000065440005.jpg',
-    '/images/photography/000065440006.jpg',
-    '/images/photography/000065440007.jpg',
-    '/images/photography/000065440008.jpg',
-    // Add more images as needed
-  ];
-};
-
 const Shops = () => {
   const containerRef = useRef(null);
-  const images = getImagePaths(); // Get the list of image paths
 
   useEffect(() => {
     const initializePortfolio = () => {
