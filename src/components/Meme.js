@@ -22,7 +22,7 @@ const Meme = () => {
   return (
     <div className="meme">
         <h1>Meme's Works</h1>
-      {shop && (
+      {/* {shop && (
         <div>
           <h1>{shop.shop_name}</h1>
           <p>{shop.description}</p>
@@ -42,7 +42,7 @@ const Meme = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
