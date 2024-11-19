@@ -8,6 +8,8 @@ import Home from './components/Home';
 import Photography from './components/Photography';
 import Clothing from './components/Clothing';
 import Cooking from './components/Cooking';
+import Writing from './components/Writing';
+import Meme from './components/Meme';
 import Resume from './components/Resume'; // Import Resume component
 import NavBar from './components/NavBar'; // Import NavBar component
 import './App.css';
@@ -24,6 +26,8 @@ function App() {
           <Route path="/photography" element={<Photography />} />
           <Route path="/clothing" element={<Clothing />} />
           <Route path="/cooking" element={<Cooking />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/meme" element={<Meme />} />
         </Routes>
       </div>
     </Router>
