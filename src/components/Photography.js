@@ -1,50 +1,58 @@
-import React from 'react';
-import Slider from 'react-slick';
-import './Photography.css';
+import React, { useState } from "react";
+import "./Photography.css";
 
 // Dynamically import images from folder
 const getImages = () => {
-  const context = require.context('../../public/images/photography', false, /\.(jpg|jpeg|png)$/);
+  const context = require.context(
+    "../../public/images/photography",
+    false,
+    /\.(jpg|jpeg|png)$/
+  );
   return context.keys().map(context);
 };
 
 const Photography = () => {
-  const images = getImages(); // Get the list of images
+  const images = getImages(); // Load images
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    centerMode: true,
+  // Handle navigation
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   return (
     <div className="photography">
-      <h1>Photography</h1>
-
       {/* Artist's Statement */}
       <div className="artist-statement">
         <p>
-          Photography is my way of capturing the fleeting beauty of the world around me. 
-          Each image is a story told through light, color, and composition. Whether I'm 
-          exploring urban landscapes or serene natural vistas, my goal is to preserve 
-          moments that evoke emotion and spark imagination.
+          Photography is my way of capturing the fleeting beauty of the world
+          around me. Each image is a story told through light, color, and
+          composition.
         </p>
       </div>
 
-      {/* Scrolling Gallery */}
-      <div className="scrolling-gallery">
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <div key={index} className="slide">
-              <img src={image} alt={`Gallery Image ${index + 1}`} />
-            </div>
-          ))}
-        </Slider>
+      {/* Full-Screen Gallery */}
+      <div className="carousel">
+        <button className="nav-button prev" onClick={goToPrevious}>
+          &#10094;
+        </button>
+        <div
+          className="slide"
+          style={{
+            backgroundImage: `url(${images[currentIndex]})`,
+          }}
+        ></div>
+        <button className="nav-button next" onClick={goToNext}>
+          &#10095;
+        </button>
       </div>
     </div>
   );

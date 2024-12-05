@@ -21,7 +21,7 @@ const Meme = () => {
 
   return (
     <div className="meme">
-        <h1>Meme's Works</h1>
+        <h1>MeMe-Made</h1>
       {/* {shop && (
         <div>
           <h1>{shop.shop_name}</h1>
