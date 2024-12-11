@@ -1,50 +1,87 @@
-import './Meme.css'
-import React, { useState, useEffect } from "react";
-import { getShopDetails, getListings } from "./etsyService";
+import React, { useState } from "react";
+import "./Meme.css";
 
-const Meme = () => {
-  const [shop, setShop] = useState(null);
-  const [listings, setListings] = useState([]);
-  const shopId = "your-shop-id";
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const shopData = await getShopDetails(shopId);
-      setShop(shopData);
-
-      const listingsData = await getListings(shopId);
-      setListings(listingsData);
-    };
-
-    fetchData();
-  }, [shopId]);
-
-  return (
-    <div className="meme">
-        <h1>MeMe-Made</h1>
-      {/* {shop && (
-        <div>
-          <h1>{shop.shop_name}</h1>
-          <p>{shop.description}</p>
-        </div>
-      )}
-      <div>
-        <h2>Listings</h2>
-        <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-          {listings.map((listing) => (
-            <div key={listing.listing_id}>
-              <img src={listing.images[0]?.url_fullxfull} alt={listing.title} style={{ width: "100%" }} />
-              <h3>{listing.title}</h3>
-              <p>${listing.price}</p>
-              <a href={listing.url} target="_blank" rel="noopener noreferrer">
-                View on Etsy
-              </a>
-            </div>
-          ))}
-        </div>
-      </div> */}
-    </div>
+// Dynamically import images from folder
+const getImages = () => {
+  const context = require.context(
+    "../../public/images/mememade",
+    false,
+    /\.(jpg|jpeg|png)$/
   );
+  return context.keys().map(context);
 };
+
+class Meme extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentIndex: 0,
+    };
+  }
+
+  goToPrevious = () => {
+    this.setState((prevState) => ({
+      currentIndex:
+        prevState.currentIndex === 0
+          ? this.images.length - 1
+          : prevState.currentIndex - 1,
+    }));
+  };
+
+  goToNext = () => {
+    this.setState((prevState) => ({
+      currentIndex:
+        prevState.currentIndex === this.images.length - 1
+          ? 0
+          : prevState.currentIndex + 1,
+    }));
+  };
+
+  images = getImages();
+
+  render() {
+    const { currentIndex } = this.state;
+    return (
+      <div className="meme">
+        {/* Title Bubble */}
+        <div className="title-bubble">
+          <h1>Welcome to MemeMadeGoods!</h1>
+          <p>Discover the unique works of Meme (Louise Paolella). Visit her Etsy shop for more!</p>
+          <a href="https://mememadegoods.etsy.com" target="_blank" rel="noopener noreferrer" className="etsy-link">
+            Visit Meme's Etsy Shop
+          </a>
+        </div>
+
+        {/* Scrolling Display */}
+        <div className="carousel">
+          <button className="nav-button prev" onClick={this.goToPrevious}>
+            &#10094;
+          </button>
+          <div
+            className="slide"
+            style={{
+              backgroundImage: `url(${this.images[currentIndex]})`,
+            }}
+          ></div>
+          <button className="nav-button next" onClick={this.goToNext}>
+            &#10095;
+          </button>
+        </div>
+
+        {/* Bio Section */}
+        <div className="bio-bubble">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/meme-profile-pic.jpeg`}
+            alt="Meme"
+            className="meme-photo"
+          />
+          <div className="bio-text">
+            <p>Louise Paolella (AKA Meme) is a talented artisan with a passion for [her craft]. Each piece she creates is filled with love and attention to detail. Learn more about her journey and inspiration through her works.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Meme;
