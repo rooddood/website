@@ -140,6 +140,7 @@ body {
     font-size: 1rem;
     line-height: 1.5;
   }
+  
   .meme-photo {
     display: block;
     width: 150px;
@@ -148,6 +149,4 @@ body {
     object-fit: cover;
     object-position: 40% 3%; /* Shift right and down, not fully working */
   }
-  
-  
   

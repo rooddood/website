@@ -4,7 +4,7 @@ import "./Meme.css";
 // Dynamically import images from folder
 const getImages = () => {
   const context = require.context(
-    "../../public/images/mememade",
+    "../../public/images/memesgoods",
     false,
     /\.(jpg|jpeg|png)$/
   );
@@ -46,9 +46,9 @@ class Meme extends React.Component {
         {/* Title Bubble */}
         <div className="title-bubble">
           <h1>Welcome to MemeMadeGoods!</h1>
-          <p>Discover the unique works of Meme (Louise Paolella). Visit her Etsy shop for more!</p>
+          <p>Discover the unique works of MeMe (Louise Paolella). Visit her Etsy shop for more!</p>
           <a href="https://mememadegoods.etsy.com" target="_blank" rel="noopener noreferrer" className="etsy-link">
-            Visit Meme's Etsy Shop
+            Visit MeMe's Etsy Shop
           </a>
         </div>
 

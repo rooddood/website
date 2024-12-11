@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import "./Photography.css";
 
-// Dynamically import images from folder
+// Dynamically import images from the /images/photography folder
 const getImages = () => {
-  const context = require.context(
-    "../../public/images/photography",
-    false,
-    /\.(jpg|jpeg|png)$/
-  );
-  return context.keys().map(context);
+  const context = require.context("../../public/images/photography", false, /\.(jpg|jpeg|png)$/);
+  return context.keys().map((item) => context(item));
 };
 
 const Photography = () => {
@@ -30,8 +26,8 @@ const Photography = () => {
 
   return (
     <div className="photography">
-      {/* Artist's Statement */}
-      <div className="artist-statement">
+      {/* Intro Bubble */}
+      <div className="intro-statement">
         <p>
           Photography is my way of capturing the fleeting beauty of the world
           around me. Each image is a story told through light, color, and
@@ -39,7 +35,7 @@ const Photography = () => {
         </p>
       </div>
 
-      {/* Full-Screen Gallery */}
+      {/* Full-Screen Image Gallery */}
       <div className="carousel">
         <button className="nav-button prev" onClick={goToPrevious}>
           &#10094;
