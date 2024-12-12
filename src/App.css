@@ -1,3 +1,10 @@
+/* Global CSS to remove scroll bars on all pages */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Remove any scrollbars */
+}
+
 /* App.css */
 .App {
     text-align: center;
