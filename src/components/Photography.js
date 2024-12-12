@@ -4,7 +4,7 @@ import "./Photography.css";
 // Dynamically import images from the /images/photography folder
 const getImages = () => {
   const context = require.context("../../public/images/photography", false, /\.(jpg|jpeg|png)$/);
-  return context.keys().map((item) => context(item));
+  return context.keys().map(context);
 };
 
 const Photography = () => {
@@ -26,26 +26,19 @@ const Photography = () => {
 
   return (
     <div className="photography">
-      {/* Intro Bubble */}
-      <div className="intro-statement">
-        <p>
-          Photography is my way of capturing the fleeting beauty of the world
-          around me. Each image is a story told through light, color, and
-          composition.
-        </p>
+      {/* Title Box */}
+      <div className="title-box">
+        <p>My Photography</p>
       </div>
 
-      {/* Full-Screen Image Gallery */}
-      <div className="carousel">
+      {/* Image Carousel */}
+      <div
+        className="image"
+        style={{ backgroundImage: `url(${images[currentIndex]})` }}
+      >
         <button className="nav-button prev" onClick={goToPrevious}>
           &#10094;
         </button>
-        <div
-          className="slide"
-          style={{
-            backgroundImage: `url(${images[currentIndex]})`,
-          }}
-        ></div>
         <button className="nav-button next" onClick={goToNext}>
           &#10095;
         </button>
