@@ -43,13 +43,30 @@ class Meme extends React.Component {
     const { currentIndex } = this.state;
     return (
       <div className="meme">
-        {/* Title Bubble */}
-        <div className="title-bubble">
-          <h1>Welcome to MemeMadeGoods!</h1>
-          <p>Discover the unique works of MeMe (Louise Paolella). Visit her Etsy shop for more!</p>
-          <a href="https://mememadegoods.etsy.com" target="_blank" rel="noopener noreferrer" className="etsy-link">
-            Visit MeMe's Etsy Shop
-          </a>
+        {/* Bio and Title Section */}
+        <div className="bio-title-bubble">
+          <div className="bio-text">
+            <h1>Welcome to MemeMadeGoods!</h1>
+            <p>Discover the unique works of Meme (Louise Paolella)!</p>
+            <p>
+              The Quilting Queen transforms tired items with beautiful fabric
+              and expert technique. Check out her amazing works below, including
+              the famous thread painting that everyone's talking about!
+            </p>
+            <a
+              href="https://mememadegoods.etsy.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="etsy-link"
+            >
+              Visit Meme's Etsy Shop
+            </a>
+          </div>
+          <img
+            src={`${process.env.PUBLIC_URL}/images/meme-profile-pic.jpeg`}
+            alt="Meme"
+            className="meme-photo"
+          />
         </div>
 
         {/* Scrolling Display */}
@@ -66,18 +83,6 @@ class Meme extends React.Component {
           <button className="nav-button next" onClick={this.goToNext}>
             &#10095;
           </button>
-        </div>
-
-        {/* Bio Section */}
-        <div className="bio-bubble">
-          <img
-            src={`${process.env.PUBLIC_URL}/images/meme-profile-pic.jpeg`}
-            alt="Meme"
-            className="meme-photo"
-          />
-          <div className="bio-text">
-            <p>Louise Paolella (AKA Meme) is a talented artisan with a passion for [her craft]. Each piece she creates is filled with love and attention to detail. Learn more about her journey and inspiration through her works.</p>
-          </div>
         </div>
       </div>
     );

@@ -1,17 +1,9 @@
-/* Global CSS to remove scroll bars on all pages */
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; /* Remove any scrollbars */
-  }
-
-  
-
 /* Enable scrolling */
 body {
     margin: 0;
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 0;
+    height: 100%;
   }
   
   /* Outer container */
@@ -27,29 +19,35 @@ body {
     padding: 20px 0;
   }
   
-  /* Title Bubble */
-  .title-bubble {
-    width: 80%;
-    max-width: 800px;
+  /* Bio and Title Box */
+  .bio-title-bubble {
+    width: 85%; /* Slightly wider to save space */
+    max-width: 1000px;
     padding: 20px;
-    background-color: #ffe4b5; /* Light orange background */
+    background-color: #ffe4b5;
     border-radius: 10px;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     margin-bottom: 20px;
   }
   
-  .title-bubble h1 {
-    font-size: 2rem;
+  .bio-title-bubble h1 {
+    font-size: 1.8rem;
     margin: 0;
+    text-align: center;
   }
   
-  .title-bubble p {
-    font-size: 1rem;
+  .bio-title-bubble p {
+    font-size: 0.95rem;
     margin: 10px 0;
+    text-align: center;
   }
   
-  .title-bubble .etsy-link {
+  .bio-title-bubble .etsy-link {
     display: inline-block;
     margin-top: 10px;
     padding: 10px 15px;
@@ -59,14 +57,29 @@ body {
     border-radius: 5px;
   }
   
-  .title-bubble .etsy-link:hover {
+  .bio-title-bubble .etsy-link:hover {
     background-color: #555;
+  }
+  
+  .bio-title-bubble .bio-text {
+    flex: 1;
+  }
+  
+  /* Image and Profile Picture */
+  .meme-photo {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 40% 20%; /* Lower the image to center it better */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
   }
   
   /* Carousel container */
   .carousel {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1100px; /* Smaller by 5% */
     height: auto;
     aspect-ratio: 16 / 9; /* Ensures images maintain a common aspect ratio */
     position: relative;
@@ -80,6 +93,7 @@ body {
     background-color: #ccc; /* Neutral background for loading images */
   }
   
+  /* Carousel Image */
   .slide {
     width: 100%;
     height: 100%;
@@ -115,47 +129,5 @@ body {
   
   .nav-button.next {
     right: 10px;
-  }
-  
-  /* Bio Bubble */
-  .bio-bubble {
-    width: 80%;
-    max-width: 800px;
-    padding: 20px;
-    background-color: #ffe4b5;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
-  }
-  
-  .bio-bubble .meme-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-  }
-  
-  .bio-bubble .bio-text {
-    flex: 1;
-  }
-  
-  .bio-bubble .bio-text p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  .meme-photo {
-    display: block;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: 40% 3%; /* Shift right and down, not fully working */
   }
   

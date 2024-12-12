@@ -28,7 +28,7 @@ const Photography = () => {
     <div className="photography">
       {/* Title Box */}
       <div className="title-box">
-        <p>My Photography</p>
+        <p>Film Photography: From SoCal to New England</p>
       </div>
 
       {/* Image Carousel */}
