@@ -6,7 +6,7 @@ const PumpkinCheesecake = () => {
   return (
     <div className="recipe">
       <h2>Pumpkin Cheesecake</h2>
-      <img className="img-fluid" src="images/pumpkin_cheesecake.jpg" alt="Pumpkin Cheesecake" />
+      <img className="img-fluid" src={`${process.env.PUBLIC_URL}/images/pumpkin_cheesecake.jpg`} alt="Pumpkin Cheesecake" />
       <p className="mb-5">
         Ingredients:
         <br />Crust:

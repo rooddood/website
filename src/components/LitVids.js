@@ -16,8 +16,8 @@ const LitVids = () => {
       <h2>Brought to you by</h2>
       <div className="clip-art">
         {/* Corrected paths for clip art */}
-        <img src="/guy-fieri-sick.PNG" alt="Guy" className="clip" />
-        <img src="/travis-fish.jpg" alt="Travis Spot" className="clip" />
+        <img src="../../public/images/guy-fieri-sick.PNG" alt="Guy" className="clip" />
+        <img src="../../public/images/travis-fish.jpg" alt="Travis Spot" className="clip" />
       </div>
 
       <div className="video-gallery">

@@ -1,23 +1,98 @@
 .cooking {
-    padding: 20px;
-  }
-  
-  .recipes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  
-  .recipe {
-    background: #fff3e0;
-    margin: 10px;
-    padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .recipe:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }  
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.cooking h1, .cooking h2 {
+  text-align: center;
+}
+
+.recipes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.recipe {
+  background: #fff3e0;
+  margin: 10px;
+  padding: 10px; /* Reduced padding for more compact cards */
+  border-radius: 10px;
+  width: 200px; /* Maintain smaller width */
+  height: auto; /* Ensure dynamic height */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe img {
+  max-width: 100%;
+  max-height: 120px; /* Restrict image height */
+  border-radius: 10px;
+  margin-bottom: 8px;
+  object-fit: cover; /* Ensure images stay visually appealing */
+}
+
+.recipe h3 {
+  font-size: 1rem; /* Reduce heading size */
+  margin-bottom: 5px;
+}
+
+.recipe p {
+  font-size: 0.875rem; /* Smaller text for descriptions */
+  line-height: 1.2; /* Tighter line spacing */
+}
+
+.recipe:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.cooking {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.cooking h1, .cooking h2 {
+  text-align: center;
+}
+
+.recipes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.recipe {
+  background: #fff3e0;
+  margin: 10px;
+  padding: 10px; /* Reduced padding for more compact cards */
+  border-radius: 10px;
+  width: 400px; /* Maintain smaller width */
+  height: auto; /* Ensure dynamic height */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe img {
+  max-width: 100%;
+  max-height: 120px; /* Restrict image height */
+  border-radius: 10px;
+  margin-bottom: 8px;
+  object-fit: cover; /* Ensure images stay visually appealing */
+}
+
+.recipe h3 {
+  font-size: 1rem; /* Reduce heading size */
+  margin-bottom: 5px;
+}
+
+.recipe p {
+  font-size: 0.875rem; /* Smaller text for descriptions */
+  line-height: 1.2; /* Tighter line spacing */
+}
+
+.recipe:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}

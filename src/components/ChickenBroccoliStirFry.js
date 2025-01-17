@@ -1,12 +1,13 @@
 // components/ChickenBroccoliStirFry.js
 
 import React from 'react';
+import "./Cooking.css"
 
 const ChickenBroccoliStirFry = () => {
   return (
     <div className="recipe">
       <h2>Chicken Broccoli Stir Fry</h2>
-      <img className="img-fluid" src="images/chicken_broc_stirfry.jpg" alt="Chicken Broccoli Stir Fry" />
+      <img className="img" src={`${process.env.PUBLIC_URL}/images/chicken_broc_stirfry.jpg`} alt="Chicken Broccoli Stir Fry" />
       <p>
         Ingredients:
         <br />&bull; 1 1/2 pound chicken breast
