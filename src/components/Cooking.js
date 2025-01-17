@@ -1,7 +1,9 @@
 import React from 'react';
 import './Cooking.css';
-import ChickenBroccoliStirFry from './ChickenBroccoliStirFry';
-import PumpkinCheesecake from './PumpkinCheesecake';
+import ChickenBroccoliStirFry from './recipes/ChickenBroccoliStirFry';
+import PumpkinCheesecake from './recipes/PumpkinCheesecake';
+import Cookie from './recipes/Cookie';
+import GeorgesReplica from './recipes/GeorgesReplica';
 
 const Cooking = () => {
   return (
@@ -11,6 +13,8 @@ const Cooking = () => {
       <div className="recipes">
         <ChickenBroccoliStirFry />
         <PumpkinCheesecake />
+        {/* <Cookie />
+        <GeorgesReplica /> */}
         {/* Add more recipe components as needed */}
       </div>
     </div>

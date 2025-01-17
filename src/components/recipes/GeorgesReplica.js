@@ -1,12 +1,12 @@
-// components/ChickenBroccoliStirFry.js
+// components/GeorgesReplica.js
 
 import React from 'react';
-import "./Cooking.css"
+import "../Cooking.css"
 
-const ChickenBroccoliStirFry = () => {
+const GeorgesReplica = () => {
   return (
     <div className="recipe">
-      <h2>Chicken Broccoli Stir Fry</h2>
+      <h2>George's Replica (Mediterranean)</h2>
       <img className="img" src={`${process.env.PUBLIC_URL}/images/chicken_broc_stirfry.jpg`} alt="Chicken Broccoli Stir Fry" />
       <p>
         Ingredients:
@@ -36,4 +36,4 @@ const ChickenBroccoliStirFry = () => {
   );
 };
 
-export default ChickenBroccoliStirFry;
+export default GeorgesReplica;
