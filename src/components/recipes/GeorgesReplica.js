@@ -7,6 +7,7 @@ const GeorgesReplica = () => {
   return (
     <div className="recipe">
       <h2>George's Replica (Mediterranean)</h2>
+      <h3>schwarma, veggies, taziki, and naan (not mediterranean but i like it with thiis dish, and i like making naan)</h3>
       <img className="img" src={`${process.env.PUBLIC_URL}/images/chicken_broc_stirfry.jpg`} alt="Chicken Broccoli Stir Fry" />
       <p>
         Ingredients:
