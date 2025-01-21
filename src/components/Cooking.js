@@ -14,8 +14,8 @@ const Cooking = () => {
       <div className="recipes">
         <ChickenBroccoliStirFry />
         <PumpkinCheesecake />
-        {/* <Cookie />
-        <GeorgesReplica />
+        <Cookie />
+        {/* <GeorgesReplica />
         <BiscuitCPP /> */}
         {/* Add more recipe components as needed */}
       </div>

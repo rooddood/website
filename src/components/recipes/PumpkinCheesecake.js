@@ -33,9 +33,12 @@ const PumpkinCheesecake = () => {
       </p>
       <p className="mb-5">
         Instructions:
-        <br />First start with the crust. Crush up the graham crackers with a food processor, or by putting the crackers
-        ...
-        <br />
+        <br />First start with the crust. Crush up the graham crackers with a food processor, or by putting the crackers in a ziploc and smashing them with your fists.
+        Melt a stick of butter and add to crumbs in a bowl. Sprinkle some cinnamon in there cuz u nasty. 
+        Mix it all then press the crust into the bottom of a greased 13x9 glass pan, or a springform pan if ur fancy.
+        Then mix your cake ingredients together. Makes it easier to use a hand mixer, and leave the cream cheese out for an hour to help soften it up.
+        Taste the cake to make sure it tastes right, sometimes needs more spices.
+        Whip that cream!
         Once it is cool, simply add the whipped cream topping and enjoy!
       </p>
     </div>

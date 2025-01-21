@@ -1,3 +1,4 @@
+/* General layout for the cooking section */
 .cooking {
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -7,24 +8,29 @@
   text-align: center;
 }
 
+/* Container for all recipes */
 .recipes {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 20px; /* Space between cards */
 }
 
+/* Individual recipe card */
 .recipe {
   background: #fff3e0;
   margin: 10px;
-  padding: 10px; /* Reduced padding for more compact cards */
+  padding: 10px; /* Compact padding */
   border-radius: 10px;
-  width: 200px; /* Maintain smaller width */
-  height: auto; /* Ensure dynamic height */
+  width: 200px; /* Fixed width for the recipe card */
+  height: 250px; /* Set a fixed height to make the cards shorter */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
+  overflow: hidden; /* Prevent content from overflowing */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Image styling inside the recipe card */
 .recipe img {
   max-width: 100%;
   max-height: 120px; /* Restrict image height */
@@ -33,65 +39,23 @@
   object-fit: cover; /* Ensure images stay visually appealing */
 }
 
+/* Recipe title styling */
 .recipe h3 {
-  font-size: 1rem; /* Reduce heading size */
+  font-size: 1rem; /* Smaller heading size */
   margin-bottom: 5px;
+  overflow: hidden; /* Ensure title doesn't overflow */
+  text-overflow: ellipsis; /* Add ellipsis if title is too long */
 }
 
+/* Recipe description styling */
 .recipe p {
-  font-size: 0.875rem; /* Smaller text for descriptions */
+  font-size: 0.875rem; /* Smaller description text */
   line-height: 1.2; /* Tighter line spacing */
+  overflow: hidden; /* Prevent description from overflowing */
+  text-overflow: ellipsis; /* Add ellipsis if text is too long */
 }
 
-.recipe:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-}
-.cooking {
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-}
-
-.cooking h1, .cooking h2 {
-  text-align: center;
-}
-
-.recipes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.recipe {
-  background: #fff3e0;
-  margin: 10px;
-  padding: 10px; /* Reduced padding for more compact cards */
-  border-radius: 10px;
-  width: 400px; /* Maintain smaller width */
-  height: auto; /* Ensure dynamic height */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.recipe img {
-  max-width: 100%;
-  max-height: 120px; /* Restrict image height */
-  border-radius: 10px;
-  margin-bottom: 8px;
-  object-fit: cover; /* Ensure images stay visually appealing */
-}
-
-.recipe h3 {
-  font-size: 1rem; /* Reduce heading size */
-  margin-bottom: 5px;
-}
-
-.recipe p {
-  font-size: 0.875rem; /* Smaller text for descriptions */
-  line-height: 1.2; /* Tighter line spacing */
-}
-
+/* Hover effects for the recipe card */
 .recipe:hover {
   transform: translateY(-7px);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
