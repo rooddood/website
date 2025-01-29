@@ -12,7 +12,7 @@ const Home = () => {
     <div className="home">
       <header className="home__header">
         <h1>Hi, I'm Kyle Rood</h1>
-        <p className="home__tagline">Freelance AI Software Developer / Engineering Manager.</p>
+        <p className="home__tagline">AI Software Developer / Engineering Manager.</p>
         <div className="home__contact">
           <p>Email: kylerood16@gmail.com</p>
           <p>LinkedIn: <a href="https://www.linkedin.com/in/kyle-rood/" target="_blank" rel="noopener noreferrer">Kyle Rood</a></p>

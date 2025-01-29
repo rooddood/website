@@ -5,16 +5,15 @@ const Freelance = () => {
     return (
         <div className="freelance-container">
             <header className="freelance-header">
-                <h1>Kyle Rood: Freelance Development Services</h1>
-                <p>Your go-to developer for scalable websites, portfolios, and data-driven tools.</p>
+                <h1>Freelance Development Services</h1>
             </header>
 
-            <section className="freelance-about">
+            <section className="freelance-about" style={{ display: 'none' }}>
                 <h2>About Me</h2>
                 <p>With a Master’s in Computer Science and years of experience as a lead developer and engineering manager, I specialize in creating scalable websites, portfolios, and data-driven tools for businesses and individuals. My technical expertise includes Python, React, AWS, and advanced AI/ML applications, allowing me to deliver tailored solutions that meet both technical and business goals.</p>
             </section>
 
-            <section className="freelance-services">
+            <section className="freelance-services" style={{ display: 'none' }}>
                 <h2>Services Offered</h2>
                 <ul>
                     <li><strong>Custom Website Design & Development</strong>
@@ -42,7 +41,7 @@ const Freelance = () => {
                 </ul>
             </section>
 
-            <section className="freelance-pricing">
+            <section className="freelance-pricing" style={{ display: 'none' }}>
                 <h2>Pricing Models</h2>
                 <ul>
                     <li><strong>Hourly Rate:</strong> $100/hour - Ideal for ongoing consultation, debugging, or smaller, incremental improvements.</li>
@@ -57,7 +56,7 @@ const Freelance = () => {
                 <p>Pricing includes development, testing, and delivery of clean, maintainable code. Post-launch support is available for an additional fee.</p>
             </section>
 
-            <section className="freelance-why">
+            <section className="freelance-why" style={{ display: 'none' }}>
                 <h2>Why Choose Me?</h2>
                 <ul>
                     <li><strong>Experienced Leader:</strong> Proven track record of delivering end-to-end projects, from idea to scalable product.</li>
@@ -67,7 +66,14 @@ const Freelance = () => {
             </section>
 
             <footer className="freelance-footer">
-                <p>Ready to get started? Contact me today to bring your ideas to life!</p>
+                <section className="freelance-links">
+                    <a href="https://www.upwork.com/freelancers/~013ea7305f186f0b3d?mp_source=share" target="_blank" rel="noopener noreferrer">
+                        <img src={`${process.env.PUBLIC_URL}/images/upwork-logo.png`} alt="Upwork" />
+                    </a>
+                    <a href="https://www.fiverr.com/s/WE3pj2B" target="_blank" rel="noopener noreferrer">
+                        <img src={`${process.env.PUBLIC_URL}/images/fiverr-logo.png`} alt="Fiverr" />
+                    </a>
+                </section>
             </footer>
         </div>
     );
