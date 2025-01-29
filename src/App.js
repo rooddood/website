@@ -14,6 +14,7 @@ import Shops from './components/Shops';
 import LitVids from './components/LitVids';
 import Freelance from './components/Freelance';
 import Resume from './components/Resume';
+import CodingProjects from './components/CodingProjects';
 import NavBar from './components/NavBar';
 import './App.css';
 
@@ -24,9 +25,10 @@ function App() {
         <NavBar /> {/* Include NavBar component here */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Home page at / and /website*/}
-          <Route path="/website/" element={<Home />} /> {/* Always need to start here ffor some reason*/}
+          <Route path="/website/" element={<Home />} /> {/* Always need to start here for some reason*/}
           <Route path="/resume" element={<Resume />} />
-          <Route path="/Freelance" element={<Freelance />} />
+          <Route path="/freelance" element={<Freelance />} />
+          <Route path="/projects" element={<CodingProjects />} />
           <Route path="/photography" element={<Photography />} />
           <Route path="/clothing" element={<Clothing />} />
           <Route path="/cooking" element={<Cooking />} />

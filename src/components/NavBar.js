@@ -9,10 +9,11 @@ const NavBar = () => {
       <ul className="navbar__list">
         <li><Link to="/" className="navbar__link">Home</Link></li>
         <li>
-          <span className="navbar__link">Work</span>
+          <span className="navbar__link">Software Engineering</span>
           <div className="navbar__dropdown">
             <Link to="/resume" className="navbar__link">Resume</Link>
             <Link to="/freelance" className="navbar__link">Freelance</Link>
+            <Link to="/projects" className="navbar__link">Projects</Link>
           </div>
         </li>
         <li>
