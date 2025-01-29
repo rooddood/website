@@ -26,7 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} /> {/* Home page at / and /website*/}
           <Route path="/website/" element={<Home />} /> {/* Always need to start here for some reason*/}
-          <Route path="/resume" element={<Resume />} />
+          {/* <Route path="/resume" element={<Resume />} /> */}
           <Route path="/freelance" element={<Freelance />} />
           <Route path="/projects" element={<CodingProjects />} />
           <Route path="/photography" element={<Photography />} />

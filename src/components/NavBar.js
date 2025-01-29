@@ -11,7 +11,7 @@ const NavBar = () => {
         <li>
           <span className="navbar__link">Software Engineering</span>
           <div className="navbar__dropdown">
-            <Link to="/resume" className="navbar__link">Resume</Link>
+            {/* <Link to="/resume" className="navbar__link">Resume</Link> */}
             <Link to="/freelance" className="navbar__link">Freelance</Link>
             <Link to="/projects" className="navbar__link">Projects</Link>
           </div>
@@ -20,8 +20,8 @@ const NavBar = () => {
           <span className="navbar__link">Creative</span>
           <div className="navbar__dropdown">
             <Link to="/photography" className="navbar__link">Photography</Link>
-            <Link to="/meme" className="navbar__link">MeMesGoods</Link>
             <Link to="/cooking" className="navbar__link">Cooking</Link>
+            <Link to="/meme" className="navbar__link">MeMesGoods</Link>
           </div>
         </li>
       </ul>

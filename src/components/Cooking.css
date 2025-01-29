@@ -1,3 +1,8 @@
+body {
+  overflow: hidden; /* Prevent scrolling */
+  margin: 0;
+}
+
 /* General layout for the cooking section */
 .cooking {
   padding: 20px;
@@ -6,6 +11,7 @@
 
 .cooking h1, .cooking h2 {
   text-align: center;
+  color: #1c2833; /* Darker navy color for headings */
 }
 
 /* Container for all recipes */
@@ -18,22 +24,22 @@
 
 /* Individual recipe card */
 .recipe {
-  background: #fff3e0;
+  background: #e3f2fd; /* Light blue background */
   margin: 10px;
   padding: 10px; /* Compact padding */
   border-radius: 10px;
-  width: 200px; /* Fixed width for the recipe card */
-  height: 250px; /* Set a fixed height to make the cards shorter */
+  width: 570px; /* Larger width for the recipe card */
+  height: 730px; /* Slightly taller height to show more content */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
   overflow: hidden; /* Prevent content from overflowing */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 /* Image styling inside the recipe card */
 .recipe img {
   max-width: 100%;
-  max-height: 120px; /* Restrict image height */
+  max-height: 200px; /* Restrict image height */
   border-radius: 10px;
   margin-bottom: 8px;
   object-fit: cover; /* Ensure images stay visually appealing */
@@ -42,7 +48,8 @@
 /* Recipe title styling */
 .recipe h3 {
   font-size: 1rem; /* Smaller heading size */
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  color: #1c2833; /* Darker navy color for titles */
   overflow: hidden; /* Ensure title doesn't overflow */
   text-overflow: ellipsis; /* Add ellipsis if title is too long */
 }
@@ -51,12 +58,12 @@
 .recipe p {
   font-size: 0.875rem; /* Smaller description text */
   line-height: 1.2; /* Tighter line spacing */
+  color: #1c2833; /* Darker navy color for text */
   overflow: hidden; /* Prevent description from overflowing */
   text-overflow: ellipsis; /* Add ellipsis if text is too long */
 }
 
-/* Hover effects for the recipe card */
+/* Remove hover effects for the recipe card */
 .recipe:hover {
-  transform: translateY(-7px);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }

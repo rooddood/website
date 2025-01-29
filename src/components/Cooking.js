@@ -3,8 +3,8 @@ import './Cooking.css';
 import ChickenBroccoliStirFry from './recipes/ChickenBroccoliStirFry';
 import PumpkinCheesecake from './recipes/PumpkinCheesecake';
 import Cookie from './recipes/Cookie';
-import GeorgesReplica from './recipes/GeorgesReplica'
-import BiscuitCPP from './recipes/BiscuitCPP';;
+import GeorgesReplica from './recipes/GeorgesReplica';
+import BiscuitCPP from './recipes/BiscuitCPP';
 
 const Cooking = () => {
   return (
@@ -17,7 +17,6 @@ const Cooking = () => {
         <Cookie />
         {/* <GeorgesReplica />
         <BiscuitCPP /> */}
-        {/* Add more recipe components as needed */}
       </div>
     </div>
   );

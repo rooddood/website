@@ -1,10 +1,16 @@
 .coding-projects-container {
     padding: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #1c2833; /* Darker navy color for text */
 }
 
 .coding-projects-header {
     text-align: center;
     margin-bottom: 20px;
+}
+
+.coding-projects-header h1 {
+    color: #1c2833; /* Darker navy color for titles */
 }
 
 .coding-projects-list {
@@ -16,7 +22,7 @@
 }
 
 .project-card {
-    background-color: #f0f0f0;
+    background-color: #e3f2fd; /* Light blue background */
     border-radius: 10px;
     padding: 10px;
     width: 250px;
@@ -39,11 +45,13 @@
 .project-card h3 {
     margin: 0;
     font-size: 1em;
+    color: #1c2833; /* Darker navy color for titles */
 }
 
 .project-card p {
     margin: 5px 0 0 0;
     font-size: 0.8em;
+    color: #1c2833; /* Darker navy color for text */
 }
 
 .project-card.expanded {
@@ -87,7 +95,7 @@
 .project-details h5 {
     margin-top: 10px;
     font-size: 0.9em;
-    color: #2980b9; /* Blue hue */
+    color: #1c2833; /* Darker navy color for section titles */
 }
 
 .technologies-used {
