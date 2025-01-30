@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -25,6 +25,7 @@ function App() {
         <NavBar /> {/* Include NavBar component here */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Home page at / */}
+          <Route path="/website" element={<Navigate to="/" replace />} /> {/* Redirect /website to / */}
           <Route path="/freelance" element={<Freelance />} />
           <Route path="/projects" element={<CodingProjects />} />
           <Route path="/photography" element={<Photography />} />
