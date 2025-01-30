@@ -1,7 +1,7 @@
 {
   "name": "website",
   "version": "0.1.0",
-  "homepage": "https://rooddood.github.io/website/",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "axios": "^1.7.7",
