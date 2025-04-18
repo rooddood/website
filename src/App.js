@@ -16,6 +16,8 @@ import Freelance from './components/Freelance';
 import Resume from './components/Resume';
 import CodingProjects from './components/CodingProjects';
 import NavBar from './components/NavBar';
+import Blog from './components/Blog';
+import BlogPost from './components/BlogPost';
 import './App.css';
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
           <Route path="/meme" element={<Meme />} />
           <Route path="/shops" element={<Shops />} />
           <Route path="/litvids" element={<LitVids />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
         </Routes>
       </div>
     </Router>
