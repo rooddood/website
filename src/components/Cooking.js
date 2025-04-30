@@ -115,7 +115,7 @@ const Cooking = () => {
   };
 
   const handleClose = (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevent click event from propagating to the parent
     setExpandedRecipe(null);
   };
 
@@ -131,12 +131,9 @@ const Cooking = () => {
             onClick={() => handleRecipeClick(recipe.id)}
           >
             {expandedRecipe === recipe.id && (
-              <>
-                <button className="close-button" onClick={handleClose}>
-                  ×
-                </button>
-                <div className="overlay active" onClick={handleClose} />
-              </>
+              <button className="close-button" onClick={handleClose}>
+                ×
+              </button>
             )}
             <Recipe {...recipe} />
           </div>

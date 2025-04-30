@@ -55,6 +55,7 @@ body {
   z-index: 1000;
   background: #e3f2fd;
   padding: 30px;
+  box-shadow: none; /* Remove shadow */
 }
 
 /* Close button for expanded recipe */
@@ -125,20 +126,9 @@ body {
   margin: 3px 0;
 }
 
-/* Overlay when recipe is expanded */
+/* Remove overlay styles */
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 999;
   display: none;
-}
-
-.overlay.active {
-  display: block;
 }
 
 /* Hide scrollbar for expanded recipe */

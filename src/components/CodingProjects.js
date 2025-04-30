@@ -95,6 +95,37 @@ const CodingProjects = () => {
                 </>
             )
         },
+        {
+            title: 'Script Writing App',
+            description: (
+                <>
+                    <div className="project-logo">
+                        <img 
+                            src={`${process.env.PUBLIC_URL}/images/voicescribe.png`} 
+                            alt="Script Writing App Logo" 
+                            style={{ display: 'block', margin: '0 auto', maxWidth: '200px' }} 
+                        />
+                    </div>
+                    <p>This is an ongoing project that focuses on leveraging local AI models to assist users in script writing by converting voice input into formatted text.</p>
+                    <h5>Background</h5>
+                    <p>I spend a lot of time formatting my writing, and I thought this would be a great way to streamline the process. I can talk faster than I can type, so why not just do that?</p>
+                    <h5>Current Features</h5>
+                    <p>The app currently supports voice-to-text transcription using local AI models, which allows me to develop open source, without being tied to a specific company.</p>
+                    <h5>In Progress</h5>
+                    <p>I am working on auto formatting in different ways with AI. I want to allow the user to write any type of text, and have it correctly formatted, ready for copy and paste to another source.</p>
+                    <h5>Technologies Used</h5>
+                    <div className="technologies-used">
+                        <span>Python</span>
+                        <span>Local LLMs</span>
+                        <span>Speech Recognition</span>
+                        <span>React</span>
+                        <span>HTML/CSS</span>
+                    </div>
+                    <h5>GitHub Repository</h5>
+                    <p>You can find the code for this project on <a href="https://github.com/rooddood/script-writing-app" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+                </>
+            )
+        },
     ];
 
     return (
