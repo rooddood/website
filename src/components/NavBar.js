@@ -21,6 +21,7 @@ const NavBar = () => {
           <div className="navbar__dropdown">
             <Link to="/photography" className="navbar__link">Photography</Link>
             <Link to="/cooking" className="navbar__link">Cooking</Link>
+            <Link to="/clothing" className="navbar__link">Clothing</Link>
             <Link to="/meme" className="navbar__link">MeMesGoods</Link>
             {/* <Link to="/blog" className="navbar__link">Blog</Link> */}
           </div>

@@ -1,49 +1,61 @@
 import React from 'react';
 import './Clothing.css';
 
-const depopProfilePic = './images/sniff.jpg'; // Adjust path as needed
+const depopProfilePic = `${process.env.PUBLIC_URL}/images/sniff.jpg`;
+const depopQRCode = `${process.env.PUBLIC_URL}/images/depop-qr.png`;
+const venmoQRCode = `${process.env.PUBLIC_URL}/images/venmo-qr.png`;
+const depopLogo = `${process.env.PUBLIC_URL}/images/depop-logo.png`;
+const venmoLogo = `${process.env.PUBLIC_URL}/images/venmo-logo.png`;
 
 const Clothing = () => {
   return (
     <div className="clothing">
-      <h2>Explore Unique Pieces</h2>
+      <h1>Selling Thrifted Clothes</h1>
       <div className="intro-text">
-        <p>Welcome to my showcase of big ticket items and custom creations.</p>
-        <p>Click below to browse more items on my Depop shop.</p>
+        <p>
+          Welcome! I sell thrifted clothes and unique pieces both online and in person at flea markets. 
+          Check out my Depop shop or support me directly via Venmo.
+        </p>
       </div>
       <div className="profile-header">
         <img
           className="profile-picture"
           src={depopProfilePic}
-          alt="Depop Profile"
+          alt="Profile"
         />
-        <h1 className="profile-username">@sniffyscloset</h1>
       </div>
-      <div className="depop-link">
-        <a href="http://depop.com/sniffyscloset" target="_blank" rel="noopener noreferrer">
-          Explore More on Depop
-        </a>
-      </div>
-      <div className="custom-work">
-        <h3>Custom Work</h3>
-        <div className="custom-item">
-          <h4>Custom Item 1</h4>
-          <p>Description of custom item 1.</p>
+      <div className="links-section">
+        <div className="depop-section">
+          <h3>Shop on Depop</h3>
+          <p className="username">@sniffyscloset</p>
+          <img
+            className="qr-code"
+            src={depopQRCode}
+            alt="Depop QR Code"
+          />
+          <a href="http://depop.com/sniffyscloset" target="_blank" rel="noopener noreferrer">
+            <img
+              className="logo"
+              src={depopLogo}
+              alt="Depop Logo"
+            />
+          </a>
         </div>
-        <div className="custom-item">
-          <h4>Custom Item 2</h4>
-          <p>Description of custom item 2.</p>
-        </div>
-      </div>
-      <div className="big-ticket-items">
-        <h3>Big Ticket Items</h3>
-        <div className="big-ticket-item">
-          <h4>Big Ticket Item 1</h4>
-          <p>Description of big ticket item 1.</p>
-        </div>
-        <div className="big-ticket-item">
-          <h4>Big Ticket Item 2</h4>
-          <p>Description of big ticket item 2.</p>
+        <div className="venmo-section">
+          <h3>Support via Venmo</h3>
+          <p>@Kyle-Rood-2</p>
+          <img
+            className="qr-code"
+            src={venmoQRCode}
+            alt="Venmo QR Code"
+          />
+          <a href="https://venmo.com/Kyle-Rood-2" target="_blank" rel="noopener noreferrer">
+            <img
+              className="logo"
+              src={venmoLogo}
+              alt="Venmo Logo"
+            />
+          </a>
         </div>
       </div>
     </div>

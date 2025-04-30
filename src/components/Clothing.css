@@ -1,5 +1,8 @@
 .clothing {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px; /* Reduce overall padding */
   text-align: center; /* Center align content */
 }
 
@@ -7,14 +10,14 @@
   display: flex;
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center align items horizontally */
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduce spacing below the profile picture */
 }
 
 .profile-picture {
-  width: 100px; /* Adjust size as needed */
-  height: 100px; /* Adjust size as needed */
+  width: 120px; /* Adjust size as needed */
+  height: 120px; /* Adjust size as needed */
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Reduce spacing below the profile picture */
 }
 
 .profile-username {
@@ -25,6 +28,8 @@
 
 .intro-text {
   margin-bottom: 20px;
+  font-size: 18px; /* Increase font size for better readability */
+  line-height: 1.6; /* Add line height for better spacing */
 }
 
 .depop-link {
@@ -64,4 +69,92 @@
 .big-ticket-item:hover {
   transform: translateY(-10px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.links-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px; /* Reduce gap between sections */
+  align-items: flex-start; /* Align items at the top */
+}
+
+.depop-section, .venmo-section {
+  text-align: center;
+  max-width: 280px; /* Slightly reduce max width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.depop-section h3, .venmo-section h3 {
+  margin-bottom: 5px; /* Reduce spacing below titles */
+}
+
+.depop-section .username {
+  margin: 3px 0; /* Reduce spacing around Depop username */
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.depop-section .logo {
+  max-width: 120px; /* Increase size to match Venmo logo */
+}
+
+.venmo-section p {
+  margin: 3px 0; /* Reduce spacing around Venmo text */
+  font-size: 16px;
+  color: #333;
+}
+
+.qr-code {
+  width: 100%;
+  max-width: 140px; /* Slightly reduce QR code size */
+  height: auto;
+  margin: 8px 0; /* Reduce spacing around QR codes */
+}
+
+.logo {
+  width: 100%;
+  max-width: 100px; /* Ensure both logos are the same size */
+  height: auto;
+  margin-top: 8px; /* Reduce spacing above logos */
+}
+
+.depop-section .logo, .venmo-section .logo {
+  max-width: 110px; /* Set both logos to the same size */
+  height: auto;
+  margin-top: 8px; /* Ensure consistent spacing above logos */
+}
+
+.depop-section .username, .venmo-section p {
+  margin: 3px 0; /* Reduce spacing around account handles */
+  font-size: 16px;
+  color: #333;
+  font-weight: 600; /* Make bold but not as bold as titles */
+}
+
+@media (max-width: 768px) {
+  .clothing {
+    padding: 8px; /* Reduce padding for smaller screens */
+  }
+
+  .links-section {
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 10px; /* Reduce gap between sections */
+    justify-content: space-between; /* Ensure sections stay next to each other */
+  }
+
+  .depop-section, .venmo-section {
+    max-width: 45%; /* Reduce width to fit side by side */
+  }
+
+  .qr-code {
+    max-width: 100px; /* Adjust QR code size for smaller screens */
+  }
+
+  .logo {
+    max-width: 70px; /* Adjust logo size for smaller screens */
+  }
 }
