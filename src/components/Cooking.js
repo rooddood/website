@@ -77,7 +77,7 @@ const recipes = [
   },
   {
     id: 'cookie',
-    title: 'Cookie',
+    title: 'Brown Butter Chocolate Chip Cookie',
     image: 'cookie.jpg',
     ingredients: [
       '1 cup (2 stick) butter',
@@ -104,7 +104,7 @@ const recipes = [
       'Let sit at least one hour in the frdge, better in the freezer overnight.',
       'Make 1 inch balls and bake for around 10 minutes at 350. Take the tray out and tap it on the counter to make them bake flatter'
     ]
-  }
+  },
 ];
 
 const Cooking = () => {
