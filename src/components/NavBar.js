@@ -23,6 +23,7 @@ const NavBar = () => {
             <Link to="/cooking" className="navbar__link">Cooking</Link>
             <Link to="/clothing" className="navbar__link">Clothing</Link>
             <Link to="/meme" className="navbar__link">MeMesGoods</Link>
+            {/* Uncomment when blogs are posted  */}
             {/* <Link to="/blog" className="navbar__link">Blog</Link> */}
           </div>
         </li>
