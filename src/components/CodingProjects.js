@@ -126,6 +126,27 @@ const CodingProjects = () => {
                 </>
             )
         },
+        {
+            title: 'AI Contract Negotiator',
+            description: (
+                <>
+                    <p>This tool is designed to explore the use of different models for automatic contract negotiation and generation. It leverages large language models (LLMs) from Hugging Face to facilitate these tasks.</p>
+                    <h5>Background</h5>
+                    <p>Using minimal input about the contractor and the hirer, this tool generates a contract that works for both parties. It is an innovative approach to simplifying contract creation and negotiation.</p>
+                    <h5>Value and Potential Use</h5>
+                    <p>The AI Contract Negotiator has the potential to revolutionize the way contracts are created and negotiated. By automating the process, it reduces the time and effort required to draft agreements, making it particularly valuable for small businesses, freelancers, and organizations that frequently deal with contracts. The tool ensures fairness and clarity in agreements, minimizing misunderstandings and disputes.</p>
+                    <p>Additionally, the use of advanced language models allows for customization and adaptability, enabling the tool to cater to a wide range of industries and contract types. This makes it a versatile solution for modern contract management challenges.</p>
+                    <h5>Technologies Used</h5>
+                    <div className="technologies-used">
+                        <span>Python</span>
+                        <span>Hugging Face Models</span>
+                        <span>Large Language Models (LLMs)</span>
+                    </div>
+                    <h5>GitHub Repository</h5>
+                    <p>You can find the code for this project on <a href="https://github.com/rooddood/ai-contract-negotiator/tree/main" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+                </>
+            )
+        }
     ];
 
     return (
