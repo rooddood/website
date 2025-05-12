@@ -35,6 +35,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .project-card:hover {
@@ -67,6 +69,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: translate(-50%, -50%);
     border-radius: 10px;
+    max-height: fit-content; /* Dynamically adjust to content size */
+    overflow: visible; /* Ensure content is fully visible */
 }
 
 .project-card.expanded h3 {
@@ -90,6 +94,14 @@
 .project-details {
     text-align: left;
     margin-top: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.project-card.expanded .project-details {
+    max-height: none; /* Remove height restriction to fit content */
+    overflow: visible;
 }
 
 .project-details h5 {
@@ -122,4 +134,21 @@
     width: 100%;
     max-width: 200px;
     border-radius: 10px;
+}
+
+/* Added styles for technology tags on the front of the project cards */
+.technologies-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.technologies-preview .technology-tag {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.7em;
+    color: #1c2833;
 }

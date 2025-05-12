@@ -54,26 +54,11 @@ const CodingProjects = () => {
                         <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision Image 2" />
                     </div>
                     <p>We created this project in Vue.js, showing a map of the location of the cameras in DC and the latest image with the vehicles detected.</p>
-                    <h5>Technologies Used</h5>
-                    <div className="technologies-used">
-                        <span>Python Flask</span>
-                        <span>MongoDB</span>
-                        <span>Sklearn</span>
-                        <span>cv2</span>
-                        <span>Matplotlib</span>
-                        <span>Pandas</span>
-                        <span>Scipy</span>
-                        <span>Vue.js</span>
-                        <span>Leaflet</span>
-                        <span>Axios</span>
-                        <span>Bootstrap-Vue</span>
-                        <span>Vanilla JS</span>
-                        <span>HTML</span>
-                    </div>
                     <h5>Why This is Important</h5>
                     <p>We demonstrated the powerful effect of using our skills for social good. Although we were unable to fully develop this project into a full-scale application, someone else can, with the ideas we started.</p>
                 </>
-            )
+            ),
+            technologies: ['Python Flask', 'MongoDB', 'Sklearn', 'cv2', 'Matplotlib', 'Pandas', 'Scipy', 'Vue.js', 'Leaflet', 'Axios', 'Bootstrap-Vue', 'Vanilla JS', 'HTML']
         },
         {
             title: 'AMOS: The Archive of Many Outdoor Scenes',
@@ -83,17 +68,9 @@ const CodingProjects = () => {
                     <h5>Background</h5>
                     <p>The Archive of Many Outdoor Scenes (AMOS) is a collection of long-term time lapse imagery from publicly accessible outdoor web cams around the world. This research focuses on exploring how to use these images to learn about the world around us and understanding changes in natural environments and how people use public spaces. This project was built from the ground up using a Python web framework Flask. The dataset contains over 7,000 publicly accessible webcams and over 1,000,000 images.</p>
                     <p>The site is no longer live through GW's computer science department, but you can find the code on <a href="https://github.com/GWUvision/AMOSEast" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
-                    <h5>Technologies Used</h5>
-                    <div className="technologies-used">
-                        <span>Python Flask</span>
-                        <span>Threading</span>
-                        <span>OpenCV</span>
-                        <span>Numpy</span>
-                        <span>PostgreSQL</span>
-                        <span>HTML/CSS</span>
-                    </div>
                 </>
-            )
+            ),
+            technologies: ['Python Flask', 'Threading', 'OpenCV', 'Numpy', 'PostgreSQL', 'HTML/CSS']
         },
         {
             title: 'Script Writing App',
@@ -113,18 +90,11 @@ const CodingProjects = () => {
                     <p>The app currently supports voice-to-text transcription using local AI models, which allows me to develop open source, without being tied to a specific company.</p>
                     <h5>In Progress</h5>
                     <p>I am working on auto formatting in different ways with AI. I want to allow the user to write any type of text, and have it correctly formatted, ready for copy and paste to another source.</p>
-                    <h5>Technologies Used</h5>
-                    <div className="technologies-used">
-                        <span>Python</span>
-                        <span>Local LLMs</span>
-                        <span>Speech Recognition</span>
-                        <span>React</span>
-                        <span>HTML/CSS</span>
-                    </div>
                     <h5>GitHub Repository</h5>
                     <p>You can find the code for this project on <a href="https://github.com/rooddood/script-writing-app" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
                 </>
-            )
+            ),
+            technologies: ['Python', 'Local LLMs', 'Speech Recognition', 'React', 'HTML/CSS']
         },
         {
             title: 'AI Contract Negotiator',
@@ -136,16 +106,11 @@ const CodingProjects = () => {
                     <h5>Value and Potential Use</h5>
                     <p>The AI Contract Negotiator has the potential to revolutionize the way contracts are created and negotiated. By automating the process, it reduces the time and effort required to draft agreements, making it particularly valuable for small businesses, freelancers, and organizations that frequently deal with contracts. The tool ensures fairness and clarity in agreements, minimizing misunderstandings and disputes.</p>
                     <p>Additionally, the use of advanced language models allows for customization and adaptability, enabling the tool to cater to a wide range of industries and contract types. This makes it a versatile solution for modern contract management challenges.</p>
-                    <h5>Technologies Used</h5>
-                    <div className="technologies-used">
-                        <span>Python</span>
-                        <span>Hugging Face Models</span>
-                        <span>Large Language Models (LLMs)</span>
-                    </div>
                     <h5>GitHub Repository</h5>
                     <p>You can find the code for this project on <a href="https://github.com/rooddood/ai-contract-negotiator/tree/main" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
                 </>
-            )
+            ),
+            technologies: ['Python', 'Hugging Face Models', 'Large Language Models (LLMs)']
         }
     ];
 
@@ -153,6 +118,7 @@ const CodingProjects = () => {
         <div className="coding-projects-container">
             <header className="coding-projects-header">
                 <h1>Coding Projects</h1>
+                <p>Welcome to my coding portfolio! Here, you can explore some of the projects I've worked on. Feel free to check out my GitHub profile for more: <a href="https://github.com/rooddood" target="_blank" rel="noopener noreferrer">github.com/rooddood</a>.</p>
             </header>
             <section className="coding-projects-list">
                 {projects.map((project, index) => (
@@ -162,6 +128,11 @@ const CodingProjects = () => {
                         onClick={(e) => { e.stopPropagation(); handleExpand(index); }}
                     >
                         <h3>{project.title}</h3>
+                        <div className="technologies-preview">
+                            {project.technologies.map((tech, techIndex) => (
+                                <span key={techIndex} className="technology-tag">{tech}</span>
+                            ))}
+                        </div>
                         {expandedProject === index && (
                             <>
                                 <button className="close-btn" onClick={handleClose}>&times;</button>

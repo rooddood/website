@@ -2,71 +2,66 @@ import React from 'react';
 import './Freelance.css';
 
 const Freelance = () => {
+    const projects = [
+        {
+            company: "Nodus",
+            skills: ["Python", "Docker", "Next.JS", "Anthropic Claude"]
+        },
+        {
+            company: "Hilltop-App",
+            skills: ["Python", "Next.JS", "Angular", "GCP", "OpenAI LLM"]
+        },
+        {
+            company: "Strategic Solutions Research",
+            skills: ["Python", "React", "Wordpress"]
+        }
+    ];
+
+    const handleDownload = () => {
+        const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_May_2025.pdf';
+        window.open(resumePath, '_blank');
+      };
+
     return (
         <div className="freelance-container">
             <header className="freelance-header">
-                <h1>Freelance Development Services</h1>
+                <h1>Kyle Rood</h1>
+                <h2>AI Software Developer | Remote / Washington D.C.</h2>
             </header>
 
-            <section className="freelance-about" style={{ display: 'none' }}>
+            <section className="freelance-about">
                 <h2>About Me</h2>
-                <p>With a Master’s in Computer Science and years of experience as a lead developer and engineering manager, I specialize in creating scalable websites, portfolios, and data-driven tools for businesses and individuals. My technical expertise includes Python, React, AWS, and advanced AI/ML applications, allowing me to deliver tailored solutions that meet both technical and business goals.</p>
-            </section>
+                <p>With a Master’s in Computer Science and years of experience as a lead developer and engineering manager, 
+                    I specialize in creating scalable websites using bleeding edge tools for businesses and individuals.</p>     
+                <p>My technical expertise includes Python, React, AWS, and advanced AI/ML applications, allowing me to deliver 
+                    tailored solutions that meet both technical and business goals.</p>
 
-            <section className="freelance-services" style={{ display: 'none' }}>
-                <h2>Services Offered</h2>
-                <ul>
-                    <li><strong>Custom Website Design & Development</strong>
-                        <ul>
-                            <li>Personal portfolios</li>
-                            <li>Small business websites</li>
-                            <li>Site updates or redesigns</li>
-                            <li>E-commerce platforms</li>
-                        </ul>
-                    </li>
-                    <li><strong>Data-Driven Tools</strong>
-                        <ul>
-                            <li>Interactive dashboards</li>
-                            <li>AI/ML-powered tools (e.g., NLP or computer vision applications)</li>
-                            <li>Integration with APIs and large-scale data solutions</li>
-                        </ul>
-                    </li>
-                    <li><strong>Consultation & Optimization</strong>
-                        <ul>
-                            <li>Website performance improvements</li>
-                            <li>Codebase audits</li>
-                            <li>Recommendations for modernizing existing systems</li>
-                        </ul>
-                    </li>
-                </ul>
+                <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
             </section>
+            <br/>
 
-            <section className="freelance-pricing" style={{ display: 'none' }}>
-                <h2>Pricing Models</h2>
-                <ul>
-                    <li><strong>Hourly Rate:</strong> $100/hour - Ideal for ongoing consultation, debugging, or smaller, incremental improvements.</li>
-                    <li><strong>Project-Based Pricing:</strong>
-                        <ul>
-                            <li><strong>Starter Portfolio/Website:</strong> $1000 plus $100/hr worked</li>
-                            <li><strong>Business Website:</strong> $2000 plus $100/hr worked</li>
-                            <li><strong>Advanced Tools or Applications:</strong> Custom pricing based on scope and complexity</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p>Pricing includes development, testing, and delivery of clean, maintainable code. Post-launch support is available for an additional fee.</p>
+            <section className="freelance-projects">
+                <h2>Recent Projects</h2>
+                <div className="projects-container">
+                    {projects.map((project, index) => (
+                        <div key={index} className="project-card">
+                            <h3>{project.company}</h3>
+                            <div className="freelance-tags-container">
+                                {project.skills.map((skill, skillIndex) => (
+                                    <span key={skillIndex} className="freelance-tag">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </section>
-
-            <section className="freelance-why" style={{ display: 'none' }}>
-                <h2>Why Choose Me?</h2>
-                <ul>
-                    <li><strong>Experienced Leader:</strong> Proven track record of delivering end-to-end projects, from idea to scalable product.</li>
-                    <li><strong>Client-Centric:</strong> I collaborate closely to ensure your vision is achieved.</li>
-                    <li><strong>Cutting-Edge Expertise:</strong> Skilled in modern technologies, with a focus on innovation and performance.</li>
-                </ul>
-            </section>
+            <br/>
+            <br/>
 
             <footer className="freelance-footer">
+                <h2>Contact Me</h2>
                 <section className="freelance-links">
+                    <p>You can reach me about inquiries on Fiverr or Upwork, or at this email: <a href="mailto:kylerood16@gmail.com">kylerood16@gmail.com</a>.</p>
                     <a href="https://www.upwork.com/freelancers/~013ea7305f186f0b3d?mp_source=share" target="_blank" rel="noopener noreferrer">
                         <img src={`${process.env.PUBLIC_URL}/images/upwork-logo.png`} alt="Upwork" />
                     </a>
