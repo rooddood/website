@@ -18,7 +18,7 @@ const Freelance = () => {
     ];
 
     const handleDownload = () => {
-        const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_May_2025.pdf';
+        const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_25.pdf';
         window.open(resumePath, '_blank');
       };
 
