@@ -1,0 +1,507 @@
+/* --- Fix card title overflow and modal poster scaling --- */
+.lb-embed-movie-title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  width: 100%;
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+  word-break: break-word;
+  text-align: center;
+}
+
+.lb-embed-card-horizontal {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  /* ...existing card styles... */
+}
+
+.lb-modal-content {
+  max-width: 95vw;
+  max-height: 95vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #222;
+  border-radius: 10px;
+  padding: 2em 1.5em 1.5em 1.5em;
+  position: relative;
+}
+
+.lb-modal-poster {
+  max-width: 100%;
+  max-height: 60vh;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto 1em auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+.lb-modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5em 0 0.2em 0;
+  text-align: center;
+  word-break: break-word;
+}
+/* Horizontal scroll widget styles */
+.lb-horizontal-scroll {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  overflow-x: auto;
+  overflow-y: visible;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  gap: 1.2rem;
+  padding: 1.5rem 12px 1.5rem 12px; /* Add small margin on both sides */
+  box-sizing: border-box;
+  background: none;
+}
+
+.lb-embed-card-horizontal {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 180px;
+  max-width: 180px;
+  margin: 0;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  outline: none;
+  border: 2px solid transparent;
+}
+.lb-embed-card-horizontal:focus, .lb-embed-card-horizontal:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  border: 2px solid #2d2d3a;
+}
+.lb-embed-poster {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  background: #eee;
+}
+.lb-embed-no-poster {
+  width: 100%;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f3f3;
+  color: #aaa;
+  font-size: 1.1em;
+  border-radius: 8px 8px 0 0;
+}
+.lb-embed-movie-title {
+  font-weight: 600;
+  font-size: 1.05em;
+  margin: 0.5em 0 0.1em 0;
+  text-align: center;
+  color: #222;
+}
+.lb-embed-movie-year {
+  color: #888;
+  font-weight: 400;
+  font-size: 0.95em;
+}
+.lb-embed-rating {
+  color: #e3b505;
+  font-size: 1.1em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+/* Netflix-style grid for full-width responsive layout */
+.lb-embed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem 2vw;
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
+  margin: 0;
+  background: none;
+}
+
+.lb-embed-card-grid {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #e3e6f0;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  min-height: 320px;
+}
+.lb-embed-card-grid:focus {
+  outline: 2px solid #2d2d3a;
+}
+
+.lb-embed-poster {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  object-fit: cover;
+  max-height: 260px;
+  min-height: 260px;
+}
+.lb-embed-no-poster {
+  width: 100%;
+  height: 260px;
+  background: #eee;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 1.1em;
+}
+.lb-embed-movie-title {
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 2px;
+  text-align: center;
+}
+.lb-embed-movie-year {
+  color: #7a7a8c;
+  font-weight: 400;
+}
+.lb-embed-rating {
+  color: #f5b50a;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+/* Modal styles */
+.lb-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.65);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lb-modal-content {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 420px;
+  width: 90vw;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  position: relative;
+  z-index: 1001;
+}
+.lb-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #888;
+  cursor: pointer;
+  z-index: 1002;
+}
+.lb-modal-poster {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  max-height: 340px;
+}
+.lb-modal-no-poster {
+  width: 100%;
+  height: 340px;
+  background: #eee;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 1.1em;
+}
+.lb-modal-title {
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-bottom: 2px;
+}
+.lb-modal-year {
+  color: #7a7a8c;
+  font-weight: 400;
+}
+.lb-modal-date {
+  font-size: 0.95em;
+  color: #7a7a8c;
+  margin-bottom: 4px;
+}
+.lb-modal-link a {
+  color: #2d2d3a;
+  text-decoration: underline;
+}
+.lb-modal-rating {
+  color: #f5b50a;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.lb-modal-rewatch, .lb-modal-watched, .lb-modal-tags {
+  color: #2d2d3a;
+  font-size: 0.95em;
+  margin-bottom: 2px;
+}
+.lb-modal-tags {
+  color: #7a7a8c;
+  font-size: 0.9em;
+}
+.lb-modal-review {
+  margin-top: 8px;
+  font-size: 1em;
+  color: #444;
+  margin-bottom: 2px;
+}
+
+/* Substack link and status */
+.letterboxd-substack-link {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2vw 1vw 2vw;
+  text-align: right;
+}
+.letterboxd-substack-link a {
+  color: #2d2d3a;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+.letterboxd-status {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2vw;
+}
+.letterboxd-error {
+  color: red;
+}
+
+
+/* Centered Netflix-style grid for full-width responsive layout */
+.letterboxd-embed-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+.lb-embed-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  max-width: 1400px;
+  margin-left: 0;
+  margin-right: auto;
+  box-sizing: border-box;
+  background: none;
+}
+@media (max-width: 1200px) {
+  .lb-embed-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .lb-embed-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .lb-embed-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.lb-embed-card-grid {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #e3e6f0;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  min-height: 320px;
+}
+.lb-embed-card-grid:focus {
+  outline: 2px solid #2d2d3a;
+}
+.lb-embed-poster {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  object-fit: cover;
+  max-height: 260px;
+  min-height: 260px;
+}
+.lb-embed-no-poster {
+  width: 100%;
+  height: 260px;
+  background: #eee;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 1.1em;
+}
+.lb-embed-movie-title {
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 2px;
+  text-align: center;
+}
+.lb-embed-movie-year {
+  color: #7a7a8c;
+  font-weight: 400;
+}
+.lb-embed-rating {
+  color: #f5b50a;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.lb-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.65);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lb-modal-content {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 420px;
+  width: 90vw;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  position: relative;
+  z-index: 1001;
+}
+.lb-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #888;
+  cursor: pointer;
+  z-index: 1002;
+}
+.lb-modal-poster {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  max-height: 340px;
+}
+.lb-modal-no-poster {
+  width: 100%;
+  height: 340px;
+  background: #eee;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 1.1em;
+}
+.lb-modal-title {
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-bottom: 2px;
+}
+.lb-modal-year {
+  color: #7a7a8c;
+  font-weight: 400;
+}
+.lb-modal-date {
+  font-size: 0.95em;
+  color: #7a7a8c;
+  margin-bottom: 4px;
+}
+.lb-modal-link a {
+  color: #2d2d3a;
+  text-decoration: underline;
+}
+.lb-modal-rating {
+  color: #f5b50a;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.lb-modal-rewatch, .lb-modal-watched, .lb-modal-tags {
+  color: #2d2d3a;
+  font-size: 0.95em;
+  margin-bottom: 2px;
+}
+.lb-modal-tags {
+  color: #7a7a8c;
+  font-size: 0.9em;
+}
+.lb-modal-review {
+  margin-top: 8px;
+  font-size: 1em;
+  color: #444;
+  margin-bottom: 2px;
+}
+.letterboxd-substack-link {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2vw 1vw 2vw;
+  text-align: right;
+}
+.letterboxd-substack-link a {
+  color: #2d2d3a;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+.letterboxd-status {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2vw;
+}
+.letterboxd-error {
+  color: red;
+}
+.letterboxd-embed-caption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.3rem;
+}

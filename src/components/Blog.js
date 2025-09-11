@@ -1,45 +1,34 @@
 import React from 'react';
 import './Blog.css';
 
+import LetterboxdWidget from './LetterboxdWidget';
+
+
+
 function Blog() {
+
+
   return (
-    <div className="blog-container">
-      <div className="blog-sidebar">
-        <h2 className="sidebar-title">Explore</h2>
-
-        {/* Substack Link */}
-        <div className="substack-section">
-          <h3>Subscribe to My Substack</h3>
-          <a
-            href="https://substack.com/@kylerood?r=4eqj4p&utm_medium=ios"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit My Substack
-          </a>
-        </div>
-
-        {/* Letterboxd Link */}
-        <div className="letterboxd-section">
-          <h3>My Letterboxd Activity</h3>
-          <a
-            href="https://letterboxd.com/kylerood/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit My Letterboxd
-          </a>
-        </div>
-      </div>
-
+    <>
       <div className="blog-main">
-        <div className="welcome-message">
-          <h1>Welcome to My Page</h1>
-          <p>Check out my Substack and Letterboxd pages!</p>
+        <h1 className="blog-title">Kyle's Movie Reviews</h1>
+        <div className="blog-letterboxd-link">
+          <a
+            href="https://letterboxd.com/rooddood/films/reviews/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="blog-letterboxd-anchor"
+          >
+            See all reviews on my Letterboxd
+          </a>
         </div>
       </div>
-    </div>
+      <LetterboxdWidget />
+      {/* Substack subscribe widget - ensure visible */}
+      <div className="letterboxd-substack-widget" style={{maxWidth: 500, margin: '2rem auto'}}>
+        <iframe src="https://kylerood.substack.com/embed" width="100%" height="180" style={{border: '1px solid #EEE', background: 'white'}} frameBorder="0" scrolling="no" title="Subscribe to my Substack"></iframe>
+      </div>
+    </>
   );
 }
-
 export default Blog;

@@ -17,9 +17,42 @@
 
 .blog-main {
   flex: 1;
-  padding: 2rem;
+  padding: 1.2rem 0 0.5rem 0;
   max-width: 800px;
   margin: 0 auto;
+}
+
+.blog-title {
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+.blog-letterboxd-link {
+  text-align: center;
+  margin-bottom: 1.1rem;
+}
+
+.blog-letterboxd-anchor {
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #2d2d3a;
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.blog-letterboxd-anchor:hover {
+  opacity: 1;
+  color: #1a1a22;
+}
+
+.substack-embed {
+  margin-bottom: 2rem;
+}
+
+.substack-iframe {
+  border: 1px solid #EEE;
+  background: white;
+  min-height: 180px;
 }
 
 /* Tags Filter Section */
