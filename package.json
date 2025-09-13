@@ -4,7 +4,7 @@
   "homepage": "https://rooddood.github.io/website/",
   "private": true,
   "dependencies": {
-    "axios": "^1.7.7",
+    "axios": "^1.12.0",
     "chalk": "^5.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
