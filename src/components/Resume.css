@@ -1,109 +1,666 @@
-body {
-  font-family: 'Arial', sans-serif;
-  font-size: 14px;
-  margin: 0;
-  background-color: #f9f9f9;
-}
-
 .resume {
   position: relative;
   width: 100%;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 8vw 24px 8vw;
   box-sizing: border-box;
-  overflow: hidden;
+}
+
+.resume--compressed {
+  font-size: 13px;
+  gap: 10px;
 }
 
 .resume__section {
   background-color: #ecf0f1;
   border: 2px solid #2980b9;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  overflow-y: auto;
-  max-height: 100%;
+  padding: 18px 24px;
+  margin-bottom: 0;
+}
+
+.resume__section--compressed {
+  padding: 10px 10px;
+  border-radius: 8px;
 }
 
 .resume__section h2 {
-  font-size: 1.2em;
+  font-size: 1.3em;
   color: #2c3e50;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  letter-spacing: 1px;
+.resume__skills--sections {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+}
 }
 
-.resume__content {
-  font-size: 0.9em;
-  color: #34495e;
-  margin-top: 10px;
+.resume__section--top {
+  display: flex;
+.resume__skills-section {
+  margin: 0 18px 0 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  min-width: 0;
 }
+  flex-direction: row;
+  gap: 40px;
 
-.resume__skills {
+/* Unified skill/tag bubble style for Resume, CodingProjects, and Freelance */
+.skill-tag {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+.resume__skills-section-label {
+  font-weight: 700;
+  color: #1c5a85;
+  font-size: 1.15em;
+  margin: 0 8px 0 0;
+  padding: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+  padding: 5px 10px;
+  font-size: 0.7em;
+  color: #1c2833;
+  border: 1px solid #ccc;
+  margin: 2px 4px 2px 0;
+  display: inline-block;
+}
+.resume__skills-section-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 2px;
+  margin: 0;
+  align-items: center;
+}
+  justify-content: space-between;
+  align-items: stretch;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
-.resume__skill {
-  background-color: #2980b9;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 0.9em;
+.resume__skills-block, .resume__about-block {
+  background: #ecf0f1;
+  border: 2px solid #2980b9;
+.skill-tag {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 1em;
+  color: #1c2833;
+  border: 1px solid #ccc;
+  margin: 1px 2px 1px 0;
+  display: inline-block;
+  line-height: 1.2;
+}
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  padding: 18px 24px;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  margin-left: 24px;
 }
 
-.resume__section--about {
-  grid-row: 1 / 2;
-  grid-column: 1 / 3;
+.resume__compressed-block {
+  padding: 10px 10px;
+  min-width: 120px;
+  margin-left: 10px;
+  margin-right: 0;
 }
 
-.resume__section--experience {
-  grid-row: 2 / 4;
-  grid-column: 1 / 2;
+.resume__timeline-center {
+  position: relative;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 2;
 }
 
+.resume__timeline-center--compressed {
+  width: 0;
+}
+
+.resume__timeline-dot {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 16px;
+  height: 16px;
+  background: #2980b9;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #2980b9;
+  z-index: 2;
+  margin-bottom: 2px;
+}
+
+.resume__timeline-dot--compressed {
+  width: 10px;
+  height: 10px;
+  left: 50%;
+  top: 0;
+  border-width: 2px;
+  box-shadow: 0 0 0 2px #2980b9;
+}
+
+.resume__timeline-years {
+  color: #2980b9;
+  font-size: 0.95em;
+  font-weight: 600;
+  margin-top: 2px;
+  margin-bottom: 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.resume__timeline-years--compressed {
+  font-size: 0.85em;
+  margin-top: 1px;
+  margin-bottom: 0;
+}
+
+.resume__timeline-content {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(44,62,80,0.07);
+  padding: 16px 20px;
+  border-left: 4px solid #2980b9;
+}
+
+.resume__timeline-content--overlay {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: max-content !important;
+  min-width: 260px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.resume__timeline-content-wrapper--compressed {
+  min-width: 120px;
+  max-width: 250px;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.resume__timeline-content-wrapper--left {
+  margin-right: 12px;
+  text-align: right;
+}
+.resume__timeline-content-wrapper--right {
+  margin-left: 12px;
+  text-align: left;
+}
+
+.resume__timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+  padding-left: 16px;
+}
+
+.resume__timeline-item--compressed {
+  margin-bottom: 18px;
+  min-height: 0;
+  padding-left: 0;
+}
+
+.resume__timeline {
+  position: relative;
+  margin: 32px 0 0 0;
+  padding-left: 32px;
+  border-left: 3px solid #2980b9;
+}
+
+.resume__timeline--compressed {
+  margin: 16px 0 0 0;
+  padding-left: 18px;
+}
+
+.resume__timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.resume__timeline-header--compressed {
+  font-size: 1.1em;
+  margin-bottom: 6px;
+}
+
+.resume__timeline-title {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.08em;
+}
+
+.resume__timeline-title--compressed {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.resume__timeline-date {
+  color: #2980b9;
+  font-size: 0.98em;
+  font-weight: 500;
+}
+
+.resume__timeline-desc {
+  color: #34495e;
+  margin-bottom: 6px;
+  font-size: 0.98em;
+}
+
+.resume__timeline-desc--compressed {
+  font-size: 0.95em;
+  margin-bottom: 2px;
+}
+
+.resume__timeline-details {
+  margin: 0 0 0 18px;
+  padding: 0;
+  color: #34495e;
+  font-size: 0.97em;
+}
+
+.resume__timeline-details--compressed {
+  margin: 0 0 0 10px;
+  font-size: 0.93em;
+}
+
+.resume__timeline-details li {
+  margin-bottom: 2px;
+  list-style: disc;
+}
+
+/* Education section at the bottom */
 .resume__section--education {
-  grid-row: 2 / 3;
-  grid-column: 2 / 3;
-  height: 150px; /* Force the height to be half of its current size */
-  margin-bottom: 0; /* Remove any bottom margin */
+  margin-top: 0;
+  margin-bottom: 0;
+  background: #ecf0f1;
+  border: 2px solid #2980b9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  padding: 18px 24px;
 }
 
-.resume__section--skills {
-  grid-row: 3 / 4;
-  grid-column: 2 / 3;
-  height: auto;
-  margin-top: 0; /* Remove any top margin */
+.resume__collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.resume__collapsible-header--compressed {
+  font-size: 1em;
+  padding: 0;
+  margin-bottom: 0;
+  gap: 4px;
+}
+
+.resume__toggle-btn {
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.3em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.resume__toggle-btn--compressed {
+  width: 20px;
+  height: 20px;
+  font-size: 1em;
+  margin-left: 6px;
+}
+
+.resume__toggle-btn:hover {
+  background: #1c5a85;
+}
+
+/* Ensure toggle button is always the same distance from the timeline */
+.resume__timeline-toggle-btn-fixed {
+  /* No margin, absolute positioning handled inline */
+}
+
+@media (max-width: 900px) {
+  .resume__section--top {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .resume__timeline-content-wrapper--compressed {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .resume__timeline-horizontal-label {
+    width: 90px;
+    font-size: 0.92em;
+  }
+  .resume__timeline-horizontal-label.below {
+    top: 60px;
+  }
+  .resume__timeline-horizontal-wrapper {
+    min-height: 160px;
+    padding-bottom: 40px;
+  }
+  .resume__timeline-horizontal-label.above {
+    top: calc(50% - 150px); /* Even further above the line */
+  }
+  .resume__timeline-horizontal-label.below {
+    top: calc(50% + 28px); /* Even closer to the line */
+  }
 }
 
 @media (max-width: 768px) {
-  .resume {
-    grid-template-rows: auto;
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .resume--compressed {
+    font-size: 12px;
+    gap: 6px;
   }
+  .resume__section--compressed {
+    padding: 6px 2vw;
+  }
+  .resume__timeline-content-wrapper--compressed {
+    margin-left: 0;
+    margin-right: 0;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .resume__timeline-content-wrapper--left,
+  .resume__timeline-content-wrapper--right {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+  }
+  .resume__timeline-horizontal-wrapper {
+    min-height: 90px;
+    padding-bottom: 30px;
+  }
+  .resume__timeline-horizontal-label {
+    width: 70px;
+    font-size: 0.85em;
+  }
+  .resume__timeline-horizontal-label.below {
+    top: 44px;
+  }
+}
 
-  .resume__section {
-    width: 100%;
-    height: auto;
-  }
+/* Expanded content styles */
+.resume__timeline-content--compressed {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.97em;
+  margin-top: 0;
+  margin-left: 90px;
+  min-width: 260px;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: left;
+  background: #fff;
+}
 
-  .resume__section--about {
-    grid-column: 1 / 2;
-  }
+/* Timeline Styles */
+.resume__section--timeline {
+  background: #ecf0f1;
+  border: 2px solid #2980b9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  padding: 24px 32px;
+}
 
-  .resume__section--experience {
-    grid-column: 1 / 2;
-  }
+.resume__timeline {
+  position: relative;
+  margin: 32px 0 0 0;
+  padding-left: 32px;
+  border-left: 3px solid #2980b9;
+}
 
-  .resume__section--skills {
-    grid-column: 1 / 2;
-  }
+.resume__timeline--compressed {
+  margin: 16px 0 0 0;
+  padding-left: 18px;
+}
 
-  .resume__section--education {
-    grid-column: 1 / 2;
+.resume__timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+  padding-left: 16px;
+}
+
+.resume__timeline-item--compressed {
+  margin-bottom: 18px;
+  min-height: 0;
+  padding-left: 0;
+}
+
+.resume__timeline-dot {
+  position: absolute;
+  left: -41px;
+  top: 8px;
+  width: 18px;
+  height: 18px;
+  background: #2980b9;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #2980b9;
+  z-index: 2;
+}
+
+.resume__timeline-content {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(44,62,80,0.07);
+  padding: 16px 20px;
+  border-left: 4px solid #2980b9;
+}
+
+.resume__timeline-content--compressed {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  margin-top: 4px;
+}
+
+/* Horizontal Timeline Styles */
+.resume__timeline-horizontal-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 220px; /* Increased height for more vertical space */
+  margin: 32px 0 0 0;
+  padding-bottom: 60px;
+}
+
+.resume__timeline-horizontal-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #2980b9;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.resume__timeline-years-horizontal {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.resume__timeline-year-tick {
+  position: absolute;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 32px;
+}
+
+.resume__timeline-year-label {
+  display: block;
+  font-size: 0.85em;
+  color: #2980b9;
+  font-weight: 600;
+  margin-bottom: 1px;
+}
+
+.resume__timeline-year-dot {
+  display: block;
+  margin: 0 auto;
+  width: 9px;
+  height: 9px;
+  background: #2980b9;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1.5px #2980b9;
+}
+
+.resume__timeline-horizontal-label {
+  position: absolute;
+  width: 80px;
+  z-index: 3;
+  transition: top 0.2s;
+  text-align: center;
+  font-size: 0.92em;
+  /* Center label exactly on timeline dot */
+  transform: translateX(-50%);
+}
+
+.resume__timeline-horizontal-label.above {
+  top: calc(50% - 150px); /* Even further above the line */
+}
+
+.resume__timeline-horizontal-label.below {
+  top: calc(50% + 28px); /* Even closer to the line */
+}
+
+.resume__timeline-date-compressed {
+  font-size: 0.88em;
+  color: #2980b9;
+  margin-bottom: 2px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .resume__timeline-horizontal-label {
+    width: 65px;
+    font-size: 0.88em;
   }
+  .resume__timeline-horizontal-label.above {
+    top: calc(50% - 90px);
+  }
+  .resume__timeline-horizontal-label.below {
+    top: calc(50% + 8px);
+  }
+  .resume__timeline-horizontal-wrapper {
+    min-height: 160px;
+    padding-bottom: 40px;
+  }
+  .resume__timeline-horizontal-label.above {
+    top: calc(50% - 90px);
+  }
+  .resume__timeline-horizontal-label.below {
+    top: calc(50% + 8px);
+  }
+}
+
+@media (max-width: 600px) {
+  .resume__timeline-horizontal-wrapper {
+    min-height: 110px;
+    padding-bottom: 24px;
+  }
+  .resume__timeline-horizontal-label.above {
+    top: calc(50% - 48px);
+  }
+  .resume__timeline-horizontal-label.below {
+    top: calc(50% + 2px);
+  }
+}
+
+/* Hide vertical timeline for horizontal mode */
+.resume__timeline--vertical,
+.resume__timeline-item,
+.resume__timeline-center,
+.resume__timeline-dot,
+.resume__timeline-years,
+.resume__timeline-content-wrapper,
+.resume__timeline-item--left,
+.resume__timeline-item--right {
+  display: none !important;
+}
+
+.resume__skills--sections {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resume__skills-section {
+  margin-bottom: 4px;
+}
+
+.resume__skills-section-label {
+  font-weight: 600;
+  color: #1c5a85;
+  font-size: 0.98em;
+  margin-bottom: 2px;
+}
+
+.resume__skills-section-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+/* Skill bubble styles for Resume (modeled after Freelance tags) */
+.resume__skills-bubbles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+.resume__skills-bubble {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 12px;
+  font-size: 0.85em;
+  color: #1c2833;
+  border: 1px solid #ccc;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 2px;
 }

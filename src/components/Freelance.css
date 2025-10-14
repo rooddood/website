@@ -1,3 +1,22 @@
+/* Unified skill/tag bubble style for Resume, CodingProjects, and Freelance */
+.skill-tag {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.7em;
+  color: #1c2833;
+  border: 1px solid #ccc;
+  margin: 2px 4px 2px 0;
+  display: inline-block;
+}
+/* Unified tag container for skills/tags */
+.skill-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 10px;
+}
 .freelance-container {
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -74,21 +93,14 @@
 /* Removed styles for skill bubbles */
 
 /* Added styles for technology tags on the front of the project cards */
-.freelance-tags-container {
+
+/* Unified tag container for skills/tags */
+.skill-tag-container {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   justify-content: center;
   margin-top: 10px;
-}
-
-.freelance-tags-container .freelance-tag {
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 0.7em;
-  color: #1c2833;
-  border: 1px solid #ccc; /* Added border for better visibility */
 }
 
 /* Center project cards and reduce spacing */

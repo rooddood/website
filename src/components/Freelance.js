@@ -44,11 +44,11 @@ const Freelance = () => {
                 <h2>Recent Projects</h2>
                 <div className="projects-container">
                     {projects.map((project, index) => (
-                        <div key={index} className="project-card">
+                        <div key={index} className="resume__section">
                             <h3>{project.company}</h3>
-                            <div className="freelance-tags-container">
+                            <div className="skill-tag-container">
                                 {project.skills.map((skill, skillIndex) => (
-                                    <span key={skillIndex} className="freelance-tag">{skill}</span>
+                                    <span key={skillIndex} className="skill-tag">{skill}</span>
                                 ))}
                             </div>
                         </div>

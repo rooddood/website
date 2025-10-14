@@ -2,35 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './CodingProjects.css';
 
 const CodingProjects = () => {
-    const [expandedProject, setExpandedProject] = useState(null);
-
-    const handleExpand = (index) => {
-        setExpandedProject(index);
-    };
-
-    const handleClose = (event) => {
-        event.stopPropagation();
-        setExpandedProject(null);
-    };
-
-    const handleOutsideClick = (event) => {
-        if (expandedProject !== null && !event.target.closest('.project-card.expanded')) {
-            setExpandedProject(null);
-        }
-    };
-
-    useEffect(() => {
-        if (expandedProject !== null) {
-            document.addEventListener('click', handleOutsideClick);
-        } else {
-            document.removeEventListener('click', handleOutsideClick);
-        }
-
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [expandedProject]);
-
     const projects = [
         {
             title: 'AmberVision',
@@ -114,6 +85,34 @@ const CodingProjects = () => {
         }
     ];
 
+    const [expandedProject, setExpandedProject] = useState(null);
+
+    const handleExpand = (index) => {
+        setExpandedProject(index);
+    };
+
+    const handleClose = (event) => {
+        event.stopPropagation();
+        setExpandedProject(null);
+    };
+
+    const handleOutsideClick = (event) => {
+        if (expandedProject !== null && !event.target.closest('.project-card.expanded')) {
+            setExpandedProject(null);
+        }
+    };
+
+    useEffect(() => {
+        if (expandedProject !== null) {
+            document.addEventListener('click', handleOutsideClick);
+        } else {
+            document.removeEventListener('click', handleOutsideClick);
+        }
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [expandedProject]);
+
     return (
         <div className="coding-projects-container">
             <header className="coding-projects-header">
@@ -124,13 +123,13 @@ const CodingProjects = () => {
                 {projects.map((project, index) => (
                     <div
                         key={index}
-                        className={`project-card ${expandedProject === index ? 'expanded' : ''}`}
+                        className={`project-card${expandedProject === index ? ' expanded' : ''}`}
                         onClick={(e) => { e.stopPropagation(); handleExpand(index); }}
                     >
                         <h3>{project.title}</h3>
-                        <div className="technologies-preview">
+                        <div className="skill-tag-container">
                             {project.technologies.map((tech, techIndex) => (
-                                <span key={techIndex} className="technology-tag">{tech}</span>
+                                <span key={techIndex} className="skill-tag">{tech}</span>
                             ))}
                         </div>
                         {expandedProject === index && (
