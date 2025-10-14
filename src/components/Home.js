@@ -1,6 +1,7 @@
 // Home.js
 import React from 'react';
-import './Home.css'; // Import your CSS file for styling
+import './Home.css';
+import SkillsSection from './SkillsSection';
 
 const Home = () => {
   const handleDownload = () => {
@@ -17,7 +18,12 @@ const Home = () => {
           <p>Email: kylerood16@gmail.com</p>
           <p>LinkedIn: <a href="https://www.linkedin.com/in/kyle-rood/" target="_blank" rel="noopener noreferrer">Kyle Rood</a></p>
         </div>
-        <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
+        <div className="home__resume-skills-row">
+          <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
+          <div className="home__skills-inline">
+            <SkillsSection defaultExpanded={true} blue={true} />
+          </div>
+        </div>
       </header>
     </div>
   );

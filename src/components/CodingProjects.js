@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CodingProjects.css';
+import './TagBubble.css';
 
 const CodingProjects = () => {
     const projects = [

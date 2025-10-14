@@ -32,12 +32,15 @@
   color: #2c3e50;
   margin: 0 0 12px;
   letter-spacing: 1px;
-.resume__skills--sections {
+
+.resume__skills--sections-row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 8px 12px;
   margin: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 }
 
@@ -60,9 +63,9 @@
   border-radius: 5px;
 .resume__skills-section-label {
   font-weight: 700;
-  color: #1c5a85;
-  font-size: 1.15em;
-  margin: 0 8px 0 0;
+  color: #1c5a85; /* Standard navy blue */
+  font-size: 0.98em;
+  margin: 0 6px 0 0;
   padding: 0;
   white-space: nowrap;
   display: flex;
@@ -81,6 +84,7 @@
   gap: 2px;
   margin: 0;
   align-items: center;
+  font-size: 0.93em;
 }
   justify-content: space-between;
   align-items: stretch;
@@ -96,13 +100,13 @@
 .skill-tag {
   background-color: #e0e0e0;
   border-radius: 4px;
-  padding: 3px 10px;
-  font-size: 1em;
+  padding: 2px 7px;
+  font-size: 0.92em;
   color: #1c2833;
   border: 1px solid #ccc;
   margin: 1px 2px 1px 0;
   display: inline-block;
-  line-height: 1.2;
+  line-height: 1.1;
 }
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);

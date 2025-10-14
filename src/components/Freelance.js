@@ -1,5 +1,6 @@
 import React from 'react';
 import './Freelance.css';
+import './TagBubble.css';
 
 const Freelance = () => {
     const projects = [

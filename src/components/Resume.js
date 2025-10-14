@@ -1,5 +1,7 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
+
 import "./Resume.css";
+import SkillsSection from "./SkillsSection";
 
 const experiences = [
   // Newest roles (2024-2025)
@@ -124,88 +126,6 @@ const experiences = [
   }
 ];
 
-// Expanded skills summary
-const skills = [
-  "Python", "React", "Next.JS", "Angular", "HTML/CSS", "Java", "Unity", "Unreal Engine",
-  "Multi-Agent Orchestration (MCP/pydantic-AI)", "Prompt Engineering", "RAG Systems", "LLM fine tuning",
-  "Gemini", "Anthropic Claude", "GPT", "HuggingFace",
-  "NLP", "Computer Vision", "Model Fine-Tuning", "Sentiment + Topic Modeling",
-  "BERT", "Whisper", "DeepSeek",
-  "ETL Pipelines", "Vector Databases (DocumentDB)", "NoSQL (MongoDB)", "data ingestion/scraping",
-  "Git/GitHub Workflows (CI/CD)", "Docker", "AWS (Lambda, EC2, CodePipeline, etc.)", "GCP",
-  "SCRUM Master Certified", "Sustainability Minor",
-  "Film Photography", "Creative writing", "Cooking", "Clothing design/sales", "Community Volunteering"
-];
-
-// Add a structured skills summary for sections
-const skillsSections = [
-  {
-    label: "Languages & Technologies",
-    items: [
-      "Python", "React", "Next.JS", "Angular", "HTML/CSS", "Java", "Unity", "Unreal Engine"
-    ]
-  },
-  {
-    label: "GenAI & Agents",
-    items: [
-      "Multi-Agent Orchestration (MCP/pydantic-AI)", "Prompt Engineering", "RAG Systems", "LLM fine tuning"
-    ]
-  },
-  {
-    label: "Large Language Models (LLMs)",
-    items: [
-      "Gemini", "Anthropic Claude", "GPT", "HuggingFace", "LangChain"
-    ]
-  },
-  {
-    label: "Core ML/AI",
-    items: [
-      "Natural Language Processing (NLP)", "Computer Vision", "Model Fine-Tuning", "Sentiment + Topic Modeling"
-    ]
-  },
-  {
-    label: "AI Models",
-    items: [
-      "BERT", "Whisper", "DeepSeek"
-    ]
-  },
-  {
-    label: "Data & Databases",
-    items: [
-      "ETL Pipelines", "Vector Databases (DocumentDB)", "NoSQL (MongoDB)", "data ingestion/scraping"
-    ]
-  },
-  {
-    label: "Cloud & DevOps",
-    items: [
-      "Git/GitHub Workflows (CI/CD)", "Docker", "AWS (Lambda, EC2, CodePipeline, etc.)", "GCP"
-    ]
-  },
-  {
-    label: "Certifications",
-    items: [
-      "Sustainability Minor", "SCRUM Master Certified"
-    ]
-  },
-  {
-    label: "Creativity",
-    items: [
-      "Film Photography", "Creative writing (novel and script)"
-    ]
-  },
-  {
-    label: "Solving Problems",
-    items: [
-      "Designing + implementing recipes (cooking)", "Making + selling clothes online + in person"
-    ]
-  },
-  {
-    label: "Community",
-    items: [
-      "Volunteer 3-5 hours per week at local recycling center, saving 50+ lbs. from the dump every day"
-    ]
-  }
-];
 
 // Helper to extract the earliest year from a date string
 function getStartYear(dateStr) {
@@ -327,26 +247,7 @@ const Resume = () => {
     <div className="resume resume--compressed">
       {/* Skills and About Me at the Top, side by side, collapsible */}
       <div className="resume__section resume__section--top resume__section--compressed">
-        <div className="resume__skills-block resume__collapsible resume__compressed-block">
-          <div className="resume__collapsible-header" onClick={() => setShowSkills((v) => !v)}>
-            <h2>Skills</h2>
-            <button className="resume__toggle-btn" aria-label="Toggle Skills">{showSkills ? '−' : '+'}</button>
-          </div>
-          {showSkills && (
-            <div className="resume__skills resume__skills--sections">
-              {skillsSections.map(section => (
-                <div className="resume__skills-section" key={section.label}>
-                  <div className="resume__skills-section-label">{section.label}:</div>
-                  <div className="resume__skills-section-items">
-                    {section.items.map(item => (
-                      <span className="skill-tag" key={item}>{item}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <SkillsSection defaultExpanded={false} />
         <div className="resume__about-block resume__collapsible resume__compressed-block">
           <div className="resume__collapsible-header" onClick={() => setShowAbout((v) => !v)}>
             <h2>About Me & Education</h2>
