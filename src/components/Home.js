@@ -21,7 +21,7 @@ const Home = () => {
         <div className="home__resume-skills-row">
           <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
           <div className="home__skills-inline">
-            <SkillsSection defaultExpanded={true} blue={true} />
+            <SkillsSection defaultExpanded={false} blue={true} />
           </div>
         </div>
       </header>
