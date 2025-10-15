@@ -6,14 +6,20 @@ const Freelance = () => {
     const projects = [
         {
             company: "Nodus",
+            url: "https://www.nodus.io/",
+            logo: process.env.PUBLIC_URL + "/images/nodus-logo.png",
             skills: ["Python", "Docker", "Next.JS", "Anthropic Claude"]
         },
         {
             company: "Hilltop-App",
+            url: "https://www.hilltop-app.com/",
+            logo: process.env.PUBLIC_URL + "/images/hilltop-logo.png",
             skills: ["Python", "Next.JS", "Angular", "GCP", "OpenAI LLM"]
         },
         {
             company: "Strategic Solutions Research",
+            url: "https://strategicsolutionsresearch.com/",
+            logo: process.env.PUBLIC_URL + "/images/ssr-logo.png",
             skills: ["Python", "React", "Wordpress"]
         }
     ];
@@ -27,17 +33,13 @@ const Freelance = () => {
         <div className="freelance-container">
             <header className="freelance-header">
                 <h1>Kyle Rood</h1>
-                <h2>AI Software Developer | Remote / Washington D.C.</h2>
+                <h2>Full Stack AI Engineer | Remote / Washington D.C.</h2>
             </header>
 
             <section className="freelance-about">
-                <h2>About Me</h2>
-                <p>With a Master’s in Computer Science and years of experience as a lead developer and engineering manager, 
-                    I specialize in creating scalable websites using bleeding edge tools for businesses and individuals.</p>     
-                <p>My technical expertise includes Python, React, AWS, and advanced AI/ML applications, allowing me to deliver 
-                    tailored solutions that meet both technical and business goals.</p>
-
-                <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
+                <div className="resume-download-center">
+                  <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
+                </div>
             </section>
             <br/>
 
@@ -46,7 +48,13 @@ const Freelance = () => {
                 <div className="projects-container">
                     {projects.map((project, index) => (
                         <div key={index} className="resume__section">
-                            <h3>{project.company}</h3>
+                            <a href={project.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                {/* Logo spot */}
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '8px' }}>
+                                    <img src={project.logo} alt={project.company + ' logo'} style={{ maxHeight: '48px', maxWidth: '120px', objectFit: 'contain' }} />
+                                </div>
+                                <h3>{project.company}</h3>
+                            </a>
                             <div className="skill-tag-container">
                                 {project.skills.map((skill, skillIndex) => (
                                     <span key={skillIndex} className="skill-tag">{skill}</span>

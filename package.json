@@ -4,6 +4,10 @@
   "homepage": "https://rooddood.github.io/website/",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/lab": "^7.0.1-beta.18",
+    "@mui/material": "^7.3.4",
     "axios": "^1.7.7",
     "chalk": "^5.4.1",
     "react": "^18.3.1",

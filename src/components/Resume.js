@@ -1,11 +1,13 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 
 import "./Resume.css";
-import SkillsSection from "./SkillsSection";
+
 
 const experiences = [
   // Newest roles (2024-2025)
   {
+    jobTitle: "Full Stack Implementation Engineer",
+    company: "Strategic Solutions Research",
     title: "Full Stack Implementation Engineer - Strategic Solutions Research",
     date: "Dec. 2024 - Now",
     description: "Architected and developed advanced data visualization tools in React, automating client report generation. Designed and built scalable Python ETL pipelines, reducing client reporting time and improving data accessibility. Developed and deployed custom Topic Modeling and Sentiment Analysis models using BERT via HuggingFace, increasing the depth of client insights and reducing operational costs.",
@@ -17,6 +19,8 @@ const experiences = [
     ]
   },
   {
+    jobTitle: "Full Stack AI Developer",
+    company: "Nodus",
     title: "Full Stack AI Developer - Nodus",
     date: "Mar. 2025 - May 2025",
     description: "Advised team on AI Agents and future AI implementations. Implemented Python (pydantic-AI) based MCP server to source information from the internet. Integrated with Docker-based Next.JS deployment.",
@@ -28,6 +32,8 @@ const experiences = [
     ]
   },
   {
+    jobTitle: "Full Stack AI Engineer",
+    company: "Hilltop-App",
     title: "Full Stack AI Engineer - Hilltop-App",
     date: "Feb. 2025 - Mar. 2025",
     description: "Rebuilt UI for a Next.js/Angular application in context-aware AI assistant, improving user experience and engagement. Applied AI infrastructure (LangChain + RAG) to connect legislative data, automating contextual message generation. Developed Python testing frameworks to ground agent responses, ensuring accuracy and context relevance.",
@@ -40,6 +46,8 @@ const experiences = [
   },
   // Updated Resultid experience (with growth path)
   {
+    jobTitle: "Engineering Intern → Full Stack Engineer → Lead Engineer",
+    company: "Resultid",
     title: "Engineering Intern → Full Stack Engineer → Lead Engineer - Resultid",
     date: "Sep. 2021 - June 2024",
     description: "Led and mentored a growing team of engineers, establishing Agile development practices and maintaining high engineering standards using GitHub+AWS workflows (CI/CD). Designed and built a scalable data science application leveraging AWS to process thousands of documents weekly. Trained and hosted custom NLP algorithms on AWS EC2, increasing model performance and reducing latency. Interfaced directly with customers to integrate feedback into features, resulting in an increase in user retention.",
@@ -53,6 +61,8 @@ const experiences = [
   },
   // GWU Research Assistant (expanded)
   {
+    jobTitle: "Research Assistant → Lead ML Research Asst.",
+    company: "The George Washington University",
     title: "Research Assistant → Lead ML Research Asst. - The George Washington University",
     date: "Dec. 2017 - May 2021",
     description: "Collaborated on a DARPA project, developing a data-driven solution that reduced first responder time on-scene. Full-Stack development of AMOS, a big data system that collected and categorized over 1 billion images from thousands of cameras. Performed water depth estimation on a flooded city using multiband satellite imagery, providing critical data for disaster relief efforts.",
@@ -65,6 +75,8 @@ const experiences = [
   },
   // Python TA (expanded)
   {
+    jobTitle: "Python Teaching Assistant",
+    company: "The George Washington University",
     title: "Python Teaching Assistant - The George Washington University",
     date: "Sep. 2018 - May 2021",
     description: "Designed and delivered curriculum on Python for data analytics including Numpy, Pandas, and Scikit-learn. Empowered non-CS students to apply foundational programming concepts to real-world datasets. Held regular office hours to provide one-on-one mentorship, increasing student confidence and comprehension.",
@@ -77,6 +89,8 @@ const experiences = [
   },
   // Compressed internships & research
   {
+    jobTitle: "Lead Machine Learning Researcher",
+    company: "The George Washington University",
     title: "Lead Machine Learning Researcher - The George Washington University",
     date: "Dec. 2017 - May 2021",
     description: "Performed water depth estimation of flooded cities using overhead multiband satellite imagery. Helped DZYNE Technologies with an ongoing DARPA project aiming to to assist in response to natural disasters by routing first responders to accessible roads/routes. Developed FE and BE of Archive of Many Outdoor Scenes (AMOS), a website to collect, categorize, and display images from free webcams posted around the world. Eventually collected a database of over 3,000 cameras and over 1 billion images from these cameras.",
@@ -85,6 +99,8 @@ const experiences = [
     ]
   },
   {
+    jobTitle: "Software Engineering Intern",
+    company: "Navteca",
     title: "Software Engineering Intern - Navteca",
     date: "May 2020 - Sep. 2020",
     description: "Built Unity based extraction of geographical metadata from Geotiff files. This was used to determine precise spatial information for Virtual Reality visualizations of floods and other natural disasters. Built out AWS Lambda internal scheduling system.",
@@ -93,6 +109,8 @@ const experiences = [
     ]
   },
   {
+    jobTitle: "Software Engineering Intern",
+    company: "LinkedSenior",
     title: "Software Engineering Intern - LinkedSenior",
     date: "Feb. 2020 - May 2020",
     description: "Full Stack development of a resident engagement platform for nursing homes. Fixing and building memory games and social activities for residents with dementia.",
@@ -101,6 +119,8 @@ const experiences = [
     ]
   },
   {
+    jobTitle: "Software Engineering Intern",
+    company: "DZYNE Technologies",
     title: "Software Engineering Intern - DZYNE Technologies",
     date: "May 2019 - Sep. 2019",
     description: "Assembled cloud based testing and integration for Machine Learning and Computer Vision models in a greenfield environment. Used as part of an ongoing DARPA project involving disaster relief assessment.",
@@ -110,16 +130,22 @@ const experiences = [
   },
   // Legacy/other roles (compressed)
   {
+    jobTitle: "Research Assistant",
+    company: "The George Washington University",
     title: "Research Assistant - The George Washington University",
     date: "2017 - 2018",
     description: "Developed the AMOSeast website and used machine learning for image classification."
   },
   {
+    jobTitle: "Sales Floor Team Member",
+    company: "Target",
     title: "Sales Floor Team Member - Target",
     date: "June 2017 - Aug 2017",
     description: "Retail experience."
   },
   {
+    jobTitle: "Technical Sales Associate",
+    company: "The Mac Express",
     title: "Technical Sales Associate - The Mac Express",
     date: "Jan 2016 - Aug 2016",
     description: "Technical sales and customer support."
@@ -191,7 +217,6 @@ function getTimelinePosition(endYear) {
 }
 
 const Resume = () => {
-  const [showSkills, setShowSkills] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [openExperiences, setOpenExperiences] = useState(
     Array(experiences.length).fill(false)
@@ -201,6 +226,12 @@ const Resume = () => {
   const sortedToOriginalIdx = sortedExperiences.map(exp =>
     experiences.findIndex(e => e.title === exp.title && e.date === exp.date)
   );
+
+  // Download Resume handler (from Home.js)
+  const handleDownload = () => {
+    const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_25.pdf';
+    window.open(resumePath, '_blank');
+  };
 
   const toggleExperience = (idx) => {
     setOpenExperiences((prev) =>
@@ -245,39 +276,54 @@ const Resume = () => {
 
   return (
     <div className="resume resume--compressed">
-      {/* Skills and About Me at the Top, side by side, collapsible */}
+      {/* About Me & Education at the Top, collapsible, two columns, with Download Resume and SkillsSection */}
       <div className="resume__section resume__section--top resume__section--compressed">
-        <SkillsSection defaultExpanded={false} />
         <div className="resume__about-block resume__collapsible resume__compressed-block">
-          <div className="resume__collapsible-header" onClick={() => setShowAbout((v) => !v)}>
-            <h2>About Me & Education</h2>
+          <div className="resume__collapsible-header" onClick={() => setShowAbout((v) => !v)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+            <h2 style={{ textAlign: 'center', flex: '1 1 0', margin: 0 }}>About Me & Education</h2>
             <button className="resume__toggle-btn" aria-label="Toggle About Me">{showAbout ? '−' : '+'}</button>
           </div>
           {showAbout && (
-            <div className="resume__content resume__content--compressed">
-              <p>
-                <strong>Education:</strong><br />
-                <strong>Masters in Computer Science, Concentration in Artificial Intelligence</strong>
-                <br />The George Washington University, GPA: 4.0 (May 2021)<br />
-                <strong>Bachelor of Science in Computer Science, Minor in Sustainability</strong>
-                <br />The George Washington University, GPA: 3.7 (May 2020)<br /><br />
-                <strong>Certifications:</strong> SCRUM Master Certified, Sustainability Minor
-              </p>
-              <p>
-                Full stack implementation engineer and AI developer with a proven record of architecting advanced data visualization tools, scalable ETL pipelines, and custom NLP/AI solutions for clients and research teams.
-              </p>
-              <p>
-                Experienced in leading engineering teams, mentoring, and establishing Agile practices. Passionate about leveraging AI, cloud, and data science to solve real-world problems and deliver actionable insights.
-              </p>
-              <p>
-                Strong communicator and educator, with a background in teaching Python, data science, and empowering non-CS students to apply programming to real-world datasets.
-              </p>
-              <p>
-                <strong>Community:</strong> Volunteer 3-5 hours per week at local recycling center, saving 50+ lbs. from the dump every day.
-              </p>
-              <p>
-                <strong>Creativity:</strong> Film photography, creative writing (novel and script), designing and selling clothes online and in person, cooking.
-              </p>
+            <div className="resume__content resume__content--compressed resume__about-education-columns" style={{ display: 'flex', flexWrap: 'wrap', gap: '32px' }}>
+              {/* Left column: About Me + Download Resume */}
+              <div className="resume__aboutme-col" style={{ flex: '1 1 260px', minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: '100%' }}>
+                  <p style={{ textAlign: 'center' }}>
+                    Full stack implementation engineer and AI developer with a proven record of architecting advanced data visualization tools, scalable ETL pipelines, and custom NLP/AI solutions for clients and research teams.
+                  </p>
+                  <p style={{ textAlign: 'center' }}>
+                    Experienced in leading engineering teams, mentoring, and establishing Agile practices. Passionate about leveraging AI, cloud, and data science to solve real-world problems and deliver actionable insights.
+                  </p>
+                  <p style={{ textAlign: 'center' }}>
+                    Strong communicator and educator, with a background in teaching Python, data science, and empowering non-CS students to apply programming to real-world datasets.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', justifyContent: 'center' }}>
+                  <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
+                  <div className="home__skills-inline">
+                    {/* eslint-disable-next-line */}
+                    {require('./SkillsSection').default ? React.createElement(require('./SkillsSection').default, { defaultExpanded: false, blue: true }) : null}
+                  </div>
+                </div>
+              </div>
+              {/* Right column: Education, Certifications, Community, Creativity */}
+              <div className="resume__education-col" style={{ flex: '1 1 260px', minWidth: 0 }}>
+                <p>
+                  <strong>Masters in Computer Science, Concentration in Artificial Intelligence</strong>
+                  <br />The George Washington University, GPA: 4.0 (May 2021)<br />
+                  <strong>Bachelor of Science in Computer Science, Minor in Sustainability</strong>
+                  <br />The George Washington University, GPA: 3.7 (May 2020)
+                </p>
+                <p>
+                  <strong>Certifications:</strong> SCRUM Master Certified, Sustainability Minor
+                </p>
+                <p>
+                  <strong>Community:</strong> Volunteer 3-5 hours per week at local recycling center, saving 50+ lbs. from the dump every day.
+                </p>
+                <p>
+                  <strong>Creativity:</strong> Film photography, creative writing (novel and script), designing and selling clothes online and in person, cooking.
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -362,8 +408,8 @@ const Resume = () => {
                       position: "relative"
                     }}
                   >
-                    {/* Title */}
-                    <span className="resume__timeline-title resume__timeline-title--compressed">{exp.title}</span>
+                    {/* Only show job title on timeline */}
+                    <span className="resume__timeline-title resume__timeline-title--compressed">{exp.jobTitle}</span>
                   </div>
                 </div>
                 {/* Expanded content rendered absolutely below the label, spanning full width */}
@@ -372,10 +418,12 @@ const Resume = () => {
                     className="resume__timeline-content resume__timeline-content--compressed resume__timeline-content--overlay"
                     style={{
                       position: "absolute",
-                      left: "50%",
+                      left: `${pos}%`,
                       transform: "translateX(-50%)",
-                      // Place directly below the label (use labelHeight + gap)
-                      top: `calc(50% + ${labelHeight / 2 + gap + 8}px)`,
+                      // Place popup on the opposite side of the timeline from the label
+                      top: isAbove
+                        ? `calc(50% + ${labelHeight / 2 + gap + 8}px)` // label is above, content below
+                        : `calc(50% - ${labelHeight / 2 + gap + 8}px - 100%)`, // label is below, content above
                       zIndex: 100,
                       minWidth: "260px",
                       maxWidth: "420px",
@@ -388,6 +436,30 @@ const Resume = () => {
                       margin: "0 auto"
                     }}
                   >
+                    <button
+                      className="resume__timeline-close-btn"
+                      aria-label="Close Experience"
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        background: "transparent",
+                        border: "none",
+                        fontSize: "1.5rem",
+                        cursor: "pointer",
+                        zIndex: 101
+                      }}
+                      onClick={() => toggleExperience(idx)}
+                    >
+                      ×
+                    </button>
+                    {/* Job Title and Company (company below, not bold, smaller font) */}
+                    <div className="resume__timeline-jobtitle-company" style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: 0 }}>
+                      {exp.jobTitle}
+                    </div>
+                    <div className="resume__timeline-company" style={{ fontWeight: 400, fontSize: '0.95rem', color: '#444', marginBottom: 4 }}>
+                      {exp.company}
+                    </div>
                     <div className="resume__timeline-date-compressed">
                       {getStartMonthYear(exp.date)}
                       {getEndMonthYear(exp.date) ? ` – ${getEndMonthYear(exp.date)}` : ""}
