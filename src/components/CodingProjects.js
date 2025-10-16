@@ -3,49 +3,10 @@ import './CodingProjects.css';
 import './TagBubble.css';
 
 const CodingProjects = () => {
+    // Reorder so AMOS and AmberVision are last, for bottom row
     const projects = [
         {
-            title: 'AmberVision',
-            description: (
-                <>
-                    <p>As part of GW’s computer science program, every senior is required to work with a team on a capstone project. My team and I worked with Dr. Robert Pless to develop <a href="https://gw-cs-sd.github.io/sd-20-fernandez-rood-shah/" target="_blank" rel="noopener noreferrer">AmberVision</a>.</p>
-                    <h5>Background</h5>
-                    <p>AmberVision is one part of a solution to the question: how can we leverage existing technology to search for Amber Alert victims? AmberVision has a simple goal -- detect cars and display these detections to law enforcement.</p>
-                    <h5>Tech</h5>
-                    <p>We opted for a real-time object detection tool that allows law enforcement to view a web app and see the detected vehicles on the streets of DC.</p>
-                    <h5>Data Collection</h5>
-                    <p>We reached out to <a href="http://www.trafficland.com/" target="_blank" rel="noopener noreferrer">TrafficLand</a>, a company with a majority stake of traffic cameras in DC, to access their API for free from September 2019 to May 2020.</p>
-                    <h5>Object Detection</h5>
-                    <p>We used <a href="https://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener noreferrer">You Only Look Once (YOLO)</a> for object detection due to its ideal speed and accuracy for our low-resolution traffic cameras.</p>
-                    <h5>Color Detection</h5>
-                    <p>We used PCA embedding to classify the RGB values and find the correlated colors, although it proved to be very difficult due to the grainy and low-res images.</p>
-                    <h5>Results</h5>
-                    <p>The image below shows detected cars, buses, and trucks in one frame with a different color based on each size.</p>
-                    <div className="project-images">
-                        <img src={`${process.env.PUBLIC_URL}/images/amber_vision_detection.png`} alt="AmberVision Image 1" />
-                        <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision Image 2" />
-                    </div>
-                    <p>We created this project in Vue.js, showing a map of the location of the cameras in DC and the latest image with the vehicles detected.</p>
-                    <h5>Why This is Important</h5>
-                    <p>We demonstrated the powerful effect of using our skills for social good. Although we were unable to fully develop this project into a full-scale application, someone else can, with the ideas we started.</p>
-                </>
-            ),
-            technologies: ['Python Flask', 'MongoDB', 'Sklearn', 'cv2', 'Matplotlib', 'Pandas', 'Scipy', 'Vue.js', 'Leaflet', 'Axios', 'Bootstrap-Vue', 'Vanilla JS', 'HTML']
-        },
-        {
-            title: 'AMOS: The Archive of Many Outdoor Scenes',
-            description: (
-                <>
-                    <p>I worked on this project the bulk of my sophomore year of college. I reached out to a professor at the time and he allowed me to work on AMOS. It has been a very rewarding experience.</p>
-                    <h5>Background</h5>
-                    <p>The Archive of Many Outdoor Scenes (AMOS) is a collection of long-term time lapse imagery from publicly accessible outdoor web cams around the world. This research focuses on exploring how to use these images to learn about the world around us and understanding changes in natural environments and how people use public spaces. This project was built from the ground up using a Python web framework Flask. The dataset contains over 7,000 publicly accessible webcams and over 1,000,000 images.</p>
-                    <p>The site is no longer live through GW's computer science department, but you can find the code on <a href="https://github.com/GWUvision/AMOSEast" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
-                </>
-            ),
-            technologies: ['Python Flask', 'Threading', 'OpenCV', 'Numpy', 'PostgreSQL', 'HTML/CSS']
-        },
-        {
-            title: 'Script Writing App',
+            title: 'Dicta - AI Writing Assistant',
             description: (
                 <>
                     <div className="project-logo">
@@ -83,6 +44,79 @@ const CodingProjects = () => {
                 </>
             ),
             technologies: ['Python', 'Hugging Face Models', 'Large Language Models (LLMs)']
+        },
+        {
+            title: 'FlickPick',
+            description: (
+                <>
+                    <p><strong>FlickPick</strong> is an AI-powered app that helps you decide what to watch next. It uses advanced models to recommend movies and shows based on your preferences, making the decision process fun and easy.</p>
+                    <h5>Features</h5>
+                    <ul>
+                        <li>AI-driven recommendations for movies and TV shows</li>
+                        <li>Simple, interactive interface</li>
+                        <li>Connects to popular databases for up-to-date suggestions</li>
+                    </ul>
+                    <h5>Demo Video</h5>
+                    <div style={{textAlign: 'center'}}>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/aDI4ZdjhDLE" title="FlickPick Demo" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    </div>
+                    <h5>GitHub Repository</h5>
+                    <p>
+                        Check out the code and learn more on <a href="https://github.com/rooddood/flickpick" target="_blank" rel="noopener noreferrer">GitHub</a>.
+                    </p>
+                </>
+            ),
+            technologies: ['React', 'Python', 'AI', 'OpenAI API', 'Movie/TV APIs']
+        },
+        {
+            title: 'AmberVision',
+            description: (
+                <>
+                    <p>As part of GW’s computer science program, every senior is required to work with a team on a capstone project. My team and I worked with Dr. Robert Pless to develop <a href="https://gw-cs-sd.github.io/sd-20-fernandez-rood-shah/" target="_blank" rel="noopener noreferrer">AmberVision</a>.</p>
+                    <h5>Background</h5>
+                    <p>AmberVision is one part of a solution to the question: how can we leverage existing technology to search for Amber Alert victims? AmberVision has a simple goal -- detect cars and display these detections to law enforcement.</p>
+                    <h5>Tech</h5>
+                    <p>We opted for a real-time object detection tool that allows law enforcement to view a web app and see the detected vehicles on the streets of DC.</p>
+                    <h5>Data Collection</h5>
+                    <p>We reached out to <a href="http://www.trafficland.com/" target="_blank" rel="noopener noreferrer">TrafficLand</a>, a company with a majority stake of traffic cameras in DC, to access their API for free from September 2019 to May 2020.</p>
+                    <h5>Object Detection</h5>
+                    <p>We used <a href="https://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener noreferrer">You Only Look Once (YOLO)</a> for object detection due to its ideal speed and accuracy for our low-resolution traffic cameras.</p>
+                    <h5>Color Detection</h5>
+                    <p>We used PCA embedding to classify the RGB values and find the correlated colors, although it proved to be very difficult due to the grainy and low-res images.</p>
+                    <h5>Results</h5>
+                    <p>The image below shows detected cars, buses, and trucks in one frame with a different color based on each size.</p>
+                    <div className="project-images">
+                        <img src={`${process.env.PUBLIC_URL}/images/amber_vision_detection.png`} alt="AmberVision Image 1" />
+                        <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision Image 2" />
+                    </div>
+                    <p>We created this project in Vue.js, showing a map of the location of the cameras in DC and the latest image with the vehicles detected.</p>
+                    <h5>Why This is Important</h5>
+                    <p>We demonstrated the powerful effect of using our skills for social good. Although we were unable to fully develop this project into a full-scale application, someone else can, with the ideas we started.</p>
+                </>
+            ),
+            technologies: ['Python Flask', 'MongoDB', 'Sklearn', 'cv2', 'Matplotlib', 'Pandas', 'Scipy', 'Vue.js', 'Leaflet', 'Axios', 'Bootstrap-Vue', 'Vanilla JS', 'HTML']
+        },
+        {
+            title: 'Pastiche (coming soon)!',
+            description: (
+                <>
+                    <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '30px' }}>A new creative project is on the way. Stay tuned!</p>
+                </>
+            ),
+            technologies: [],
+            comingSoon: true
+        },
+        {
+            title: 'AMOS: The Archive of Many Outdoor Scenes',
+            description: (
+                <>
+                    <p>I worked on this project the bulk of my sophomore year of college. I reached out to a professor at the time and he allowed me to work on AMOS. It has been a very rewarding experience.</p>
+                    <h5>Background</h5>
+                    <p>The Archive of Many Outdoor Scenes (AMOS) is a collection of long-term time lapse imagery from publicly accessible outdoor web cams around the world. This research focuses on exploring how to use these images to learn about the world around us and understanding changes in natural environments and how people use public spaces. This project was built from the ground up using a Python web framework Flask. The dataset contains over 7,000 publicly accessible webcams and over 1,000,000 images.</p>
+                    <p>The site is no longer live through GW's computer science department, but you can find the code on <a href="https://github.com/GWUvision/AMOSEast" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+                </>
+            ),
+            technologies: ['Python Flask', 'Threading', 'OpenCV', 'Numpy', 'PostgreSQL', 'HTML/CSS']
         }
     ];
 
@@ -121,28 +155,40 @@ const CodingProjects = () => {
                 <p>Welcome to my coding portfolio! Here, you can explore some of the projects I've worked on. Feel free to check out my GitHub profile for more: <a href="https://github.com/rooddood" target="_blank" rel="noopener noreferrer">github.com/rooddood</a>.</p>
             </header>
             <section className="coding-projects-list">
-                {projects.map((project, index) => (
-                    <div
-                        key={index}
-                        className={`project-card${expandedProject === index ? ' expanded' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); handleExpand(index); }}
-                    >
-                        <h3>{project.title}</h3>
-                        <div className="skill-tag-container">
-                            {project.technologies.map((tech, techIndex) => (
-                                <span key={techIndex} className="skill-tag">{tech}</span>
-                            ))}
-                        </div>
-                        {expandedProject === index && (
-                            <>
-                                <button className="close-btn" onClick={handleClose}>&times;</button>
+                {projects.slice(0, 6).map((project, index) => {
+                    // Two rows of three
+                    const gridRow = index < 3 ? 1 : 2;
+                    const gridColumn = (index % 3) + 1;
+                    const isComingSoon = project.comingSoon;
+                    return (
+                        <div
+                            key={index}
+                            className={`project-card${expandedProject === index && !isComingSoon ? ' expanded' : ''}${isComingSoon ? ' coming-soon' : ''}`}
+                            onClick={isComingSoon ? undefined : (e) => { e.stopPropagation(); handleExpand(index); }}
+                            style={{ gridRow, gridColumn, cursor: isComingSoon ? 'default' : 'pointer', opacity: isComingSoon ? 0.7 : 1 }}
+                        >
+                            <h3>{project.title}</h3>
+                            <div className="skill-tag-container">
+                                {project.technologies.map((tech, techIndex) => (
+                                    <span key={techIndex} className="skill-tag">{tech}</span>
+                                ))}
+                            </div>
+                            {(expandedProject === index && !isComingSoon) && (
+                                <>
+                                    <button className="close-btn" onClick={handleClose}>&times;</button>
+                                    <div className="project-details">
+                                        {project.description}
+                                    </div>
+                                </>
+                            )}
+                            {isComingSoon && (
                                 <div className="project-details">
                                     {project.description}
                                 </div>
-                            </>
-                        )}
-                    </div>
-                ))}
+                            )}
+                        </div>
+                    );
+                })}
             </section>
         </div>
     );
