@@ -1,75 +1,111 @@
 /* NavBar.css */
 
 .navbar {
-  background-color: #1c2833; /* Darker greyish navy */
-  padding: 10px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #1a252f;
+  /* Dark Navy */
+  border-bottom: 1px solid #1a252f;
+  padding: 0 20px;
+  font-family: 'Arial', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  /* High z-index to stay on top */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .navbar__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   list-style-type: none;
   margin: 0;
-  padding: 0;
-  display: flex;
+  padding: 10px 0;
+  /* Add vertical padding */
+  gap: 20px;
+  flex-wrap: wrap;
+  /* Allow wrapping */
 }
 
-.navbar__list li {
+.navbar__list>li {
   position: relative;
-  margin-right: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar__link {
   text-decoration: none;
-  color: #d5d8dc; /* Lighter grey */
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .navbar__link:hover {
-  color: #2980b9; /* Darker blue */
+  background-color: #2980b9;
+  color: #fff;
 }
 
+/* Dropdown Styles */
 .navbar__dropdown {
   display: none;
   position: absolute;
-  background-color: #1c2833; /* Darker greyish navy */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  min-width: 160px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  border: 1px solid #eee;
+  z-index: 10001;
 }
 
-.navbar__dropdown a {
-  color: #d5d8dc; /* Lighter grey */
-  padding: 12px 16px;
-  text-decoration: none;
+.navbar__list>li:hover .navbar__dropdown {
   display: block;
 }
 
-.navbar__dropdown a:hover {
-  background-color: #212f3d; /* Slightly darker greyish navy */
-}
-
-.navbar__list li:hover .navbar__dropdown {
+.navbar__dropdown .navbar__link {
   display: block;
+  padding: 10px 20px;
+  color: #333;
+  text-align: center;
 }
 
-/* Mobile-friendly styles */
+.navbar__dropdown .navbar__link:hover {
+  background-color: #2980b9;
+  color: #fff;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0 10px;
+    position: relative;
+    /* On mobile, nice to have it scroll away? Or keep sticky? Sticky is better for nav. */
+  }
+
   .navbar__list {
-    flex-direction: column;
+    flex-direction: row;
+    /* Keep row but wrap */
+    gap: 10px;
+    justify-content: center;
   }
 
-  .navbar__list li {
-    margin-right: 0;
-    margin-bottom: 10px;
+  .navbar__link {
+    font-size: 14px;
+    padding: 8px 10px;
   }
 
-  .navbar__dropdown {
-    position: static;
-    box-shadow: none;
-  }
-
-  .navbar__dropdown a {
-    padding: 10px;
+  /* Improve dropdown mobile placement */
+  .navbar__list>li:hover .navbar__dropdown {
+    position: absolute;
+    top: 100%;
   }
 }

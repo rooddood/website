@@ -9,6 +9,7 @@
     margin: 2px 4px 2px 0;
     display: inline-block;
 }
+
 /* Unified tag container for skills/tags */
 .skill-tag-container {
     display: flex;
@@ -17,10 +18,12 @@
     justify-content: center;
     margin-top: 10px;
 }
+
 .coding-projects-container {
     padding: 20px;
     font-family: 'Arial', sans-serif;
-    color: #1c2833; /* Darker navy color for text */
+    color: #1c2833;
+    /* Darker navy color for text */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +36,8 @@
 }
 
 .coding-projects-header h1 {
-    color: #1c2833; /* Darker navy color for titles */
+    color: #1c2833;
+    /* Darker navy color for titles */
 }
 
 .coding-projects-list {
@@ -51,7 +55,8 @@
 }
 
 .project-card {
-    background-color: #e3f2fd; /* Light blue background */
+    background-color: #e3f2fd;
+    /* Light blue background */
     border-radius: 10px;
     padding: 10px;
     width: 250px;
@@ -78,13 +83,15 @@
 .project-card h3 {
     margin: 0;
     font-size: 1em;
-    color: #1c2833; /* Darker navy color for titles */
+    color: #1c2833;
+    /* Darker navy color for titles */
 }
 
 .project-card p {
     margin: 5px 0 0 0;
     font-size: 0.8em;
-    color: #1c2833; /* Darker navy color for text */
+    color: #1c2833;
+    /* Darker navy color for text */
 }
 
 .project-card.expanded {
@@ -100,8 +107,10 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: translate(-50%, -50%);
     border-radius: 10px;
-    max-height: fit-content; /* Dynamically adjust to content size */
-    overflow: visible; /* Ensure content is fully visible */
+    max-height: fit-content;
+    /* Dynamically adjust to content size */
+    overflow: visible;
+    /* Ensure content is fully visible */
 }
 
 .project-card.expanded h3 {
@@ -131,14 +140,16 @@
 }
 
 .project-card.expanded .project-details {
-    max-height: none; /* Remove height restriction to fit content */
+    max-height: none;
+    /* Remove height restriction to fit content */
     overflow: visible;
 }
 
 .project-details h5 {
     margin-top: 10px;
     font-size: 0.9em;
-    color: #1c2833; /* Darker navy color for section titles */
+    color: #1c2833;
+    /* Darker navy color for section titles */
 }
 
 .technologies-used {
@@ -176,4 +187,60 @@
     gap: 5px;
     justify-content: center;
     margin-top: 10px;
+}
+
+/* Responsive Grid Layout */
+
+@media (max-width: 900px) {
+    .coding-projects-list {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .coding-projects-container {
+        padding: 10px;
+        /* Reduced padding */
+        padding-top: 5px;
+    }
+
+    .coding-projects-header {
+        margin-bottom: 10px;
+    }
+
+    .coding-projects-header h1 {
+        font-size: 1.5em;
+        /* Smaller header */
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .coding-projects-header p {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+    }
+
+    .coding-projects-list {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        gap: 10px;
+        /* Reduced gap */
+        margin-top: 10px;
+    }
+
+    .project-card {
+        width: 100%;
+        max-width: 300px;
+        min-height: 120px;
+        /* Reduced min-height */
+        padding: 8px;
+        /* Significantly reduced padding */
+    }
+
+    .project-card.expanded {
+        width: 95%;
+        height: 90%;
+        padding: 15px;
+    }
 }

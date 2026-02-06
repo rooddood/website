@@ -1,44 +1,108 @@
-
+/* Home.css */
 body {
-  overflow: hidden; /* Prevent scrolling */
+  /* overflow: hidden;  <-- Removed to allow natural scrolling if needed */
   margin: 0;
 }
 
 .home {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  /* Allow it to grow */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  /* Top alignment */
   align-items: flex-start;
-  background: url('../../public/images/img_bg_2.jpg') no-repeat center center fixed;
+  /* Left alignment */
+  position: relative;
+  padding: 40px 40px;
+  /* Consistent padding */
+  box-sizing: border-box;
+}
+
+.home__background {
+  position: fixed;
+  /* Fixed so it stays while scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
-  /* Position content slightly above halfway, left justified */
-  padding: 0 2vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  transition: background-image 0.5s ease-in-out;
+}
+
+.home__overlay {
+  position: fixed;
+  /* Fixed to match background */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.home__nav-btn {
+  position: fixed;
+  /* Keep nav controls fixed */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  padding: 20px;
+  transition: color 0.3s;
+}
+
+.home__nav-btn:hover {
+  color: #fff;
+}
+
+.home__nav-btn--prev {
+  left: 0;
+  padding-left: 20px;
+}
+
+.home__nav-btn--next {
+  right: 0;
+  padding-right: 20px;
 }
 
 .home__header {
-  margin-top: 5vh; /* Moved up more */
+  margin-top: 0;
+  /* Remove top margin entirely */
   text-align: left;
   color: #fff;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
+  /* Allow wider content */
+  z-index: 1;
 }
 
 .home__header h1 {
-  margin: 0;
-  font-size: 2.5em;
+  margin: 0 0 10px 0;
+  font-size: 3em;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .home__tagline {
-  font-size: 1.2em;
+  font-size: 1.5em;
+  margin: 0 0 20px 0;
+  font-weight: 300;
 }
 
 .home__contact {
   text-align: left;
   color: #fff;
-  margin-top: 15px;
-  font-size: 1em;
+  margin-bottom: 30px;
+  font-size: 1.1em;
 }
 
 .home__contact p {
@@ -47,147 +111,87 @@ body {
 
 .home__contact a {
   color: #fff;
-  text-decoration: none;
-}
-
-.home__contact a:hover {
   text-decoration: underline;
 }
 
+.home__contact a:hover {
+  text-decoration: none;
+}
 
 /* Flex row for resume button and skills */
 .home__resume-skills-row {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 20px;
-  margin-top: 10px;
-  margin-bottom: 0;
+  /* Align to top */
   justify-content: flex-start;
+  /* Align to left */
+  gap: 20px;
   width: 100%;
-  max-width: 100vw;
+  flex-wrap: wrap;
+  /* Allow wrapping */
 }
 
 .home__download-btn {
   padding: 18px 36px;
   font-size: 1.15em;
   font-weight: 600;
-  background-color: #3498db;
+  background-color: #2980b9;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
   display: flex;
   align-items: center;
-  height: auto;
+  justify-content: center;
   min-height: 64px;
+  white-space: nowrap;
 }
 
 .home__download-btn:hover {
   background-color: #2980b9;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  /* Consistent blue */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
 }
 
-  
 .home__skills-inline {
   display: flex;
-  align-items: center;
-  flex: 1 1 0%;
-  width: 100%;
-  min-width: 0;
+  align-items: flex-start;
+  flex: 0 1 auto;
+  /* Allow sizing based on content */
 }
 
-/* Force skills section to be even wider on the home page */
-.home__skills-inline .skills-section__block--blue {
-  max-width: 1100px !important;
-}
-
-/* Make sure the skills section fits nicely next to the button */
-
-
-/* Unify text alignment for header and row */
-.home__header > * {
-  text-align: left;
-}
-
-.home__download-btn:hover {
-  background-color: #2980b9;
-}
-
-/* Media Queries for Responsiveness */
-
-@media (max-width: 1020px) {
-  .home__resume-skills-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
-  }
-  .home__skills-inline .resume__skills-block {
-    min-width: 0;
-    width: 100%;
-  }
-  .home__download-btn {
-    width: 100%;
-    min-height: 48px;
-    font-size: 1.05em;
-    padding: 14px 0;
-  }
-}
-
+/* Media Queries */
 @media (max-width: 768px) {
   .home {
     padding: 20px;
-    align-items: center;
-    text-align: center;
+    /* On mobile, we might want center alignment if user prefers, 
+         but they asked for top-left anchor. We'll stick to left 
+         but ensure it fits. */
   }
-  .home__header {
-    margin-top: 18vh;
-    max-width: 100%;
-  }
+
   .home__header h1 {
-    font-size: 2em;
+    font-size: 2.2em;
   }
+
   .home__tagline {
-    font-size: 1em;
+    font-size: 1.2em;
   }
-  .home__contact {
-    font-size: 0.9em;
-  }
+
   .home__resume-skills-row {
     flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
+    align-items: flex-start;
   }
+
   .home__download-btn {
     width: 100%;
-    margin: 0;
-    min-height: 44px;
-    font-size: 1em;
-    padding: 12px 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .home {
-    padding: 10px;
+    /* Full width buttons on mobile look better */
   }
 
-  .home__header h1 {
-    font-size: 1.5em;
-  }
-
-  .home__tagline {
-    font-size: 0.9em;
-  }
-
-  .home__contact {
-    font-size: 0.8em;
-  }
-
-  .home__download-btn {
-    font-size: 0.9em; /* Slightly smaller button text for tiny screens */
-    padding: 8px 16px;
+  /* Ensure skills block also takes full width if collapsed style matches button */
+  .home__skills-inline {
+    width: 100%;
   }
 }

@@ -6,6 +6,7 @@
   width: 100%;
   margin: 20px 0;
 }
+
 /* Unified skill/tag bubble style for Resume, CodingProjects, and Freelance */
 .skill-tag {
   background-color: #e0e0e0;
@@ -17,6 +18,7 @@
   margin: 2px 4px 2px 0;
   display: inline-block;
 }
+
 /* Unified tag container for skills/tags */
 .skill-tag-container {
   display: flex;
@@ -25,40 +27,55 @@
   justify-content: center;
   margin-top: 10px;
 }
+
 .freelance-container {
-  padding: 20px;
+  padding: 10px;
+  /* Reduced padding */
   font-family: 'Arial', sans-serif;
-  color: #1c2833; /* Darker navy color for text */
+  color: #1c2833;
 }
 
 .freelance-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  /* Reduced margin */
 }
 
 .freelance-header h1 {
-  color: #1c2833; /* Darker navy color for titles */
+  font-size: 1.8rem;
+  /* Smaller font */
+  margin: 0.5rem 0;
+  color: #1c2833;
+}
+
+.freelance-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
 }
 
 .freelance-about,
 .freelance-services,
 .freelance-pricing,
 .freelance-why {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  /* Reduced margin */
 }
 
 .freelance-about h2,
 .freelance-services h2,
 .freelance-pricing h2,
 .freelance-why h2 {
-  color: #1c2833; /* Darker navy color for section titles */
+  color: #1c2833;
+  /* Darker navy color for section titles */
 }
 
 .freelance-about p,
 .freelance-services p,
 .freelance-pricing p,
 .freelance-why p {
-  color: #1c2833; /* Darker navy color for text */
+  color: #1c2833;
+  /* Darker navy color for text */
 }
 
 .freelance-services ul,
@@ -77,21 +94,28 @@
 .freelance-services li strong,
 .freelance-pricing li strong,
 .freelance-why li strong {
-  color: #1c2833; /* Darker navy color for strong text */
+  color: #1c2833;
+  /* Darker navy color for strong text */
 }
 
 /* Removed all custom spacing and formatting for freelance links and contact section */
 .freelance-links {
-    display: block; /* Default block layout */
-    margin: 0; /* Reset margins */
-    padding: 0; /* Reset padding */
+  display: block;
+  /* Default block layout */
+  margin: 0;
+  /* Reset margins */
+  padding: 0;
+  /* Reset padding */
 }
 
 /* Re-adding formatting for freelance logos with small sizing */
 .freelance-links img {
-    width: 75px; /* Small size for logos */
-    height: auto; /* Maintain aspect ratio */
-    margin: 5px; /* Add slight spacing around logos */
+  width: 75px;
+  /* Small size for logos */
+  height: auto;
+  /* Maintain aspect ratio */
+  margin: 5px;
+  /* Add slight spacing around logos */
 }
 
 .freelance-pricing {
@@ -113,25 +137,30 @@
 
 /* Center project cards and reduce spacing */
 .projects-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px; /* Reduce space between project cards */
-    justify-content: center; /* Center the cards */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  /* Reduced space */
+  justify-content: center;
 }
 
 /* Adjust project cards to fit content size */
 .project-card {
-    flex: 0 1 auto; /* Allow cards to size based on their content */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-    padding: 20px; /* Add padding inside the card */
-    border-radius: 10px; /* Rounded corners */
-    background-color: #fff; /* White background */
-    text-align: center; /* Center-align text */
+  flex: 0 1 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  /* Reduced padding */
+  border-radius: 8px;
+  background-color: #fff;
+  text-align: center;
+  max-width: 100%;
+  /* Ensure it doesn't overflow */
 }
 
 /* Adjust project/company names to be slightly smaller than the project title */
 .project-card h3 {
-    font-size: 1.8rem; /* Slightly smaller font size for company names */
-    font-weight: bold; /* Emphasize the company names */
-    margin-bottom: 10px; /* Keep space below company name */
+  font-size: 1.4rem;
+  /* Smaller font size */
+  font-weight: bold;
+  margin-bottom: 6px;
 }

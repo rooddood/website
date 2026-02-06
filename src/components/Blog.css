@@ -17,7 +17,8 @@
 
 .blog-main {
   flex: 1;
-  padding: 1.2rem 0 0.5rem 0;
+  padding: 0.5rem 0 0.5rem 0;
+  /* Reduced top padding */
   max-width: 800px;
   margin: 0 auto;
 }
@@ -25,6 +26,8 @@
 .blog-title {
   text-align: center;
   margin-bottom: 0.3rem;
+  margin-top: 0;
+  /* Remove top margin */
 }
 
 .blog-letterboxd-link {
@@ -207,24 +210,24 @@
   .blog-container {
     flex-direction: column;
   }
-  
+
   .blog-sidebar {
     width: 100%;
     height: auto;
     position: relative;
     padding: 1rem;
   }
-  
+
   .blog-main {
     padding: 1rem;
   }
-  
+
   .tags-container {
     gap: 0.3rem;
   }
-  
+
   .tag-button {
     padding: 0.3rem 0.6rem;
     font-size: 0.8rem;
   }
-} 
+}
