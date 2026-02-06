@@ -20,12 +20,11 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <NavBar /> {/* Include NavBar component here */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Home page at / and /website*/}
-          <Route path="/website/" element={<Home />} /> {/* Always need to start here for some reason*/}
           <Route path="/resume" element={<Resume />} />
           <Route path="/freelance" element={<Freelance />} />
           <Route path="/projects" element={<CodingProjects />} />
