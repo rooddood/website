@@ -33,59 +33,66 @@
   margin: 0 0 12px;
   letter-spacing: 1px;
 
-.resume__skills--sections-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin: 0;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
+  .resume__skills--sections-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 }
 
 .resume__section--top {
   display: flex;
-.resume__skills-section {
-  margin: 0 18px 0 0;
-  padding: 0;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  min-width: 0;
-}
+
+  .resume__skills-section {
+    margin: 0 18px 0 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    min-width: 0;
+  }
+
   flex-direction: row;
   gap: 40px;
 
-/* Unified skill/tag bubble style for Resume, CodingProjects, and Freelance */
-.skill-tag {
-  background-color: #e0e0e0;
-  border-radius: 5px;
-.resume__skills-section-label {
-  font-weight: 700;
-  color: #1c5a85; /* Standard navy blue */
-  font-size: 0.98em;
-  margin: 0 6px 0 0;
-  padding: 0;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-}
-  padding: 5px 10px;
-  font-size: 0.7em;
-  color: #1c2833;
-  border: 1px solid #ccc;
-  margin: 2px 4px 2px 0;
-  display: inline-block;
-}
-.resume__skills-section-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px;
-  margin: 0;
-  align-items: center;
-  font-size: 0.93em;
-}
+  /* Unified skill/tag bubble style for Resume, CodingProjects, and Freelance */
+  .skill-tag {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+
+    .resume__skills-section-label {
+      font-weight: 700;
+      color: #1c5a85;
+      /* Standard navy blue */
+      font-size: 0.98em;
+      margin: 0 6px 0 0;
+      padding: 0;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+    }
+
+    padding: 5px 10px;
+    font-size: 0.7em;
+    color: #1c2833;
+    border: 1px solid #ccc;
+    margin: 2px 4px 2px 0;
+    display: inline-block;
+  }
+
+  .resume__skills-section-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: 0;
+    align-items: center;
+    font-size: 0.93em;
+  }
+
   justify-content: space-between;
   align-items: stretch;
   background: none;
@@ -94,20 +101,23 @@
   padding: 0;
 }
 
-.resume__skills-block, .resume__about-block {
+.resume__skills-block,
+.resume__about-block {
   background: #ecf0f1;
   border: 2px solid #2980b9;
-.skill-tag {
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  padding: 2px 7px;
-  font-size: 0.92em;
-  color: #1c2833;
-  border: 1px solid #ccc;
-  margin: 1px 2px 1px 0;
-  display: inline-block;
-  line-height: 1.1;
-}
+
+  .skill-tag {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 0.92em;
+    color: #1c2833;
+    border: 1px solid #ccc;
+    margin: 1px 2px 1px 0;
+    display: inline-block;
+    line-height: 1.1;
+  }
+
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   padding: 18px 24px;
@@ -183,7 +193,7 @@
 .resume__timeline-content {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(44,62,80,0.07);
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.07);
   padding: 16px 20px;
   border-left: 4px solid #2980b9;
 }
@@ -208,6 +218,7 @@
   margin-right: 12px;
   text-align: right;
 }
+
 .resume__timeline-content-wrapper--right {
   margin-left: 12px;
   text-align: left;
@@ -358,26 +369,34 @@
     flex-direction: column;
     gap: 10px;
   }
+
   .resume__timeline-content-wrapper--compressed {
     max-width: 100%;
     min-width: 0;
   }
+
   .resume__timeline-horizontal-label {
     width: 90px;
     font-size: 0.92em;
   }
+
   .resume__timeline-horizontal-label.below {
     top: 60px;
   }
+
   .resume__timeline-horizontal-wrapper {
     min-height: 160px;
     padding-bottom: 40px;
   }
+
   .resume__timeline-horizontal-label.above {
-    top: calc(50% - 150px); /* Even further above the line */
+    top: calc(50% - 150px);
+    /* Even further above the line */
   }
+
   .resume__timeline-horizontal-label.below {
-    top: calc(50% + 28px); /* Even closer to the line */
+    top: calc(50% + 28px);
+    /* Even closer to the line */
   }
 }
 
@@ -386,29 +405,40 @@
     font-size: 12px;
     gap: 6px;
   }
+
   .resume__section--compressed {
     padding: 6px 2vw;
   }
+
   .resume__timeline-content-wrapper--compressed {
     margin-left: 0;
     margin-right: 0;
     min-width: 0;
     max-width: 100%;
   }
+
   .resume__timeline-content-wrapper--left,
   .resume__timeline-content-wrapper--right {
     margin-left: 0;
     margin-right: 0;
     text-align: left;
   }
+
   .resume__timeline-horizontal-wrapper {
     min-height: 90px;
     padding-bottom: 30px;
+    overflow-x: auto;
+    /* Allow horizontal scrolling on mobile */
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* Ensure content doesn't wrap */
   }
+
   .resume__timeline-horizontal-label {
     width: 70px;
     font-size: 0.85em;
   }
+
   .resume__timeline-horizontal-label.below {
     top: 44px;
   }
@@ -423,7 +453,7 @@
   margin-left: 90px;
   min-width: 260px;
   max-width: 420px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
   position: absolute;
   left: 100%;
   top: 50%;
@@ -482,7 +512,7 @@
 .resume__timeline-content {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(44,62,80,0.07);
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.07);
   padding: 16px 20px;
   border-left: 4px solid #2980b9;
 }
@@ -498,7 +528,8 @@
 .resume__timeline-horizontal-wrapper {
   position: relative;
   width: 100%;
-  min-height: 220px; /* Increased height for more vertical space */
+  min-height: 220px;
+  /* Increased height for more vertical space */
   margin: 32px 0 0 0;
   padding-bottom: 60px;
 }
@@ -562,11 +593,13 @@
 }
 
 .resume__timeline-horizontal-label.above {
-  top: calc(50% - 150px); /* Even further above the line */
+  top: calc(50% - 150px);
+  /* Even further above the line */
 }
 
 .resume__timeline-horizontal-label.below {
-  top: calc(50% + 28px); /* Even closer to the line */
+  top: calc(50% + 28px);
+  /* Even closer to the line */
 }
 
 .resume__timeline-date-compressed {
@@ -581,19 +614,24 @@
     width: 65px;
     font-size: 0.88em;
   }
+
   .resume__timeline-horizontal-label.above {
     top: calc(50% - 90px);
   }
+
   .resume__timeline-horizontal-label.below {
     top: calc(50% + 8px);
   }
+
   .resume__timeline-horizontal-wrapper {
     min-height: 160px;
     padding-bottom: 40px;
   }
+
   .resume__timeline-horizontal-label.above {
     top: calc(50% - 90px);
   }
+
   .resume__timeline-horizontal-label.below {
     top: calc(50% + 8px);
   }
@@ -604,9 +642,11 @@
     min-height: 110px;
     padding-bottom: 24px;
   }
+
   .resume__timeline-horizontal-label.above {
     top: calc(50% - 48px);
   }
+
   .resume__timeline-horizontal-label.below {
     top: calc(50% + 2px);
   }

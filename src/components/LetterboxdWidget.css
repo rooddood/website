@@ -14,9 +14,10 @@
 }
 
 .lb-embed-card-horizontal {
-  width: 140px;
-  min-width: 140px;
-  max-width: 140px;
+  width: 110px;
+  /* Reduced width */
+  min-width: 110px;
+  max-width: 110px;
   /* ...existing card styles... */
 }
 
@@ -41,7 +42,7 @@
   display: block;
   margin: 0 auto 1em auto;
   border-radius: 8px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
 .lb-modal-title {
@@ -51,6 +52,7 @@
   text-align: center;
   word-break: break-word;
 }
+
 /* Horizontal scroll widget styles */
 .lb-horizontal-scroll {
   width: 100vw;
@@ -63,7 +65,8 @@
   display: flex;
   flex-direction: row;
   gap: 1.2rem;
-  padding: 1.5rem 12px 1.5rem 12px; /* Add small margin on both sides */
+  padding: 1.5rem 12px 1.5rem 12px;
+  /* Add small margin on both sides */
   box-sizing: border-box;
   background: none;
 }
@@ -74,7 +77,7 @@
   align-items: center;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   min-width: 180px;
   max-width: 180px;
   margin: 0;
@@ -83,21 +86,27 @@
   outline: none;
   border: 2px solid transparent;
 }
-.lb-embed-card-horizontal:focus, .lb-embed-card-horizontal:hover {
+
+.lb-embed-card-horizontal:focus,
+.lb-embed-card-horizontal:hover {
   transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
   border: 2px solid #2d2d3a;
 }
+
 .lb-embed-poster {
   width: 100%;
-  height: 260px;
+  height: 165px;
+  /* Reduced height */
   object-fit: cover;
   border-radius: 8px 8px 0 0;
   background: #eee;
 }
+
 .lb-embed-no-poster {
   width: 100%;
-  height: 260px;
+  height: 165px;
+  /* Reduced height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,6 +115,7 @@
   font-size: 1.1em;
   border-radius: 8px 8px 0 0;
 }
+
 .lb-embed-movie-title {
   font-weight: 600;
   font-size: 1.05em;
@@ -113,17 +123,20 @@
   text-align: center;
   color: #222;
 }
+
 .lb-embed-movie-year {
   color: #888;
   font-weight: 400;
   font-size: 0.95em;
 }
+
 .lb-embed-rating {
   color: #e3b505;
   font-size: 1.1em;
   margin-bottom: 0.5em;
   text-align: center;
 }
+
 /* Netflix-style grid for full-width responsive layout */
 .lb-embed-grid {
   display: grid;
@@ -140,7 +153,7 @@
 .lb-embed-card-grid {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -150,6 +163,7 @@
   transition: box-shadow 0.2s, border 0.2s;
   min-height: 320px;
 }
+
 .lb-embed-card-grid:focus {
   outline: 2px solid #2d2d3a;
 }
@@ -162,6 +176,7 @@
   max-height: 260px;
   min-height: 260px;
 }
+
 .lb-embed-no-poster {
   width: 100%;
   height: 260px;
@@ -174,16 +189,19 @@
   color: #aaa;
   font-size: 1.1em;
 }
+
 .lb-embed-movie-title {
   font-weight: 700;
   font-size: 1em;
   margin-bottom: 2px;
   text-align: center;
 }
+
 .lb-embed-movie-year {
   color: #7a7a8c;
   font-weight: 400;
 }
+
 .lb-embed-rating {
   color: #f5b50a;
   font-weight: 600;
@@ -197,22 +215,24 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0, 0, 0, 0.65);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .lb-modal-content {
   background: #fff;
   border-radius: 20px;
   max-width: 420px;
   width: 90vw;
   padding: 2rem 1.5rem 1.5rem 1.5rem;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
   position: relative;
   z-index: 1001;
 }
+
 .lb-modal-close {
   position: absolute;
   top: 12px;
@@ -224,6 +244,7 @@
   cursor: pointer;
   z-index: 1002;
 }
+
 .lb-modal-poster {
   width: 100%;
   border-radius: 12px;
@@ -231,6 +252,7 @@
   object-fit: cover;
   max-height: 340px;
 }
+
 .lb-modal-no-poster {
   width: 100%;
   height: 340px;
@@ -243,38 +265,48 @@
   color: #aaa;
   font-size: 1.1em;
 }
+
 .lb-modal-title {
   font-weight: 700;
   font-size: 1.2em;
   margin-bottom: 2px;
 }
+
 .lb-modal-year {
   color: #7a7a8c;
   font-weight: 400;
 }
+
 .lb-modal-date {
   font-size: 0.95em;
   color: #7a7a8c;
   margin-bottom: 4px;
 }
+
 .lb-modal-link a {
   color: #2d2d3a;
   text-decoration: underline;
 }
+
 .lb-modal-rating {
   color: #f5b50a;
   font-weight: 600;
   margin-bottom: 2px;
 }
-.lb-modal-rewatch, .lb-modal-watched, .lb-modal-tags {
+
+.lb-modal-rewatch,
+.lb-modal-watched,
+.lb-modal-tags {
   color: #2d2d3a;
   font-size: 0.95em;
   margin-bottom: 2px;
 }
+
 .lb-modal-tags {
   color: #7a7a8c;
   font-size: 0.9em;
 }
+
 .lb-modal-review {
   margin-top: 8px;
   font-size: 1em;
@@ -289,17 +321,20 @@
   padding: 0 2vw 1vw 2vw;
   text-align: right;
 }
+
 .letterboxd-substack-link a {
   color: #2d2d3a;
   text-decoration: underline;
   font-weight: 600;
   font-size: 1.1em;
 }
+
 .letterboxd-status {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2vw;
 }
+
 .letterboxd-error {
   color: red;
 }
@@ -312,6 +347,7 @@
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
+
 .lb-embed-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -323,25 +359,29 @@
   box-sizing: border-box;
   background: none;
 }
+
 @media (max-width: 1200px) {
   .lb-embed-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 @media (max-width: 800px) {
   .lb-embed-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (max-width: 500px) {
   .lb-embed-grid {
     grid-template-columns: 1fr;
   }
 }
+
 .lb-embed-card-grid {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -351,9 +391,11 @@
   transition: box-shadow 0.2s, border 0.2s;
   min-height: 320px;
 }
+
 .lb-embed-card-grid:focus {
   outline: 2px solid #2d2d3a;
 }
+
 .lb-embed-poster {
   width: 100%;
   border-radius: 12px;
@@ -362,6 +404,7 @@
   max-height: 260px;
   min-height: 260px;
 }
+
 .lb-embed-no-poster {
   width: 100%;
   height: 260px;
@@ -374,43 +417,49 @@
   color: #aaa;
   font-size: 1.1em;
 }
+
 .lb-embed-movie-title {
   font-weight: 700;
   font-size: 1em;
   margin-bottom: 2px;
   text-align: center;
 }
+
 .lb-embed-movie-year {
   color: #7a7a8c;
   font-weight: 400;
 }
+
 .lb-embed-rating {
   color: #f5b50a;
   font-weight: 600;
   margin-bottom: 2px;
 }
+
 .lb-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0, 0, 0, 0.65);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .lb-modal-content {
   background: #fff;
   border-radius: 20px;
   max-width: 420px;
   width: 90vw;
   padding: 2rem 1.5rem 1.5rem 1.5rem;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
   position: relative;
   z-index: 1001;
 }
+
 .lb-modal-close {
   position: absolute;
   top: 12px;
@@ -422,6 +471,7 @@
   cursor: pointer;
   z-index: 1002;
 }
+
 .lb-modal-poster {
   width: 100%;
   border-radius: 12px;
@@ -429,6 +479,7 @@
   object-fit: cover;
   max-height: 340px;
 }
+
 .lb-modal-no-poster {
   width: 100%;
   height: 340px;
@@ -441,67 +492,114 @@
   color: #aaa;
   font-size: 1.1em;
 }
+
 .lb-modal-title {
   font-weight: 700;
   font-size: 1.2em;
   margin-bottom: 2px;
 }
+
 .lb-modal-year {
   color: #7a7a8c;
   font-weight: 400;
 }
+
 .lb-modal-date {
   font-size: 0.95em;
   color: #7a7a8c;
   margin-bottom: 4px;
 }
+
 .lb-modal-link a {
   color: #2d2d3a;
   text-decoration: underline;
 }
+
 .lb-modal-rating {
   color: #f5b50a;
   font-weight: 600;
   margin-bottom: 2px;
 }
-.lb-modal-rewatch, .lb-modal-watched, .lb-modal-tags {
+
+.lb-modal-rewatch,
+.lb-modal-watched,
+.lb-modal-tags {
   color: #2d2d3a;
   font-size: 0.95em;
   margin-bottom: 2px;
 }
+
 .lb-modal-tags {
   color: #7a7a8c;
   font-size: 0.9em;
 }
+
 .lb-modal-review {
   margin-top: 8px;
   font-size: 1em;
   color: #444;
   margin-bottom: 2px;
 }
+
 .letterboxd-substack-link {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2vw 1vw 2vw;
   text-align: right;
 }
+
 .letterboxd-substack-link a {
   color: #2d2d3a;
   text-decoration: underline;
   font-weight: 600;
   font-size: 1.1em;
 }
+
 .letterboxd-status {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2vw;
 }
+
 .letterboxd-error {
   color: red;
 }
+
 .letterboxd-embed-caption {
   text-align: center;
   font-size: 0.9rem;
   color: #666;
   margin-top: 0.3rem;
+}
+
+/* Mobile adjustments for posters */
+@media (max-width: 600px) {
+  .lb-embed-card-horizontal {
+    width: 85px;
+    /* Significantly reduced */
+    min-width: 85px;
+    max-width: 85px;
+  }
+
+  .lb-embed-poster,
+  .lb-embed-no-poster {
+    height: 125px;
+    /* Reduced height */
+  }
+
+  .lb-embed-movie-title {
+    font-size: 0.85rem;
+    /* Smaller title */
+  }
+
+  .lb-embed-rating {
+    font-size: 0.9rem;
+  }
+
+  .lb-horizontal-scroll {
+    gap: 0.8rem;
+    /* Tighter gap */
+    padding: 1rem 8px;
+    /* Less padding */
+  }
 }

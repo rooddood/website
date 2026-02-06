@@ -5,10 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import Home from './components/Home';
-import Photography from './components/Photography';
 import Clothing from './components/Clothing';
 import Cooking from './components/Cooking';
-import Writing from './components/Writing';
 import Meme from './components/Meme';
 import Shops from './components/Shops';
 import LitVids from './components/LitVids';
@@ -31,10 +29,8 @@ function App() {
           <Route path="/resume" element={<Resume />} />
           <Route path="/freelance" element={<Freelance />} />
           <Route path="/projects" element={<CodingProjects />} />
-          <Route path="/photography" element={<Photography />} />
           <Route path="/clothing" element={<Clothing />} />
           <Route path="/cooking" element={<Cooking />} />
-          <Route path="/writing" element={<Writing />} />
           <Route path="/meme" element={<Meme />} />
           <Route path="/shops" element={<Shops />} />
           <Route path="/litvids" element={<LitVids />} />
