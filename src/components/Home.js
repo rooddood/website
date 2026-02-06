@@ -21,6 +21,16 @@ const Home = () => {
     return () => clearInterval(intervalId);
   }, [images.length]);
 
+  // Hide scrollbar on mount, restore on unmount
+  React.useEffect(() => {
+    // Save original style
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   const handleDownload = () => {
     const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_25.pdf';
     window.open(resumePath, '_blank');

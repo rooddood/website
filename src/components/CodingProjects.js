@@ -10,10 +10,10 @@ const CodingProjects = () => {
             description: (
                 <>
                     <div className="project-logo">
-                        <img 
-                            src={`${process.env.PUBLIC_URL}/images/voicescribe.png`} 
-                            alt="Script Writing App Logo" 
-                            style={{ display: 'block', margin: '0 auto', maxWidth: '200px' }} 
+                        <img
+                            src={`${process.env.PUBLIC_URL}/images/voicescribe.png`}
+                            alt="Script Writing App Logo"
+                            style={{ display: 'block', margin: '0 auto', maxWidth: '200px' }}
                         />
                     </div>
                     <p>This is an ongoing project that focuses on leveraging local AI models to assist users in script writing by converting voice input into formatted text.</p>
@@ -57,7 +57,7 @@ const CodingProjects = () => {
                         <li>Connects to popular databases for up-to-date suggestions</li>
                     </ul>
                     <h5>Demo Video</h5>
-                    <div style={{textAlign: 'center'}}>
+                    <div style={{ textAlign: 'center' }}>
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/aDI4ZdjhDLE" title="FlickPick Demo" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                     </div>
                     <h5>GitHub Repository</h5>
@@ -156,16 +156,13 @@ const CodingProjects = () => {
             </header>
             <section className="coding-projects-list">
                 {projects.slice(0, 6).map((project, index) => {
-                    // Two rows of three
-                    const gridRow = index < 3 ? 1 : 2;
-                    const gridColumn = (index % 3) + 1;
                     const isComingSoon = project.comingSoon;
                     return (
                         <div
                             key={index}
                             className={`project-card${expandedProject === index && !isComingSoon ? ' expanded' : ''}${isComingSoon ? ' coming-soon' : ''}`}
                             onClick={isComingSoon ? undefined : (e) => { e.stopPropagation(); handleExpand(index); }}
-                            style={{ gridRow, gridColumn, cursor: isComingSoon ? 'default' : 'pointer', opacity: isComingSoon ? 0.7 : 1 }}
+                            style={{ cursor: isComingSoon ? 'default' : 'pointer', opacity: isComingSoon ? 0.7 : 1 }}
                         >
                             <h3>{project.title}</h3>
                             <div className="skill-tag-container">
