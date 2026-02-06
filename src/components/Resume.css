@@ -697,14 +697,98 @@
   margin-bottom: 2px;
 }
 
-.resume__skills-bubble {
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  padding: 5px 12px;
-  font-size: 0.85em;
-  color: #1c2833;
-  border: 1px solid #ccc;
+
+/* --- Mobile Vertical List Styles --- */
+
+/* Initially hide mobile list */
+.resume__section--mobile-list {
+  display: none !important;
+  background-color: #ecf0f1;
+  border: 2px solid #2980b9;
+  border-radius: 10px;
+  padding: 18px 24px;
+}
+
+.resume__mobile-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.resume__mobile-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.resume__mobile-card-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: #fdfdfd;
+  transition: background 0.2s;
+}
+
+.resume__mobile-card-header:hover {
+  background: #f4f7f9;
+}
+
+.resume__mobile-card-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resume__mobile-jobtitle {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.05em;
+}
+
+.resume__mobile-company {
+  font-size: 0.95em;
+  color: #555;
   font-weight: 500;
-  display: inline-block;
-  margin-bottom: 2px;
+}
+
+.resume__mobile-date {
+  font-size: 0.85em;
+  color: #2980b9;
+  font-style: italic;
+}
+
+.resume__mobile-card-content {
+  padding: 0 16px 16px 16px;
+  border-top: 1px solid #eee;
+  margin-top: 0;
+  padding-top: 12px;
+}
+
+/* --- Media Queries for Layout Switching --- */
+
+/* On mobile (max-width: 900px to match existing breakpoint, or 768px?)
+   The user specifically asked for mobile. 768px is improved standard mobile vertical.
+   Let's check the existing breakpoints. They used 900px for responsive timeline tweaks.
+   Let's switch to vertical at 900px or even 1000px if the timeline gets too crowded.
+   Existing queries use 900px. Let's use 768px for the HARD switch to vertical list.
+*/
+
+@media (max-width: 768px) {
+
+  /* Hide Desktop Timeline */
+  .resume__desktop-only {
+    display: none !important;
+  }
+
+  /* Show Mobile List */
+  .resume__section--mobile-list {
+    display: block !important;
+    padding: 12px 14px;
+    /* Reduced padding for mobile */
+  }
 }

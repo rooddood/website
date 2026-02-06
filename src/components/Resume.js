@@ -329,8 +329,8 @@ const Resume = () => {
         </div>
       </div>
 
-      {/* Horizontal Timeline */}
-      <div className="resume__section resume__section--timeline resume__section--compressed">
+      {/* Horizontal Timeline (Desktop Only) */}
+      <div className="resume__section resume__section--timeline resume__section--compressed resume__desktop-only">
         <h2 className="resume__timeline-header--compressed">Experience Timeline</h2>
         <div className="resume__timeline-horizontal-wrapper">
           {/* Timeline years */}
@@ -475,6 +475,52 @@ const Resume = () => {
                   </div>
                 )}
               </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Vertical List (Mobile Only) */}
+      <div className="resume__section resume__section--mobile-list">
+        <h2 className="resume__timeline-header--compressed">Experience</h2>
+        <div className="resume__mobile-list-container">
+          {experiences.map((exp, originalIdx) => {
+            // Find the sorted index if we need to sync state, but for mobile we can just use the original index directly
+            // since openExperiences is indexed by original index.
+            // We need to find the `sortedIdx` that maps to `originalIdx` to toggle correctly if we reused `toggleExperience(sortedIdx)`.
+            // But `toggleExperience` takes `idx` (index in sortedExperiences) and converts it.
+            // Let's make a direct toggle helper or find the sorted index.
+            const sortedIdx = sortedExperiences.findIndex(s => s === exp);
+
+            return (
+              <div key={originalIdx} className="resume__mobile-card">
+                <div
+                  className="resume__mobile-card-header"
+                  onClick={() => toggleExperience(sortedIdx)}
+                >
+                  <div className="resume__mobile-card-title-group">
+                    <span className="resume__mobile-jobtitle">{exp.jobTitle}</span>
+                    <span className="resume__mobile-company">{exp.company}</span>
+                    <span className="resume__mobile-date">{exp.date}</span>
+                  </div>
+                  <button className="resume__toggle-btn resume__toggle-btn--compressed">
+                    {openExperiences[originalIdx] ? '−' : '+'}
+                  </button>
+                </div>
+
+                {openExperiences[originalIdx] && (
+                  <div className="resume__mobile-card-content">
+                    <div className="resume__timeline-desc resume__timeline-desc--compressed">{exp.description}</div>
+                    {exp.details && (
+                      <div className="resume__timeline-details resume__timeline-details--compressed">
+                        {exp.details.map((d, i) => (
+                          <span className="skill-tag" key={i}>{d}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
