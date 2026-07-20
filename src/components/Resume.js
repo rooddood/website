@@ -229,7 +229,7 @@ const Resume = () => {
 
   // Download Resume handler (from Home.js)
   const handleDownload = () => {
-    const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_25.pdf';
+    const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_Whole_2026.pdf';
     window.open(resumePath, '_blank');
   };
 
@@ -271,7 +271,7 @@ const Resume = () => {
     // Measure heights after render
     const heights = labelRefs.current.map(ref => ref ? ref.offsetHeight : 0);
     setLabelHeights(heights);
-  }, [openExperiences, sortedExperiences]);
+  }, [openExperiences]);
   // --- End: Dynamic label spacing logic ---
 
   return (

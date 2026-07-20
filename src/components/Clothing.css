@@ -1,210 +1,122 @@
+/* Clothing.css */
 .clothing {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
-  /* Reduce overall padding */
+  padding: 40px 20px;
   text-align: center;
-  /* Center align content */
+  min-height: calc(100vh - 70px);
+  color: var(--text-color, #f5f5f5);
+}
+
+.clothing-header {
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.clothing h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: var(--accent-color, #2980b9);
 }
 
 .profile-header {
   display: flex;
-  flex-direction: column;
-  /* Stack items vertically */
-  align-items: center;
-  /* Center align items horizontally */
-  margin-bottom: 10px;
-  /* Reduce spacing below the profile picture */
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .profile-picture {
-  width: 120px;
-  /* Adjust size as needed */
-  height: 120px;
-  /* Adjust size as needed */
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  margin-bottom: 10px;
-  /* Reduce spacing below the profile picture */
+  object-fit: cover;
+  border: 4px solid var(--accent-color, #2980b9);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
-.profile-username {
-  font-size: 24px;
-  color: #333;
-  margin: 0;
-}
-
-.intro-text {
-  margin-bottom: 20px;
-  font-size: 18px;
-  /* Increase font size for better readability */
+.clothing-intro p {
+  font-size: 1.15em;
   line-height: 1.6;
-  /* Add line height for better spacing */
-}
-
-.depop-link {
-  margin-top: 40px;
-  /* Adjust spacing */
-  text-align: center;
-}
-
-.depop-link a {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.depop-link a:hover {
-  background-color: #0056b3;
-}
-
-.custom-work,
-.big-ticket-items {
-  margin-top: 40px;
-  /* Adjust spacing */
-}
-
-.custom-item,
-.big-ticket-item {
-  background: #f1f1f1;
-  margin: 10px 0;
-  padding: 20px;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.custom-item:hover,
-.big-ticket-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #ccc;
 }
 
 .links-section {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
-  /* Reduce gap between sections */
-  align-items: flex-start;
-  /* Align items at the top */
+  gap: 30px;
+  width: 100%;
+  max-width: 800px;
 }
 
-.depop-section,
-.venmo-section {
-  text-align: center;
-  max-width: 280px;
-  /* Slightly reduce max width */
+.link-card {
+  background-color: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 12px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 200px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.depop-section h3,
-.venmo-section h3 {
-  margin-bottom: 5px;
-  /* Reduce spacing below titles */
+.link-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-.depop-section .username {
-  margin: 3px 0;
-  /* Reduce spacing around Depop username */
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-}
-
-.depop-section .logo {
-  max-width: 120px;
-  /* Increase size to match Venmo logo */
-}
-
-.venmo-section p {
-  margin: 3px 0;
-  /* Reduce spacing around Venmo text */
-  font-size: 16px;
-  color: #333;
-}
-
-.qr-code {
-  width: 100%;
-  max-width: 140px;
-  /* Slightly reduce QR code size */
-  height: auto;
-  margin: 8px 0;
-  /* Reduce spacing around QR codes */
+.logo-container {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
 .logo {
-  width: 100%;
-  max-width: 100px;
-  /* Ensure both logos are the same size */
-  height: auto;
-  margin-top: 8px;
-  /* Reduce spacing above logos */
+  max-width: 120px;
+  max-height: 100%;
+  object-fit: contain;
+  /* Add invert filter if logo is dark, assuming they might need it in dark mode.
+     For now, just a slight brightness boost if needed, but logos are usually colorful. */
 }
 
-
-.depop-section .logo {
-  max-width: 150px;
-  /* Larger Depop logo */
-  height: auto;
-  margin-top: 8px;
+/* Adjust Venmo logo slightly if it's too bright or dark */
+.venmo-card .logo {
+  max-width: 100px; /* Even sizes visually */
 }
 
-.venmo-section .logo {
-  max-width: 90px;
-  /* Smaller Venmo logo */
-  height: auto;
-  margin-top: 8px;
-}
-
-.depop-section .username,
-.venmo-section p {
-  margin: 3px 0;
-  /* Reduce spacing around account handles */
-  font-size: 16px;
-  color: #333;
+.username {
+  font-size: 1.1em;
   font-weight: 600;
-  /* Make bold but not as bold as titles */
+  margin: 0;
+  color: var(--text-color, #f5f5f5);
+}
+
+.depop-card:hover .username {
+  color: #e02d2d; /* Depop red */
+}
+
+.venmo-card:hover .username {
+  color: #3396cd; /* Venmo blue */
 }
 
 @media (max-width: 768px) {
-  .clothing {
-    padding: 8px;
+  .link-card {
+    width: 160px;
+    padding: 20px;
   }
-
-  .links-section {
-    flex-wrap: wrap;
-    /* Allow wrapping on very small screens if needed, or keep nowrap if side-by-side preference */
-    gap: 10px;
-    justify-content: center;
-    /* Center them */
+  
+  .logo-container {
+    height: 60px;
   }
-
-  .depop-section,
-  .venmo-section {
-    max-width: 160px;
-    /* Fixed width for consistency */
-    flex: 1 1 140px;
-    /* Allow shrinking/growing */
-  }
-
-  .qr-code {
+  
+  .logo {
     max-width: 100px;
-  }
-
-  .depop-section .logo {
-    max-width: 110px;
-    /* Larger Depop logo on mobile */
-  }
-
-  .venmo-section .logo {
-    max-width: 72px;
-    /* Slightly larger Venmo logo on mobile (was 65px) */
-    /* Smaller Venmo logo on mobile */
   }
 }

@@ -1,106 +1,62 @@
 import React, { useState } from "react";
 import "./SkillsSection.css";
 
-// The skillsSections array is imported or duplicated from Resume.js for now
-const skillsSections = [
-  {
-    label: "Languages & Technologies",
-    items: [
-      "Python", "React", "Next.JS", "Angular", "HTML/CSS", "Java", "Unity", "Unreal Engine"
-    ]
-  },
-  {
-    label: "GenAI & Agents",
-    items: [
-      "Multi-Agent Orchestration (MCP/pydantic-AI)", "Prompt Engineering", "RAG Systems", "LLM fine tuning"
-    ]
-  },
-  {
-    label: "Large Language Models (LLMs)",
-    items: [
-      "Gemini", "Anthropic Claude", "GPT", "HuggingFace", "LangChain"
-    ]
-  },
-  {
-    label: "Core ML/AI",
-    items: [
-      "Natural Language Processing (NLP)", "Computer Vision", "Model Fine-Tuning", "Sentiment + Topic Modeling"
-    ]
-  },
-  {
-    label: "AI Models",
-    items: [
-      "BERT", "Whisper", "DeepSeek"
-    ]
-  },
-  {
-    label: "Data & Databases",
-    items: [
-      "ETL Pipelines", "Vector Databases (DocumentDB)", "NoSQL (MongoDB)", "data ingestion/scraping"
-    ]
-  },
-  {
-    label: "Cloud & DevOps",
-    items: [
-      "Git/GitHub Workflows (CI/CD)", "Docker", "AWS (Lambda, EC2, CodePipeline, etc.)", "GCP"
-    ]
-  },
-  {
-    label: "Certifications",
-    items: [
-      "Sustainability Minor", "SCRUM Master Certified"
-    ]
-  },
-  {
-    label: "Creativity",
-    items: [
-      "Film Photography", "Creative writing (novel and script)"
-    ]
-  },
-  {
-    label: "Solving Problems",
-    items: [
-      "Designing + implementing recipes (cooking)", "Making + selling clothes online + in person"
-    ]
-  },
-  {
-    label: "Community",
-    items: [
-      "Volunteer 3-5 hours per week at local recycling center, saving 50+ lbs. from the dump every day"
-    ]
-  }
+const allSkills = [
+  "Python", "React", "Next.JS", "Angular", "HTML/CSS", "Java", "Unity", "Unreal Engine",
+  "Multi-Agent Orchestration", "MCP", "pydantic-AI", "Prompt Engineering", "RAG Systems", "LLM fine tuning",
+  "Gemini", "Anthropic Claude", "GPT", "HuggingFace", "LangChain",
+  "Natural Language Processing (NLP)", "Computer Vision", "Sentiment + Topic Modeling",
+  "BERT", "Whisper", "DeepSeek",
+  "ETL Pipelines", "Vector Databases", "NoSQL (MongoDB)", "data ingestion",
+  "Git/GitHub", "CI/CD", "Docker", "AWS", "GCP",
+  "Film Photography", "Creative Writing", "Script Writing", "Video Production", "Novel Writing", "Fashion Design"
 ];
 
+// Skills to permanently emphasize
+const emphasizedSkills = ["Creative Writing", "Script Writing", "Video Production", "Novel Writing", "Fashion Design", "Film Photography", "Python", "React", "AI Agents"];
 
-const SkillsSection = ({ defaultExpanded = true, blue = false }) => {
-  const [showSkills, setShowSkills] = useState(defaultExpanded);
-  const collapsed = blue && !showSkills;
+// Helper to deterministically assign a size class based on string length and index
+const getSizeClass = (skill, index) => {
+  if (emphasizedSkills.includes(skill)) return "skills-cloud__tag--large";
+  const hash = skill.length + index;
+  if (hash % 5 === 0) return "skills-cloud__tag--large";
+  if (hash % 3 === 0) return "skills-cloud__tag--medium";
+  return "skills-cloud__tag--small";
+};
+
+const SkillsSection = ({ defaultExpanded = false, blue = false }) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className={`skills-section__block${blue ? ' skills-section__block--blue' : ''}${collapsed ? ' skills-section__block--collapsed' : ''}`}>
-      <div className={`skills-section__header${collapsed ? ' skills-section__header--centered' : ''}`} onClick={() => setShowSkills((v) => !v)}>
-        <h2
-          className={blue ? 'skills-section__title--blue' : ''}
-          style={collapsed ? { margin: 0, fontSize: '1.25em', width: '100%', textAlign: 'center', fontWeight: 600, letterSpacing: '0.5px' } : {}}
-        >
-          Skills
-        </h2>
-        <button className={`skills-section__toggle-btn${blue ? ' skills-section__toggle-btn--blue' : ''}`} aria-label="Toggle Skills">{showSkills ? '−' : '+'}</button>
-      </div>
-      {showSkills && (
-        <div className="skills-section__sections-row">
-          {skillsSections.map(section => (
-            <div className="skills-section__section" key={section.label}>
-              <div className={`skills-section__section-label${blue ? ' skills-section__section-label--blue' : ''}`}>{section.label}:</div>
-              <div className="skills-section__section-items">
-                {section.items.map(item => (
-                  <span className={`skills-section__tag${blue ? ' skills-section__tag--blue' : ''}`} key={item}>{item}</span>
-                ))}
-              </div>
+    <>
+      {/* Button that triggers the modal */}
+      <button 
+        className="skills-trigger-btn"
+        onClick={() => setShowModal(true)}
+      >
+        Skills
+      </button>
+
+      {/* Modal Overlay */}
+      {showModal && (
+        <div className="skills-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="skills-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="skills-modal-close" onClick={() => setShowModal(false)}>×</button>
+            <h2>My Skills</h2>
+            <div className="skills-cloud-container">
+              {allSkills.map((skill, index) => (
+                <span 
+                  key={skill} 
+                  className={`skills-cloud__tag ${getSizeClass(skill, index)}`}
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

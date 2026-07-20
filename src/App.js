@@ -16,6 +16,8 @@ import CodingProjects from './components/CodingProjects';
 import NavBar from './components/NavBar';
 import Blog from './components/Blog';
 import BlogPost from './components/BlogPost';
+import Writing from './components/Writing';
+import Production from './components/Production';
 import './App.css';
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
           <Route path="/litvids" element={<LitVids />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/production" element={<Production />} />
         </Routes>
       </div>
     </Router>

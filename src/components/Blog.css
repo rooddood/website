@@ -16,18 +16,17 @@
 }
 
 .blog-main {
-  flex: 1;
-  padding: 0.5rem 0 0.5rem 0;
-  /* Reduced top padding */
+  padding: 0;
   max-width: 800px;
   margin: 0 auto;
 }
 
 .blog-title {
   text-align: center;
-  margin-bottom: 0.3rem;
+  font-size: 2em;
+  color: var(--accent-color, #2980b9);
+  margin-bottom: 5px;
   margin-top: 0;
-  /* Remove top margin */
 }
 
 .blog-letterboxd-link {
@@ -109,11 +108,21 @@
 
 .tag {
   padding: 0.2rem 0.6rem;
-  background: #e3f2fd;
+  background: var(--bg-color, #121212);
   color: #1976d2;
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 500;
+}
+
+.blog-page {
+  padding: 10px 20px;
+  background: var(--bg-color, #121212);
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-color, #f5f5f5);
 }
 
 .blog-posts {

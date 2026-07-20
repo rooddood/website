@@ -4,6 +4,7 @@
 
 
 import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
 import './LetterboxdWidget.css';
 
 // Helper to parse CSV string into array of objects
@@ -12,7 +13,6 @@ function parseCSV(csv) {
   if (lines.length < 2) return [];
   const headers = lines[0].split(',');
   return lines.slice(1).map(line => {
-    // Handle quoted fields with commas
     const values = [];
     let cur = '', inQuotes = false;
     for (let i = 0; i < line.length; i++) {
@@ -34,7 +34,6 @@ function parseCSV(csv) {
   });
 }
 
-
 const TMDB_API_KEY = 'd4573f115f2ddd832da2fcd0658ea7e4';
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w342';
 
@@ -42,10 +41,8 @@ const LetterboxdWidget = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [posters, setPosters] = useState({}); // { 'Name|Year': posterUrl }
-  const [selected, setSelected] = useState(null); // review object for modal
+  const [posters, setPosters] = useState({});
 
-  // Fetch reviews CSV
   useEffect(() => {
     const fetchCSV = async () => {
       setLoading(true);
@@ -55,6 +52,14 @@ const LetterboxdWidget = () => {
         if (!res.ok) throw new Error('Failed to load reviews.csv');
         const text = await res.text();
         const parsed = parseCSV(text);
+        parsed.sort((a, b) => {
+          // Sometimes Date is empty and Watched Date is filled
+          const dateStrA = a['Watched Date'] || a.Date || "1970-01-01";
+          const dateStrB = b['Watched Date'] || b.Date || "1970-01-01";
+          const dateA = new Date(dateStrA).getTime();
+          const dateB = new Date(dateStrB).getTime();
+          return dateB - dateA;
+        });
         setReviews(parsed);
       } catch (e) {
         setError(e.message);
@@ -65,7 +70,6 @@ const LetterboxdWidget = () => {
     fetchCSV();
   }, []);
 
-  // Fetch posters from TMDB for each review
   useEffect(() => {
     if (!reviews.length) return;
     let cancelled = false;
@@ -73,10 +77,7 @@ const LetterboxdWidget = () => {
       const newPosters = {};
       for (const r of reviews) {
         const key = `${r.Name}|${r.Year}`;
-        if (posters[key]) {
-          newPosters[key] = posters[key];
-          continue;
-        }
+        if (posters[key]) continue;
         try {
           const query = encodeURIComponent(r.Name);
           const year = r.Year ? `&year=${encodeURIComponent(r.Year)}` : '';
@@ -86,109 +87,76 @@ const LetterboxdWidget = () => {
           const data = await resp.json();
           let posterPath = null;
           if (data.results && data.results.length > 0) {
-            // Try to match year exactly if possible
             const match = data.results.find(m => m.release_date && m.release_date.startsWith(r.Year));
             posterPath = (match || data.results[0]).poster_path;
           }
-          if (posterPath) {
-            newPosters[key] = TMDB_IMAGE_BASE + posterPath;
-          } else {
-            newPosters[key] = null;
-          }
+          newPosters[key] = posterPath ? TMDB_IMAGE_BASE + posterPath : null;
         } catch (e) {
           newPosters[key] = null;
         }
-        // TMDB rate limit: 50 req/sec, add a small delay to be safe
         await new Promise(res => setTimeout(res, 30));
       }
       if (!cancelled) setPosters(prev => ({ ...prev, ...newPosters }));
     };
     fetchPosters();
     return () => { cancelled = true; };
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reviews]);
 
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 3000,
+    autoplaySpeed: 0,
+    cssEase: "linear",
+    pauseOnHover: true,
+    pauseOnFocus: true,
+    responsive: [
+      { breakpoint: 1200, settings: { slidesToShow: 5 } },
+      { breakpoint: 900, settings: { slidesToShow: 4 } },
+      { breakpoint: 600, settings: { slidesToShow: 3 } },
+      { breakpoint: 400, settings: { slidesToShow: 2 } }
+    ]
+  };
+
   return (
-    <>
+    <div className="letterboxd-container">
       {loading && <div className="letterboxd-status">Loading reviews…</div>}
       {error && <div className="letterboxd-status letterboxd-error">Error: {error}</div>}
       {!loading && !error && reviews.length === 0 && <div className="letterboxd-status">No reviews found.</div>}
+      
       {!loading && !error && reviews.length > 0 && (
         <>
-          {/* Horizontal scrollable movie widget */}
-          <div className="lb-horizontal-scroll">
-            {reviews.map((r, idx) => {
-              const posterKey = `${r.Name}|${r.Year}`;
-              const posterUrl = posters[posterKey];
-              return (
-                <div
-                  className="lb-embed-card-horizontal"
-                  key={idx}
-                  onClick={() => setSelected(r)}
-                  tabIndex={0}
-                  onKeyDown={e => { if (e.key === 'Enter') setSelected(r); }}
-                  title={`Click to view review for ${r.Name}`}
-                >
-                  {posterUrl ? (
-                    <img className="lb-embed-poster" src={posterUrl} alt={r.Name + ' poster'} />
-                  ) : (
-                    <div className="lb-embed-no-poster">No Poster</div>
-                  )}
-                  <div className="lb-embed-movie-title">
-                    {r.Name} <span className="lb-embed-movie-year">({r.Year})</span>
-                  </div>
-                  {r.Rating && <div className="lb-embed-rating">★ {r.Rating}</div>}
-                </div>
-              );
-            })}
+          <div className="lb-carousel-section">
+            <Slider {...sliderSettings}>
+              {reviews.map((r, idx) => {
+                const posterKey = `${r.Name}|${r.Year}`;
+                const posterUrl = posters[posterKey];
+                return (
+                  <a className="lb-carousel-item" key={idx} href={r['Letterboxd URI']} target="_blank" rel="noopener noreferrer">
+                    <div className="lb-carousel-poster-wrapper">
+                      {posterUrl ? (
+                        <img className="lb-carousel-poster" src={posterUrl} alt={r.Name} />
+                      ) : (
+                        <div className="lb-carousel-no-poster">No Poster</div>
+                      )}
+                    </div>
+                    <div className="lb-carousel-text">
+                      <div className="lb-carousel-title">{r.Name} <span className="lb-carousel-year">({r.Year})</span></div>
+                      {r.Rating && <div className="lb-carousel-rating">★ {r.Rating}</div>}
+                      {r.Review && <div className="lb-carousel-review">{r.Review}</div>}
+                    </div>
+                  </a>
+                );
+              })}
+            </Slider>
           </div>
-          <div className="letterboxd-embed-caption">Scroll to see more. Click a poster to view the full review</div>
         </>
       )}
-
-      {/* Modal for expanded review */}
-      {selected && (
-        <div
-          className="lb-modal-overlay"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="lb-modal-content"
-            onClick={e => e.stopPropagation()}
-          >
-            <button
-              className="lb-modal-close"
-              onClick={() => setSelected(null)}
-              aria-label="Close"
-            >
-              ×
-            </button>
-            {(() => {
-              const posterKey = `${selected.Name}|${selected.Year}`;
-              const posterUrl = posters[posterKey];
-              return posterUrl ? (
-                <img className="lb-modal-poster" src={posterUrl} alt={selected.Name + ' poster'} />
-              ) : (
-                <div className="lb-modal-no-poster">No Poster</div>
-              );
-            })()}
-            <div className="lb-modal-title">
-              {selected.Name} <span className="lb-modal-year">({selected.Year})</span>
-            </div>
-            <div className="lb-modal-date">{selected.Date}</div>
-            <div className="lb-modal-link">
-              <a href={selected['Letterboxd URI']} target="_blank" rel="noopener noreferrer">View on Letterboxd</a>
-            </div>
-            {selected.Rating && <div className="lb-modal-rating">★ {selected.Rating}</div>}
-            {selected.Rewatch && <div className="lb-modal-rewatch">Rewatch: {selected.Rewatch}</div>}
-            {selected['Watched Date'] && <div className="lb-modal-watched">Watched: {selected['Watched Date']}</div>}
-            {selected.Tags && selected.Tags.length > 0 && <div className="lb-modal-tags">Tags: {selected.Tags}</div>}
-            {selected.Review && <div className="lb-modal-review"><b>Review:</b> {selected.Review}</div>}
-          </div>
-        </div>
-      )}
-  {/* (caption moved above) */}
-    </>
+    </div>
   );
 };
 

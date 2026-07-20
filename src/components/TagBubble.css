@@ -1,11 +1,11 @@
 /* Centralized skill/tag bubble style for Resume, CodingProjects, and Freelance */
 .skill-tag {
-  background-color: #e0e0e0;
+  background-color: rgba(41, 128, 185, 0.15);
   border-radius: 5px;
   padding: 5px 10px;
   font-size: 0.7em;
-  color: #1c2833;
-  border: 1px solid #ccc;
+  color: var(--accent-color, #2980b9);
+  border: 1px solid rgba(41, 128, 185, 0.5);
   margin: 2px 4px 2px 0;
   display: inline-block;
 }

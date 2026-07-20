@@ -86,8 +86,8 @@ const CodingProjects = () => {
                     <h5>Results</h5>
                     <p>The image below shows detected cars, buses, and trucks in one frame with a different color based on each size.</p>
                     <div className="project-images">
-                        <img src={`${process.env.PUBLIC_URL}/images/amber_vision_detection.png`} alt="AmberVision Image 1" />
-                        <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision Image 2" />
+                        <img src={`${process.env.PUBLIC_URL}/images/amber_vision_detection.png`} alt="AmberVision screenshot 1" />
+                        <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision screenshot 2" />
                     </div>
                     <p>We created this project in Vue.js, showing a map of the location of the cameras in DC and the latest image with the vehicles detected.</p>
                     <h5>Why This is Important</h5>
@@ -97,14 +97,14 @@ const CodingProjects = () => {
             technologies: ['Python Flask', 'MongoDB', 'Sklearn', 'cv2', 'Matplotlib', 'Pandas', 'Scipy', 'Vue.js', 'Leaflet', 'Axios', 'Bootstrap-Vue', 'Vanilla JS', 'HTML']
         },
         {
-            title: 'Pastiche (coming soon)!',
+            title: 'Artistree',
             description: (
                 <>
-                    <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '30px' }}>A new creative project is on the way. Stay tuned!</p>
+                    <p style={{ marginTop: '20px' }}>An app to help you discover new artists by tracing the inspiration of your favorites. By exploring your favorite artist's favorite artists, you can build a tree of inspiration and see exactly where certain musical ideas originated.</p>
                 </>
             ),
-            technologies: [],
-            comingSoon: true
+            technologies: ['React', 'Data', 'AI'],
+            comingSoon: false
         },
         {
             title: 'AMOS: The Archive of Many Outdoor Scenes',
@@ -131,13 +131,13 @@ const CodingProjects = () => {
         setExpandedProject(null);
     };
 
-    const handleOutsideClick = (event) => {
-        if (expandedProject !== null && !event.target.closest('.project-card.expanded')) {
-            setExpandedProject(null);
-        }
-    };
-
     useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (expandedProject !== null && !event.target.closest('.project-card.expanded')) {
+                setExpandedProject(null);
+            }
+        };
+
         if (expandedProject !== null) {
             document.addEventListener('click', handleOutsideClick);
         } else {
@@ -152,7 +152,11 @@ const CodingProjects = () => {
         <div className="coding-projects-container">
             <header className="coding-projects-header">
                 <h1>Coding Projects</h1>
-                <p>Welcome to my coding portfolio! Here, you can explore some of the projects I've worked on. Feel free to check out my GitHub profile for more: <a href="https://github.com/rooddood" target="_blank" rel="noopener noreferrer">github.com/rooddood</a>.</p>
+                <a href="https://github.com/rooddood" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '10px' }}>
+                    <button className="home__download-btn" style={{ padding: '10px 20px', minHeight: 'auto', fontSize: '1em' }}>
+                        View GitHub Profile
+                    </button>
+                </a>
             </header>
             <section className="coding-projects-list">
                 {projects.slice(0, 6).map((project, index) => {

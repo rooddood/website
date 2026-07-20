@@ -9,6 +9,14 @@ const NavBar = () => {
       <ul className="navbar__list">
         <li><Link to="/" className="navbar__link">Home</Link></li>
         <li>
+          <span className="navbar__link">Writing</span>
+          <div className="navbar__dropdown">
+            <Link to="/writing" className="navbar__link">Published</Link>
+            <Link to="/blog" className="navbar__link">My Blog</Link>
+          </div>
+        </li>
+        <li><Link to="/production" className="navbar__link">Production</Link></li>
+        <li>
           <span className="navbar__link">Software Engineering</span>
           <div className="navbar__dropdown">
             <Link to="/resume" className="navbar__link">Experience</Link>
@@ -16,7 +24,6 @@ const NavBar = () => {
             <Link to="/projects" className="navbar__link">Projects</Link>
           </div>
         </li>
-        <li><Link to="/blog" className="navbar__link">Blog</Link></li>
         <li><Link to="/clothing" className="navbar__link">Clothing</Link></li>
         {/* <Link to="/photography" className="navbar__link">Photography</Link> */}
         {/* <Link to="/cooking" className="navbar__link">Cooking</Link> */}

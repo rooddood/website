@@ -15,8 +15,8 @@
 }
 
 .resume__section {
-  background-color: #ecf0f1;
-  border: 2px solid #2980b9;
+  background-color: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
   border-radius: 10px;
   padding: 18px 24px;
   margin-bottom: 0;
@@ -29,7 +29,7 @@
 
 .resume__section h2 {
   font-size: 1.3em;
-  color: #2c3e50;
+  color: var(--accent-color, #2980b9);
   margin: 0 0 12px;
   letter-spacing: 1px;
 
@@ -61,27 +61,26 @@
 
   /* Unified skill/tag bubble style for Resume, CodingProjects, and Freelance */
   .skill-tag {
-    background-color: #e0e0e0;
+    background-color: rgba(41, 128, 185, 0.15);
     border-radius: 5px;
-
-    .resume__skills-section-label {
-      font-weight: 700;
-      color: #1c5a85;
-      /* Standard navy blue */
-      font-size: 0.98em;
-      margin: 0 6px 0 0;
-      padding: 0;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-    }
-
     padding: 5px 10px;
     font-size: 0.7em;
-    color: #1c2833;
-    border: 1px solid #ccc;
+    color: var(--accent-color, #2980b9);
+    border: 1px solid rgba(41, 128, 185, 0.5);
     margin: 2px 4px 2px 0;
     display: inline-block;
+  }
+
+  .resume__skills-section-label {
+    font-weight: 700;
+    color: #1c5a85;
+    /* Standard navy blue */
+    font-size: 0.98em;
+    margin: 0 6px 0 0;
+    padding: 0;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
   }
 
   .resume__skills-section-items {
@@ -103,16 +102,16 @@
 
 .resume__skills-block,
 .resume__about-block {
-  background: #ecf0f1;
-  border: 2px solid #2980b9;
+  background: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
 
   .skill-tag {
-    background-color: #e0e0e0;
+    background-color: rgba(41, 128, 185, 0.15);
     border-radius: 4px;
     padding: 2px 7px;
     font-size: 0.92em;
-    color: #1c2833;
-    border: 1px solid #ccc;
+    color: var(--accent-color, #2980b9);
+    border: 1px solid rgba(41, 128, 185, 0.5);
     margin: 1px 2px 1px 0;
     display: inline-block;
     line-height: 1.1;
@@ -191,11 +190,11 @@
 }
 
 .resume__timeline-content {
-  background: #fff;
+  background: var(--card-bg, #1e1e1e);
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.07);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   padding: 16px 20px;
-  border-left: 4px solid #2980b9;
+  border-left: 4px solid var(--accent-color, #2980b9);
 }
 
 .resume__timeline-content--overlay {
@@ -262,7 +261,7 @@
 
 .resume__timeline-title {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-color, #f5f5f5);
   font-size: 1.08em;
 }
 
@@ -278,7 +277,7 @@
 }
 
 .resume__timeline-desc {
-  color: #34495e;
+  color: #ccc;
   margin-bottom: 6px;
   font-size: 0.98em;
 }
@@ -291,7 +290,7 @@
 .resume__timeline-details {
   margin: 0 0 0 18px;
   padding: 0;
-  color: #34495e;
+  color: #ccc;
   font-size: 0.97em;
 }
 
@@ -309,8 +308,8 @@
 .resume__section--education {
   margin-top: 0;
   margin-bottom: 0;
-  background: #ecf0f1;
-  border: 2px solid #2980b9;
+  background: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   padding: 18px 24px;
@@ -460,13 +459,14 @@
   transform: translateY(-50%);
   z-index: 10;
   text-align: left;
-  background: #fff;
+  background: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
 }
 
 /* Timeline Styles */
 .resume__section--timeline {
-  background: #ecf0f1;
-  border: 2px solid #2980b9;
+  background: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   padding: 24px 32px;
@@ -703,8 +703,8 @@
 /* Initially hide mobile list */
 .resume__section--mobile-list {
   display: none !important;
-  background-color: #ecf0f1;
-  border: 2px solid #2980b9;
+  background-color: var(--card-bg, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
   border-radius: 10px;
   padding: 18px 24px;
 }
@@ -717,11 +717,11 @@
 }
 
 .resume__mobile-card {
-  background: #fff;
+  background: var(--card-bg, #1e1e1e);
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color, #333);
 }
 
 .resume__mobile-card-header {
@@ -730,12 +730,12 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  background: #fdfdfd;
+  background: var(--card-bg, #1e1e1e);
   transition: background 0.2s;
 }
 
 .resume__mobile-card-header:hover {
-  background: #f4f7f9;
+  background: #2a2a2a;
 }
 
 .resume__mobile-card-title-group {
@@ -746,13 +746,13 @@
 
 .resume__mobile-jobtitle {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-color, #f5f5f5);
   font-size: 1.05em;
 }
 
 .resume__mobile-company {
   font-size: 0.95em;
-  color: #555;
+  color: #ccc;
   font-weight: 500;
 }
 
@@ -764,7 +764,7 @@
 
 .resume__mobile-card-content {
   padding: 0 16px 16px 16px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-color, #333);
   margin-top: 0;
   padding-top: 12px;
 }
