@@ -18,6 +18,7 @@ import Blog from './components/Blog';
 import BlogPost from './components/BlogPost';
 import Writing from './components/Writing';
 import Production from './components/Production';
+import VideoReel from './components/VideoReel';
 import './App.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/writing" element={<Writing />} />
           <Route path="/production" element={<Production />} />
+          <Route path="/reel" element={<VideoReel />} />
         </Routes>
       </div>
     </Router>

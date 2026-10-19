@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './CodingProjects.css';
 import './TagBubble.css';
 
@@ -191,6 +192,11 @@ const CodingProjects = () => {
                     );
                 })}
             </section>
+
+            {/* Secret Out-of-the-way Button */}
+            <Link to="/litvids" className="secret-litvids-dot" aria-label="Secret Access" title="•">
+                •
+            </Link>
         </div>
     );
 };

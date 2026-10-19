@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Home.css';
-import SkillsSection from './SkillsSection';
 
 // Dynamically import images from the /images/photography folder
 const getImages = () => {
@@ -30,11 +29,6 @@ const Home = () => {
       document.body.style.overflow = originalStyle;
     };
   }, []);
-
-  const handleDownload = () => {
-    const resumePath = process.env.PUBLIC_URL + '/Kyle_Rood_Resume_Whole_2026.pdf';
-    window.open(resumePath, '_blank');
-  };
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -69,17 +63,37 @@ const Home = () => {
       <header className="home__header">
         <h1>Hi, I'm Kyle Rood</h1>
         <p className="home__tagline">Writer, Producer, Developer.</p>
-        <div className="home__contact">
-          <p>Email: kylerood16@gmail.com</p>
-          <p>LinkedIn: <a href="https://www.linkedin.com/in/kyle-rood/" target="_blank" rel="noopener noreferrer">Kyle Rood</a></p>
-        </div>
-        <div className="home__resume-skills-row">
-          <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
-          <div className="home__skills-inline">
-            <SkillsSection defaultExpanded={false} blue={true} />
-          </div>
-        </div>
       </header>
+
+      {/* Pinned Bottom Contact Links */}
+      <footer className="home__footer">
+        <div className="home__contact">
+          <a href="mailto:kylerood16@gmail.com" className="home__contact-link">
+            kylerood16@gmail.com
+          </a>
+          <span className="home__contact-divider">|</span>
+          <a href="https://www.linkedin.com/in/kyle-rood/" target="_blank" rel="noopener noreferrer" className="home__contact-link">
+            LinkedIn
+          </a>
+          <span className="home__contact-divider">|</span>
+          <a href="https://www.youtube.com/@sniffyscloset" target="_blank" rel="noopener noreferrer" className="home__contact-link">
+            YouTube
+          </a>
+          <span className="home__contact-divider">|</span>
+          <a href="https://www.instagram.com/sniffyscloset" target="_blank" rel="noopener noreferrer" className="home__contact-link">
+            Instagram
+          </a>
+          <span className="home__contact-divider">|</span>
+          <a 
+            href={`${process.env.PUBLIC_URL}/Kyle_Rood_Resume_Whole_2026.pdf`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="home__contact-link"
+          >
+            Download Resume
+          </a>
+        </div>
+      </footer>
     </div>
   );
 };
