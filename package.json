@@ -20,6 +20,9 @@
     "web-vitals": "^4.2.0"
   },
   "scripts": {
+    "sync-youtube": "node scripts/sync-youtube.js",
+    "prestart": "node scripts/sync-youtube.js",
+    "prebuild": "node scripts/sync-youtube.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
