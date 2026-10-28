@@ -9,7 +9,7 @@ const CURATED_REEL_VIDEOS = [
     id: "dont-tell-comedy-shaw",
     title: "Don't Tell Comedy DC: Shaw 10/17",
     category: "Don't Tell Comedy",
-    tag: "Featured Montage",
+    tag: "Montage",
     format: "16:9 Comedy Show",
     aspect: "16:9",
     duration: "1:44",
@@ -17,7 +17,7 @@ const CURATED_REEL_VIDEOS = [
     youtubeId: "coVL3Nbr5H8",
     creator: "Don't Tell Comedy",
     isFeatured: true,
-    summary: "Brand new Don't Tell Comedy sizzle reel filmed live in Shaw, DC. Features dynamic multi-angle stage capture, crowd laughter isolation, and fast-paced punchline pacing."
+    summary: "Brand new Don't Tell Comedy live montage filmed live in Shaw, DC. Features dynamic multi-angle stage capture, crowd laughter isolation, and fast-paced punchline pacing."
   },
   {
     id: "dont-tell-comedy-adams-morgan",
@@ -30,7 +30,7 @@ const CURATED_REEL_VIDEOS = [
     embedUrl: "https://www.youtube.com/embed/Zez-b3a8DlQ",
     youtubeId: "Zez-b3a8DlQ",
     creator: "Don't Tell Comedy",
-    summary: "Live comedy sizzle reel filmed and edited for Don't Tell Comedy with stage lighting exposure and crowd audio mix."
+    summary: "Live comedy montage filmed and edited for Don't Tell Comedy with stage lighting exposure and crowd audio mix."
   },
   {
     id: "woowoo-sniffyscloset-ai-muse",
@@ -45,7 +45,24 @@ const CURATED_REEL_VIDEOS = [
     externalUrl: "https://www.instagram.com/reel/Dex35XQOLSn/?srtk=b3hxY21nOWJ2ZHhz",
     thumbnail: `${process.env.PUBLIC_URL}/woowoo_sniffyscloset_reel.jpg`,
     creator: "@woowoo_thecomedian feat. @sniffyscloset",
+    isFeatured: true,
     summary: "Comedian @woowoo_thecomedian reposted Kyle's @sniffyscloset video: \"This AI stuff is out of control!! Would y'all use Muse (in my Baltimore voice)? 🎥 @sniffyscloset\""
+  },
+  {
+    id: "domgrayer-zillow",
+    title: "Dom Grayer: Comedy Shows Are The New Zillow",
+    platform: "instagram",
+    category: "Stand Up Sets",
+    tag: "Standup Reel",
+    format: "9:16 Instagram Reel",
+    aspect: "9:16",
+    duration: "Reel",
+    embedUrl: "https://www.instagram.com/reel/DfANYJ8RgUk/embed/",
+    externalUrl: "https://www.instagram.com/reel/DfANYJ8RgUk/?cplk=dnA0OHg4dzhta3J0",
+    thumbnail: `${process.env.PUBLIC_URL}/domgrayer_sniffyscloset_reel.jpg`,
+    creator: "@domgrayer feat. @sniffyscloset",
+    isFeatured: true,
+    summary: "Comedian @domgrayer live crowdwork standup clip filmed & edited by Kyle Rood: \"Economy so bad comedy shows are the new Zillow #standupcomedian #crowdwork\""
   },
   {
     id: "apocasniff-horizontal",
@@ -75,10 +92,13 @@ const CURATED_REEL_VIDEOS = [
   }
 ];
 
-const REEL_TAGS = ["All", "Featured", "Don't Tell Comedy", "Stand Up Sets", "My Shorts"];
+const REEL_TAGS = ["Featured", "All Videos", "Don't Tell Comedy", "Stand Up Sets", "Shorts"];
 
 const VideoReel = () => {
-  const [selectedTag, setSelectedTag] = useState("All");
+  // Land on Featured tab by default
+  const [selectedTag, setSelectedTag] = useState("Featured");
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [isAutoCycling, setIsAutoCycling] = useState(true);
   const [fullScreenVideo, setFullScreenVideo] = useState(null);
 
   // Merge any newly synced YouTube videos that aren't already explicitly in CURATED_REEL_VIDEOS
@@ -95,8 +115,21 @@ const VideoReel = () => {
     return [...CURATED_REEL_VIDEOS, ...newlySynced];
   }, []);
 
-  // Most prominent montage
-  const featuredVideo = allVideos.find(v => v.isFeatured) || allVideos[0];
+  // The 3 featured videos: Don't Tell 10/17 and the two comedian Instagram clips
+  const featuredVideos = useMemo(() => {
+    return allVideos.filter(v => v.isFeatured);
+  }, [allVideos]);
+
+  const currentFeatured = featuredVideos[featuredIndex] || featuredVideos[0] || allVideos[0];
+
+  // Auto-cycle through the 3 featured videos every 9 seconds when idle
+  useEffect(() => {
+    if (!isAutoCycling || featuredVideos.length <= 1) return;
+    const timer = setInterval(() => {
+      setFeaturedIndex(prev => (prev + 1) % featuredVideos.length);
+    }, 9000);
+    return () => clearInterval(timer);
+  }, [isAutoCycling, featuredVideos.length]);
 
   // Close full-screen video on Escape key
   useEffect(() => {
@@ -112,14 +145,32 @@ const VideoReel = () => {
   }, [fullScreenVideo]);
 
   const filteredVideos = useMemo(() => {
-    if (selectedTag === "All") return allVideos;
-    if (selectedTag === "Featured") return allVideos.filter(v => v.isFeatured);
+    if (selectedTag === "All Videos" || selectedTag === "All") return allVideos;
+    if (selectedTag === "Featured") return featuredVideos;
+    if (selectedTag === "Shorts" || selectedTag === "My Shorts") {
+      return allVideos.filter(v => v.category === "My Shorts" || v.category === "Shorts" || v.tag === "Shorts" || v.tag === "Trailer");
+    }
     return allVideos.filter(v => v.category === selectedTag || v.tag === selectedTag);
-  }, [allVideos, selectedTag]);
+  }, [allVideos, featuredVideos, selectedTag]);
+
+  const handlePrevFeatured = () => {
+    setIsAutoCycling(false);
+    setFeaturedIndex(prev => (prev - 1 + featuredVideos.length) % featuredVideos.length);
+  };
+
+  const handleNextFeatured = () => {
+    setIsAutoCycling(false);
+    setFeaturedIndex(prev => (prev + 1) % featuredVideos.length);
+  };
+
+  const handleSelectFeatured = (idx) => {
+    setIsAutoCycling(false);
+    setFeaturedIndex(idx);
+  };
 
   const getVideoLink = (vid) => {
     if (vid.platform === "instagram") {
-      return vid.externalUrl || "https://www.instagram.com/reel/Dex35XQOLSn/";
+      return vid.externalUrl;
     }
     if (vid.aspect === "9:16") {
       return `https://www.youtube.com/shorts/${vid.youtubeId}`;
@@ -127,169 +178,282 @@ const VideoReel = () => {
     return `https://www.youtube.com/watch?v=${vid.youtubeId}`;
   };
 
+  // Reusable Video Card: All tags cleanly positioned BELOW the video thumbnail
+  const renderVideoCard = (vid) => (
+    <article
+      key={vid.id}
+      className={`yt-video-card ${vid.platform === "instagram" ? "yt-video-card--instagram" : ""}`}
+      onClick={() => setFullScreenVideo(vid)}
+      title={`Click to watch ${vid.title}`}
+    >
+      {/* Thumbnail Box: NO tags on top of thumbnail, only duration badge in bottom right */}
+      <div className={`yt-thumb-box ${vid.aspect === "9:16" ? "yt-thumb-box--vertical" : ""}`}>
+        <img
+          src={vid.thumbnail || `https://img.youtube.com/vi/${vid.youtubeId}/hqdefault.jpg`}
+          alt={vid.title}
+          className="yt-thumb-img"
+          loading="lazy"
+          onError={(e) => {
+            if (vid.youtubeId) {
+              e.target.src = `https://img.youtube.com/vi/${vid.youtubeId}/0.jpg`;
+            }
+          }}
+        />
+        <span className="yt-duration-badge">{vid.duration}</span>
+
+        {/* Play Overlay */}
+        <div className="yt-play-overlay">
+          <div className="yt-play-circle">
+            <span className="yt-play-arrow">▶</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Video Details: All tags positioned cleanly BELOW the thumbnail */}
+      <div className="yt-card-details">
+        <h3 className="yt-card-heading">{vid.title}</h3>
+        <p className="yt-card-channel-name">{vid.creator}</p>
+
+        <div className="yt-card-tags-row">
+          <span className={`yt-tag-pill ${vid.platform === "instagram" ? "yt-tag-pill--instagram" : ""}`}>
+            {vid.platform === "instagram" ? "Instagram Reel" : vid.tag}
+          </span>
+          <span className="yt-tag-pill yt-tag-pill--format">{vid.format}</span>
+          {vid.category === "Stand Up Sets" && (
+            <span className="yt-tag-pill yt-tag-pill--category">Stand Up</span>
+          )}
+        </div>
+
+        <p className="yt-card-desc">{vid.summary}</p>
+      </div>
+    </article>
+  );
+
   return (
     <div className="yt-reel-page">
-      {/* Top Centered Header */}
+      {/* Compact YouTube Channel Header */}
       <header className="yt-reel-header">
-        <div className="yt-reel-title-row">
-          <div className="title-center">
-            <h1>Video Reel</h1>
-            <p className="yt-reel-subtitle">Filmed • Edited • Mixed • Color Graded</p>
+        <div className="yt-channel-banner">
+          <div className="yt-channel-avatar">
+            <img
+              src={`${process.env.PUBLIC_URL}/youtube_channel_avatar.jpg`}
+              alt="Kyle Rood YouTube Channel Logo"
+              className="yt-channel-avatar-img"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
           </div>
-          <div className="yt-reel-header-links">
+          <div className="yt-channel-info">
+            <h1 className="yt-channel-name">Kyle Rood</h1>
+            <p className="yt-channel-subtitle">Writer, Director</p>
+            <p className="yt-channel-handle">@sniffyscloset</p>
+          </div>
+          <div className="yt-channel-links">
             <a
               href="https://www.youtube.com/@sniffyscloset"
               target="_blank"
               rel="noopener noreferrer"
-              className="yt-reel-ext-link"
+              className="yt-header-link"
             >
-              YouTube @sniffyscloset ↗
+              YouTube ↗
             </a>
             <a
               href="https://www.instagram.com/sniffyscloset"
               target="_blank"
               rel="noopener noreferrer"
-              className="yt-reel-ext-link yt-reel-ig-link"
+              className="yt-header-link"
             >
-              Instagram @sniffyscloset ↗
+              Instagram ↗
             </a>
-            <Link to="/production" className="yt-reel-rates-link">
+            <Link to="/production" className="yt-header-link yt-header-link--rates">
               Services & Rates →
             </Link>
           </div>
         </div>
 
-        {/* Category Filter Chips Bar */}
-        <div className="yt-chips-bar" role="tablist">
+        {/* Tab Navigation */}
+        <nav className="yt-channel-tabs-bar" role="tablist">
           {REEL_TAGS.map((tag) => (
             <button
               key={tag}
               role="tab"
               aria-selected={selectedTag === tag}
-              className={`yt-chip-btn ${selectedTag === tag ? "yt-chip-btn--active" : ""}`}
+              className={`yt-tab-btn ${selectedTag === tag ? "yt-tab-btn--active" : ""}`}
               onClick={() => setSelectedTag(tag)}
             >
-              {tag === "Featured" ? "🔥 Featured" : tag}
+              {tag}
             </button>
           ))}
-        </div>
+        </nav>
       </header>
 
+      {/* Main Content Area: Strictly Tab-Driven to fit on one page without excessive scrolling */}
       <main className="yt-reel-main">
-        {/* Prominently Featured Don't Tell Comedy Montage Showcase */}
-        {(selectedTag === "All" || selectedTag === "Featured" || selectedTag === "Don't Tell Comedy") && (
-          <section className="yt-featured-spotlight" aria-label="Featured Montage Spotlight">
-            <div className="yt-featured-badge-bar">
-              <span className="yt-featured-flame-pill">🔥 PROMINENT FEATURE</span>
-              <span className="yt-featured-meta-info">Don't Tell Comedy DC • Shaw 10/17</span>
-            </div>
-
-            <div className="yt-featured-grid">
-              {/* Embedded 16:9 Showcase Player */}
-              <div className="yt-featured-video-wrapper">
+        {selectedTag === "Featured" ? (
+          /* Single-Page Featured View: Theater Stage Player + Side Playlist Queue */
+          <section
+            className="yt-theater-layout"
+            onMouseEnter={() => setIsAutoCycling(false)}
+            onMouseLeave={() => setIsAutoCycling(true)}
+            aria-label="Featured Video Showcase"
+          >
+            {/* Left: Active Stage Player */}
+            <div className="yt-stage-col">
+              <div className={`yt-stage-player-wrapper ${currentFeatured.aspect === "9:16" ? "yt-stage-player-wrapper--vertical" : ""}`}>
                 <iframe
-                  src={`${featuredVideo.embedUrl}?rel=0`}
-                  title={featuredVideo.title}
+                  key={currentFeatured.id}
+                  src={
+                    currentFeatured.platform === "instagram"
+                      ? currentFeatured.embedUrl
+                      : `${currentFeatured.embedUrl}?rel=0`
+                  }
+                  title={currentFeatured.title}
                   frameBorder="0"
+                  scrolling={currentFeatured.platform === "instagram" ? "no" : "auto"}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  className="yt-featured-iframe"
+                  className="yt-stage-iframe"
                 ></iframe>
               </div>
 
-              {/* Showcase Details & Actions */}
-              <div className="yt-featured-info-col">
-                <span className="yt-featured-kicker">Live Standup Sizzle Reel</span>
-                <h2 className="yt-featured-headline">{featuredVideo.title}</h2>
-                <p className="yt-featured-creator">{featuredVideo.creator} • Filmed & Edited by Kyle Rood</p>
-                <p className="yt-featured-copy">
-                  {featuredVideo.summary}
-                </p>
-                <div className="yt-featured-action-row">
-                  <a
-                    href={getVideoLink(featuredVideo)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="yt-featured-btn yt-featured-btn--primary"
-                  >
-                    Watch on YouTube ↗
-                  </a>
-                  <button
-                    onClick={() => setFullScreenVideo(featuredVideo)}
-                    className="yt-featured-btn yt-featured-btn--secondary"
-                  >
-                    Expand Player
-                  </button>
-                  <Link to="/production" className="yt-featured-btn yt-featured-btn--rates">
-                    Hire For Comedy Filming →
-                  </Link>
+              {/* Stage Video Details */}
+              <div className="yt-stage-meta">
+                <div className="yt-stage-header-row">
+                  <div className="yt-stage-titles">
+                    <h2 className="yt-stage-title">{currentFeatured.title}</h2>
+                    <p className="yt-stage-creator">{currentFeatured.creator}</p>
+                  </div>
+                  <div className="yt-stage-actions">
+                    {currentFeatured.platform === "instagram" ? (
+                      <a
+                        href={currentFeatured.externalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="yt-btn yt-btn--ig"
+                      >
+                        Instagram ↗
+                      </a>
+                    ) : (
+                      <a
+                        href={getVideoLink(currentFeatured)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="yt-btn yt-btn--yt"
+                      >
+                        YouTube ↗
+                      </a>
+                    )}
+                    <button
+                      onClick={() => setFullScreenVideo(currentFeatured)}
+                      className="yt-btn yt-btn--secondary"
+                      title="Expand Player"
+                    >
+                      Expand
+                    </button>
+                    <Link to="/production" className="yt-btn yt-btn--rates">
+                      Hire →
+                    </Link>
+                  </div>
                 </div>
+
+                <div className="yt-stage-tags">
+                  <span className="yt-tag-pill yt-tag-pill--format">{currentFeatured.format}</span>
+                  <span className="yt-tag-pill yt-tag-pill--category">{currentFeatured.category}</span>
+                  {currentFeatured.platform === "instagram" && (
+                    <span className="yt-tag-pill yt-tag-pill--instagram">Instagram Reel</span>
+                  )}
+                </div>
+
+                <p className="yt-stage-desc">{currentFeatured.summary}</p>
+              </div>
+            </div>
+
+            {/* Right: Featured Playlist Queue (The 3 cycling videos) */}
+            <div className="yt-queue-col">
+              <div className="yt-queue-header">
+                <div className="yt-queue-title-wrap">
+                  <h3 className="yt-queue-title">Featured Clips</h3>
+                  <span className="yt-queue-counter">{featuredIndex + 1} / {featuredVideos.length}</span>
+                </div>
+                <div className="yt-queue-nav">
+                  <button
+                    className="yt-queue-arrow"
+                    onClick={handlePrevFeatured}
+                    aria-label="Previous clip"
+                    title="Previous clip"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    className="yt-queue-arrow"
+                    onClick={handleNextFeatured}
+                    aria-label="Next clip"
+                    title="Next clip"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
+
+              <div className="yt-queue-list">
+                {featuredVideos.map((vid, idx) => {
+                  const isActive = featuredIndex === idx;
+                  return (
+                    <div
+                      key={vid.id}
+                      className={`yt-queue-card ${isActive ? "yt-queue-card--active" : ""}`}
+                      onClick={() => handleSelectFeatured(idx)}
+                      role="button"
+                      tabIndex={0}
+                      title={`Play ${vid.title}`}
+                    >
+                      <div className={`yt-queue-thumb-box ${vid.aspect === "9:16" ? "yt-queue-thumb-box--vertical" : ""}`}>
+                        <img
+                          src={vid.thumbnail || `https://img.youtube.com/vi/${vid.youtubeId}/hqdefault.jpg`}
+                          alt={vid.title}
+                          className="yt-queue-thumb-img"
+                        />
+                        <span className="yt-duration-badge">{vid.duration}</span>
+                        {isActive && (
+                          <div className="yt-queue-active-badge">
+                            <span>▶</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="yt-queue-card-details">
+                        <div className="yt-queue-card-num">{idx + 1}</div>
+                        <div className="yt-queue-card-text">
+                          <h4 className="yt-queue-card-title">{vid.title}</h4>
+                          <p className="yt-queue-card-creator">{vid.creator}</p>
+                          <div className="yt-queue-card-tags">
+                            <span className="yt-tag-pill yt-tag-pill--format">{vid.format}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
+        ) : (
+          /* Focused Category Grid View (Tabs: All Videos, Don't Tell Comedy, Stand Up Sets, Shorts) */
+          <section className="yt-category-section">
+            <div className="yt-section-heading-row">
+              <h2 className="yt-section-title">{selectedTag}</h2>
+              <span className="yt-section-count">{filteredVideos.length} clips</span>
+            </div>
+
+            <div className="yt-compact-grid">
+              {filteredVideos.map((vid) => renderVideoCard(vid))}
+            </div>
+          </section>
         )}
-
-        {/* Section Heading */}
-        <div className="yt-section-heading-row">
-          <h2 className="yt-section-title">
-            {selectedTag === "All" ? "All Video Works & Sets" : `${selectedTag}`}
-          </h2>
-          <span className="yt-section-count">{filteredVideos.length} clips</span>
-        </div>
-
-        {/* Compact Cards Grid */}
-        <div className="yt-compact-grid">
-          {filteredVideos.map((vid) => (
-            <article
-              key={vid.id}
-              className={`yt-compact-card ${vid.platform === "instagram" ? "yt-compact-card--instagram" : ""} ${vid.isFeatured ? "yt-compact-card--featured" : ""}`}
-              onClick={() => setFullScreenVideo(vid)}
-              title={`Click to play ${vid.title} in full screen`}
-            >
-              {/* Thumbnail Box with Duration & Play Overlay */}
-              <div className={`yt-thumb-box ${vid.aspect === "9:16" ? "yt-thumb-box--vertical" : ""}`}>
-                <img
-                  src={vid.thumbnail || `https://img.youtube.com/vi/${vid.youtubeId}/hqdefault.jpg`}
-                  alt={vid.title}
-                  className="yt-thumb-img"
-                  onError={(e) => {
-                    if (vid.youtubeId) {
-                      e.target.src = `https://img.youtube.com/vi/${vid.youtubeId}/0.jpg`;
-                    }
-                  }}
-                />
-                <span className="yt-duration-badge">{vid.duration}</span>
-                <span className={`yt-format-tag ${vid.platform === "instagram" ? "yt-format-tag--instagram" : ""}`}>
-                  {vid.platform === "instagram" ? "📸 Instagram Reel" : vid.tag}
-                </span>
-                <div className="yt-play-overlay">
-                  <div className={`yt-play-circle ${vid.platform === "instagram" ? "yt-play-circle--instagram" : ""}`}>
-                    <span className="yt-play-arrow">▶</span>
-                  </div>
-                  <span className="yt-click-hint">Click to expand</span>
-                </div>
-              </div>
-
-              {/* Card Meta */}
-              <div className="yt-card-details">
-                <div className="yt-card-badge-row">
-                  <span className={`yt-card-badge-pill ${vid.platform === "instagram" ? "yt-card-badge-pill--instagram" : ""}`}>
-                    {vid.format}
-                  </span>
-                  {vid.category === "Stand Up Sets" && (
-                    <span className="yt-card-category-pill">Stand Up</span>
-                  )}
-                </div>
-                <h3 className="yt-card-heading">{vid.title}</h3>
-                <p className="yt-card-channel-name">{vid.creator}</p>
-                <p className="yt-card-desc">{vid.summary}</p>
-              </div>
-            </article>
-          ))}
-        </div>
       </main>
 
-      {/* Full-Screen Player Overlay (Modal for YouTube & Instagram) */}
+      {/* Full-Screen Modal Player (YouTube & Instagram) */}
       {fullScreenVideo && (
         <div
           className="yt-fullscreen-backdrop"
@@ -341,7 +505,7 @@ const VideoReel = () => {
               </div>
             </div>
 
-            {/* Video Iframe Frame (handles YouTube and Instagram) */}
+            {/* Video Frame */}
             <div
               className={`yt-modal-video-frame ${
                 fullScreenVideo.aspect === "9:16" ? "yt-modal-video-frame--vertical" : ""
@@ -367,7 +531,7 @@ const VideoReel = () => {
               ></iframe>
             </div>
 
-            {/* Modal Bottom Caption */}
+            {/* Modal Footer */}
             <div className="yt-modal-footer">
               <span className={`yt-modal-creator ${fullScreenVideo.platform === "instagram" ? "yt-modal-creator--instagram" : ""}`}>
                 {fullScreenVideo.creator}

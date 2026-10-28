@@ -26,16 +26,21 @@ Copy and paste this prompt at the start of any AI coding conversation for this w
 
 ### 🎬 Video & Production Core
 - **`src/components/VideoReel.js` & `src/components/VideoReel.css`**:
-  - The **Video Reel** portfolio page (`/reel`).
-  - Displays video cards in a clean grid with category filtering chips:
-    - `All`
+  - The **Video Reel** portfolio page (`/reel`) styled like an authentic YouTube channel page.
+  - Lands on the **Featured** page by default with category tabs:
     - `Featured`
+    - `All`
     - `Don't Tell Comedy` (Montages filmed/edited for Don't Tell Comedy)
     - `Stand Up Sets` (Standup comedy sets, clips, and Instagram comedian features)
     - `My Shorts` (Original short film trailers & comedy shorts from `@sniffyscloset`)
-  - Features the **Don't Tell Comedy DC: Shaw 10/17** montage prominently at the top (`coVL3Nbr5H8`).
-  - Supports embedded **YouTube videos** AND **Instagram Reels** (e.g., WooWoo The Comedian's repost of `@sniffyscloset`).
-  - Contains full-screen modal player for both 16:9 widescreen and 9:16 vertical reels with direct external links.
+  - Features a clean, single-page theater view with a side playlist queue cycling through:
+    1. Don't Tell Comedy DC: Shaw 10/17 (`coVL3Nbr5H8`)
+    2. WooWoo The Comedian: AI Muse (`Dex35XQOLSn`)
+    3. Dom Grayer: Economy so bad comedy shows are the new Zillow (`DfANYJ8RgUk`)
+  - Displays Kyle's actual YouTube channel avatar (`public/youtube_channel_avatar.jpg`) and subtitle "Writer, Director".
+  - Strictly tab-driven without unnecessary vertical scrolling.
+  - All video tags and badges are positioned cleanly below thumbnails rather than on top of video frames.
+  - Supports embedded **YouTube videos** AND **Instagram Reels** with full-screen modal player for widescreen and vertical reels.
   - Automatically merges dynamically synced YouTube uploads from `src/data/youtubeFeed.json`.
 
 - **`src/components/Production.js` & `src/components/Production.css`**:
@@ -82,6 +87,7 @@ Copy and paste this prompt at the start of any AI coding conversation for this w
 - **`public/`**:
   - Static assets served directly:
     - `public/woowoo_sniffyscloset_reel.jpg`: Local cover image for WooWoo Instagram reel.
+    - `public/domgrayer_sniffyscloset_reel.jpg`: Local cover image for Dom Grayer Instagram reel.
     - `public/Kyle_Rood_Resume_Whole_2026.pdf`: Resume PDF.
     - `public/images/photography/`: Home page background photos.
 
