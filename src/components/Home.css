@@ -6,19 +6,17 @@ body {
 
 .home {
   width: 100%;
-  min-height: calc(100vh - 70px);
-  /* Account for navbar height */
+  height: calc(100dvh - 58px);
+  max-height: calc(100vh - 58px);
+  min-height: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Center vertically */
   align-items: center;
-  /* Center horizontally */
   position: relative;
-  padding: 40px 40px;
-  /* Consistent padding */
+  padding: 20px 40px;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .home__background {

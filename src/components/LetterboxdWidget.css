@@ -21,7 +21,7 @@
 .lb-carousel-section {
   margin-bottom: 0;
   overflow: hidden;
-  max-height: 480px;
+  max-height: 340px;
 }
 
 .lb-carousel-section .slick-slider {
@@ -45,11 +45,16 @@
 .lb-carousel-poster-wrapper {
   overflow: hidden;
   border-radius: 8px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
+  max-height: 215px;
+  display: flex;
+  justify-content: center;
 }
 
 .lb-carousel-poster {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 215px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s;

@@ -553,7 +553,7 @@ const LitVids = () => {
 
   const handleUnlock = (e) => {
     e.preventDefault();
-    if (passwordInput.trim().toLowerCase() === 'tidydiffing') {
+    if (passwordInput.trim().toLowerCase() === 'tidy') {
       setIsUnlocked(true);
       setErrorMessage('');
     } else {

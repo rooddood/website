@@ -22,11 +22,12 @@ function Blog() {
 
       <div className="letterboxd-substack-widget" style={{ 
         maxWidth: 400, 
-        margin: '-20px auto 20px auto', 
+        margin: '0 auto 6px auto', 
         position: 'relative',
         zIndex: 10,
         width: '100%',
-        height: '180px',
+        height: '145px',
+        flexShrink: 0,
         overflow: 'hidden',
         backgroundColor: 'var(--card-bg, #1e1e1e)',
         border: '1px solid var(--border-color, #333)',

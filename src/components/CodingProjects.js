@@ -1,9 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CodingProjects.css';
 import './TagBubble.css';
 
 const CodingProjects = () => {
+    const navigate = useNavigate();
+    const holdTimerRef = useRef(null);
+
+    const startSecretHold = (targetPath) => {
+        if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+        holdTimerRef.current = setTimeout(() => {
+            navigate(targetPath);
+        }, 3000);
+    };
+
+    const cancelSecretHold = () => {
+        if (holdTimerRef.current) {
+            clearTimeout(holdTimerRef.current);
+            holdTimerRef.current = null;
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+        };
+    }, []);
     // Reorder so AMOS and AmberVision are last, for bottom row
     const projects = [
         {
@@ -193,10 +215,27 @@ const CodingProjects = () => {
                 })}
             </section>
 
-            {/* Secret Out-of-the-way Button */}
-            <Link to="/litvids" className="secret-litvids-dot" aria-label="Secret Access" title="•">
-                •
-            </Link>
+            {/* Invisible 3-Second Hold Secret Corners (Left = Arcade, Right = LitVids) */}
+            <div
+                className="secret-corner-trigger secret-corner-left"
+                onMouseDown={() => startSecretHold('/arcade')}
+                onMouseUp={cancelSecretHold}
+                onMouseLeave={cancelSecretHold}
+                onTouchStart={() => startSecretHold('/arcade')}
+                onTouchEnd={cancelSecretHold}
+                onTouchCancel={cancelSecretHold}
+                aria-hidden="true"
+            />
+            <div
+                className="secret-corner-trigger secret-corner-right"
+                onMouseDown={() => startSecretHold('/litvids')}
+                onMouseUp={cancelSecretHold}
+                onMouseLeave={cancelSecretHold}
+                onTouchStart={() => startSecretHold('/litvids')}
+                onTouchEnd={cancelSecretHold}
+                onTouchCancel={cancelSecretHold}
+                aria-hidden="true"
+            />
         </div>
     );
 };

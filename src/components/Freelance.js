@@ -41,7 +41,6 @@ const Freelance = () => {
                   <button className="home__download-btn" onClick={handleDownload}>Download Resume</button>
                 </div>
             </section>
-            <br/>
 
             <section className="freelance-projects">
                 <h2>Recent Projects</h2>
@@ -64,8 +63,6 @@ const Freelance = () => {
                     ))}
                 </div>
             </section>
-            <br/>
-            <br/>
 
             <footer className="freelance-footer">
                 <h2>Contact Me</h2>

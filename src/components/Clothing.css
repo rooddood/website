@@ -3,41 +3,46 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  justify-content: center;
+  padding: 14px 20px;
   text-align: center;
-  min-height: calc(100vh - 70px);
+  height: calc(100dvh - 58px);
+  max-height: calc(100vh - 58px);
+  box-sizing: border-box;
+  overflow: hidden;
   color: var(--text-color, #f5f5f5);
 }
 
 .clothing-header {
   max-width: 600px;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
 }
 
 .clothing h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
+  font-size: 2em;
+  margin: 0 0 10px 0;
   color: var(--accent-color, #2980b9);
 }
 
 .profile-header {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .profile-picture {
-  width: 150px;
-  height: 150px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid var(--accent-color, #2980b9);
+  border: 3px solid var(--accent-color, #2980b9);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .clothing-intro p {
-  font-size: 1.15em;
-  line-height: 1.6;
+  font-size: 1em;
+  line-height: 1.45;
+  margin: 0;
   color: #ccc;
 }
 
@@ -45,7 +50,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
   width: 100%;
   max-width: 800px;
 }
@@ -54,13 +59,14 @@
   background-color: var(--card-bg, #1e1e1e);
   border: 1px solid var(--border-color, #333);
   border-radius: 12px;
-  padding: 30px;
+  padding: 18px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
   color: inherit;
-  width: 200px;
+  width: 180px;
+  box-sizing: border-box;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -71,11 +77,11 @@
 }
 
 .logo-container {
-  height: 80px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .logo {

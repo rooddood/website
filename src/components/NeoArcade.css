@@ -1,0 +1,633 @@
+/* NeoArcade.css - Giant Arcade Cabinet + AddictingGames Right Sidebar */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@600;700&display=swap');
+
+.neo-arcade-shell {
+  --bg-main: #070910;
+  --cabinet-body: #121728;
+  --cabinet-trim: #00e5ff;
+  --cabinet-pink: #ff2a85;
+  --cabinet-green: #00e676;
+  --cabinet-yellow: #ffd60a;
+  --sidebar-bg: #0f1320;
+  --card-bg: #171e31;
+  --border-col: #263354;
+
+  background: radial-gradient(circle at 35% 25%, #161d36 0%, #070910 70%);
+  color: #ffffff;
+  font-family: 'Fredoka', sans-serif;
+  height: calc(100dvh - 58px);
+  max-height: calc(100vh - 58px);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 14px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+  user-select: none;
+  text-align: left;
+}
+
+/* ============================================================================
+   LEFT: GIANT ARCADE CABINET (SCREEN BEZEL + JOYSTICK CONTROL DECK)
+   ============================================================================ */
+.arcade-cabinet-outer {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #1b223a 0%, #0d111f 100%);
+  border: 4px solid var(--cabinet-trim);
+  border-radius: 22px 22px 18px 18px;
+  box-shadow:
+    0 0 28px rgba(0, 229, 255, 0.25),
+    inset 0 0 24px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+}
+
+/* Top Thin Marquee Lip on Cabinet */
+.arcade-marquee-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px;
+  background: linear-gradient(90deg, #ff2a85 0%, #7209b7 50%, #00c8ff 100%);
+  border-bottom: 3px solid #070910;
+  flex-shrink: 0;
+}
+
+.arcade-marquee-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 1px;
+}
+
+.arcade-marquee-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arcade-tag-chip-header {
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--cabinet-yellow);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+/* Difficulty Selector Pills (EASY / MEDIUM / HARD) */
+.diff-selector {
+  display: inline-flex;
+  background: rgba(0, 0, 0, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 99px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.diff-btn {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.diff-btn:hover {
+  color: #ffffff;
+}
+
+.diff-btn.active.easy {
+  background: var(--cabinet-green);
+  color: #031c0e;
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.6);
+}
+
+.diff-btn.active.medium {
+  background: var(--cabinet-yellow);
+  color: #1c1400;
+  box-shadow: 0 0 10px rgba(255, 214, 10, 0.6);
+}
+
+.diff-btn.active.hard {
+  background: var(--cabinet-pink);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 42, 133, 0.7);
+}
+
+.arcade-Bezel {
+  flex: 1;
+  margin: 10px 12px 6px;
+  background: #04060b;
+  border: 6px solid #222b45;
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(0, 229, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.arcade-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: crosshair;
+}
+
+.arcade-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #05070e;
+}
+
+/* Floating Toast inside Screen */
+.arcade-toast {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cabinet-green);
+  color: #03180c;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5);
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* ============================================================================
+   BOTTOM ARCADE KEYBOARD CONTROL DECK (WASD + SPACE + ARROWS)
+   ============================================================================ */
+.arcade-control-deck {
+  height: 98px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #171f36 0%, #0b0f1c 100%);
+  border-top: 3px solid #2e3d64;
+  padding: 6px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: inset 0 6px 14px rgba(255, 255, 255, 0.05);
+}
+
+.key-cluster-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.key-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.key-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.key-cluster-caption {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9eb0d2;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Mechanical Arcade Keycap */
+.arcade-keycap {
+  min-width: 36px;
+  height: 34px;
+  padding: 0 8px;
+  background: linear-gradient(180deg, #283556 0%, #1b243b 100%);
+  border: 2px solid #455a8f;
+  border-bottom-width: 5px;
+  border-radius: 7px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.55);
+  transition: transform 0.05s ease, background 0.08s ease, border-color 0.08s ease;
+}
+
+.arcade-keycap:hover {
+  border-color: var(--cabinet-trim);
+}
+
+.arcade-keycap:active,
+.arcade-keycap.pressed {
+  transform: translateY(3px);
+  border-bottom-width: 2px;
+  background: var(--cabinet-trim);
+  border-color: #ffffff;
+  color: #04121f;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.7);
+}
+
+.arcade-keycap.p2-key {
+  background: linear-gradient(180deg, #421c38 0%, #291024 100%);
+  border-color: #ff2a85;
+}
+
+.arcade-keycap.p2-key:active,
+.arcade-keycap.p2-key.pressed {
+  background: #ff2a85;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 42, 133, 0.7);
+}
+
+.arcade-keycap.space-key {
+  min-width: 145px;
+  height: 42px;
+  background: linear-gradient(180deg, #00e676 0%, #00a854 100%);
+  border-color: #80ffbd;
+  color: #031c0e;
+  font-size: 11px;
+}
+
+.arcade-keycap.space-key:active,
+.arcade-keycap.space-key.pressed {
+  background: #ffd60a;
+  border-color: #ffffff;
+  color: #1a1200;
+  box-shadow: 0 0 18px rgba(255, 214, 10, 0.8);
+}
+
+.keycap-sub {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+.mouse-hint-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 229, 255, 0.12);
+  border: 2px dashed var(--cabinet-trim);
+  border-radius: 10px;
+  padding: 6px 12px;
+  color: var(--cabinet-trim);
+  font-size: 11px;
+  font-weight: 700;
+  gap: 2px;
+}
+
+/* Center / Right Utility Keycaps */
+.deck-center-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.deck-pill-btn {
+  background: #232e4a;
+  border: 2px solid #3c4f7c;
+  border-bottom-width: 5px;
+  color: #e2e8f0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: transform 0.08s ease;
+}
+
+.deck-pill-btn:active {
+  transform: translateY(3px);
+  border-bottom-width: 2px;
+}
+
+.deck-pill-btn.active-mode {
+  background: var(--cabinet-pink);
+  border-color: #ff85b3;
+  color: #fff;
+}
+
+.deck-pill-btn.share-btn {
+  background: #0077ff;
+  border-color: #66b2ff;
+  color: #fff;
+}
+
+/* ============================================================================
+   RIGHT SIDEBAR (ADDICTINGGAMES STYLE: UPLOAD + TAGS + VISUAL PREVIEWS)
+   ============================================================================ */
+.arcade-sidebar {
+  background: var(--sidebar-bg);
+  border: 2px solid var(--border-col);
+  border-radius: 18px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.sidebar-upload-btn {
+  background: linear-gradient(135deg, #00e676, #00b4d8);
+  color: #041d12;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 12px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(0, 230, 118, 0.28);
+  transition: transform 0.12s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-upload-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Filter Tag Bar */
+.sidebar-tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.tag-filter-pill {
+  background: #182136;
+  border: 1px solid #2d3d63;
+  color: #9eb0d2;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 99px;
+  cursor: pointer;
+}
+
+.tag-filter-pill:hover {
+  color: #fff;
+  border-color: var(--cabinet-trim);
+}
+
+.tag-filter-pill.active {
+  background: var(--cabinet-trim);
+  color: #05131f;
+  border-color: var(--cabinet-trim);
+}
+
+/* Scrollable Related Games List */
+.sidebar-games-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 3px;
+  min-height: 0;
+}
+
+.sidebar-games-list::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar-games-list::-webkit-scrollbar-thumb {
+  background: #2b395c;
+  border-radius: 4px;
+}
+
+.sidebar-game-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-col);
+  border-radius: 12px;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.sidebar-game-card:hover {
+  transform: translateX(-2px);
+  border-color: var(--cabinet-trim);
+}
+
+.sidebar-game-card.selected {
+  border-color: var(--cabinet-green);
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.16), #171e31);
+}
+
+/* Visual Game Preview Thumbnail (No Emojis!) */
+.game-preview-thumb {
+  width: 78px;
+  height: 54px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #080b14;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-preview-thumb svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sidebar-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.mini-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(0, 229, 255, 0.14);
+  color: var(--cabinet-trim);
+}
+
+.sidebar-share-icon-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid #33446b;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sidebar-share-icon-btn:hover {
+  background: #0077ff;
+  border-color: #66b2ff;
+}
+
+/* Compact High Scores Footer in Sidebar */
+.sidebar-scores-box {
+  background: #13192b;
+  border: 1px solid var(--border-col);
+  border-radius: 12px;
+  padding: 8px 10px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar-scores-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cabinet-yellow);
+}
+
+.sidebar-name-mini {
+  background: #080b14;
+  border: 1px solid #2d3d63;
+  color: var(--cabinet-yellow);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+  width: 78px;
+}
+
+.sidebar-score-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #d6e4ff;
+}
+
+/* Upload Overlay inside Arcade Screen */
+.upload-screen-panel {
+  width: 100%;
+  height: 100%;
+  padding: 22px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  background: #070a14;
+  overflow-y: auto;
+}
+
+.upload-drop-zone {
+  border: 3px dashed var(--cabinet-trim);
+  border-radius: 16px;
+  background: rgba(0, 229, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.upload-drop-zone:hover {
+  border-color: var(--cabinet-green);
+  background: rgba(0, 230, 118, 0.1);
+}
+
+.upload-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-input,
+.upload-textarea {
+  background: #0d1324;
+  border: 2px solid #28375a;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+}
+
+.upload-textarea {
+  flex: 1;
+  font-family: monospace;
+  font-size: 12px;
+  resize: none;
+}
+
+@media (max-width: 960px) {
+  .neo-arcade-shell {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+  .arcade-Bezel {
+    height: 440px;
+  }
+  .upload-screen-panel {
+    grid-template-columns: 1fr;
+  }
+}
