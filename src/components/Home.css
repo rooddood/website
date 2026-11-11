@@ -93,9 +93,35 @@ body {
 
 .home__tagline {
   font-size: 1.5em;
-  margin: 0 0 20px 0;
+  margin: 0 0 22px 0;
   font-weight: 500;
   text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.home__reel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 26px;
+  background: rgba(41, 128, 185, 0.88);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home__reel-btn:hover {
+  background: #3498db;
+  color: #ffffff;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(52, 152, 219, 0.55);
 }
 
 /* Pinned Bottom Contact Links */

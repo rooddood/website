@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 // Dynamically import images from the /images/photography folder
@@ -63,6 +64,9 @@ const Home = () => {
       <header className="home__header">
         <h1>Hi, I'm Kyle Rood</h1>
         <p className="home__tagline">Writer, Producer, Developer.</p>
+        <Link to="/reel" className="home__reel-btn">
+          Watch Video Reel &#9654;
+        </Link>
       </header>
 
       {/* Pinned Bottom Contact Links */}

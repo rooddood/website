@@ -1,151 +1,100 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import './NeoArcade.css';
+import { initTowerfallGame } from './arcade/towerfallGame';
+import { initSmashBrawlGame } from './arcade/smashBrawlGame';
+import { initTankGame } from './arcade/tankGame';
+import { initLineRiderGame } from './arcade/lineRiderGame';
+import { initRaftWarsGame } from './arcade/raftWarsGame';
+import { initHeistGame } from './arcade/heistGame';
+import { initCampsiteGame } from './arcade/campsiteGame';
+import { initMovie8BitGame } from './arcade/movie8BitGame';
+import { initEscherGame } from './arcade/escherGame';
 
 // ============================================================================
-// SAMPLE AI-GENERATED HTML DEMO GAME (Supports EASY / MEDIUM / HARD)
+// GAMES CATALOG
 // ============================================================================
-const buildDodgerHtml = (diff = 'MEDIUM') => {
-  const spawnRate = diff === 'EASY' ? 0.05 : diff === 'HARD' ? 0.13 : 0.085;
-  const baseSpeed = diff === 'EASY' ? 2.2 : diff === 'HARD' ? 5.2 : 3.5;
-  const hitAllowance = diff === 'EASY' ? 9 : 12;
-  return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>Star Dodger</title>
-<style>
-  body { margin: 0; background: #05070e; color: #00e676; font-family: sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; user-select: none; }
-  canvas { border: 2px solid #00c8ff; border-radius: 10px; background: #080b14; max-width: 96%; max-height: 85%; }
-  .hud { margin-bottom: 6px; font-size: 15px; font-weight: bold; display: flex; gap: 20px; color: #fff; }
-</style>
-</head>
-<body>
-  <div class="hud">
-    <span style="color:#ffd60a">STAR DODGER (${diff})</span>
-    <span id="score">SCORE: 0</span>
-    <span style="color:#9eb0d2">Mouse or Arrows</span>
-  </div>
-  <canvas id="c" width="680" height="400"></canvas>
-  <script>
-    const canvas = document.getElementById('c');
-    const ctx = canvas.getContext('2d');
-    let px = 340, score = 0, alive = true, meteors = [], keys = {};
-    window.addEventListener('keydown', e => keys[e.key] = true);
-    window.addEventListener('keyup', e => keys[e.key] = false);
-    canvas.addEventListener('mousemove', e => {
-      const r = canvas.getBoundingClientRect();
-      px = (e.clientX - r.left) * (canvas.width / r.width);
-    });
-    canvas.addEventListener('click', () => {
-      if (!alive) { alive = true; score = 0; meteors = []; }
-    });
-    function loop() {
-      ctx.fillStyle = '#080b14';
-      ctx.fillRect(0, 0, 680, 400);
-      if (alive) {
-        if (keys['ArrowLeft'] || keys['a']) px -= 7.5;
-        if (keys['ArrowRight'] || keys['d']) px += 7.5;
-        px = Math.max(20, Math.min(660, px));
-        if (Math.random() < ${spawnRate}) meteors.push({ x: Math.random() * 640 + 20, y: -10, r: 9 + Math.random() * 11, vy: ${baseSpeed} + Math.random() * 3.5 });
-        score++;
-        document.getElementById('score').textContent = 'SCORE: ' + score;
-      }
-      ctx.fillStyle = '#00e676';
-      ctx.beginPath();
-      ctx.moveTo(px, 355); ctx.lineTo(px - 15, 385); ctx.lineTo(px + 15, 385);
-      ctx.fill();
-      ctx.fillStyle = '#ff2a85';
-      for (let i = meteors.length - 1; i >= 0; i--) {
-        const m = meteors[i];
-        if (alive) m.y += m.vy;
-        ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2); ctx.fill();
-        if (alive && Math.hypot(m.x - px, m.y - 370) < m.r + ${hitAllowance}) {
-          alive = false;
-          window.parent.postMessage({ type: 'NEO_ARCADE_SCORE', score }, '*');
-        }
-        if (m.y > 420) meteors.splice(i, 1);
-      }
-      if (!alive) {
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 22px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('SCORE: ' + score + ' (Click to Retry)', 340, 200);
-      }
-      requestAnimationFrame(loop);
-    }
-    loop();
-  </script>
-</body>
-</html>`;
-};
-
-const SAMPLE_DODGER_HTML = buildDodgerHtml('MEDIUM');
-
-// ============================================================================
-// GAMES CATALOG WITH TAGS
-// ============================================================================
-const ALL_TAGS = ['ALL', '#3D', '#ACTION', '#2P', '#ARCADE', '#AI'];
+const GAMES_PER_PAGE = 4;
 
 const BUILTIN_GAMES = [
   {
-    id: 'hotdog',
-    title: '3D Hot Dog Ninja',
-    tags: ['#3D', '#ACTION', '#ARCADE'],
-    supports2P: false
+    id: 'towerfall',
+    title: 'TowerFall: Arrow Ascent',
+    tags: ['#ACTION', '#ARCADE'],
+    supports2P: false,
+    desc: 'Single-screen archery arena with air-dodge, arrow catch & waves.'
   },
   {
     id: 'stickman',
-    title: 'Stickman Brawl',
+    title: 'Super Stick Brawl',
     tags: ['#ACTION', '#2P'],
-    supports2P: true
+    supports2P: true,
+    desc: 'Smash Bros combat: choose your fighter, build % damage & launch off-stage!'
   },
   {
     id: 'tanks',
-    title: 'Tank Battle Royale',
-    tags: ['#ACTION', '#2P'],
-    supports2P: true
+    title: 'Scorched Tanks 2D',
+    tags: ['#ACTION', '#RPG', '#2P'],
+    supports2P: true,
+    desc: 'Turn-based destructible pixel artillery with shop, upgrades & weapons.'
   },
   {
-    id: 'pinball',
-    title: 'Cyber Pinball',
-    tags: ['#ARCADE'],
+    id: 'hotdog',
+    title: '3D Hot Dog Ninja',
+    tags: ['#ACTION', '#ARCADE'],
+    supports2P: false,
+    desc: 'Slice 3D shaded hot dogs with blazing katana combos. Watch out for bombs!'
+  }
+  /* Hidden WIP games — kept in codebase for future refinement:
+  {
+    id: 'movie8bit',
+    title: '8-Bit Blockbusters',
+    tags: ['#8BIT', '#RPG', '#ACTION'],
     supports2P: false
   },
   {
-    id: 'snake',
-    title: 'Neon Snake Race',
-    tags: ['#ARCADE', '#2P'],
-    supports2P: true
+    id: 'escher',
+    title: 'Escher Valley: Odyssey',
+    tags: ['#8BIT', '#ARCADE', '#ACTION'],
+    supports2P: false
   },
   {
-    id: 'dodger',
-    title: 'Star Dodger Demo',
-    tags: ['#AI', '#ARCADE'],
-    supports2P: false,
-    isCustom: true,
-    htmlContent: SAMPLE_DODGER_HTML
+    id: 'raftwars',
+    title: 'Raft Wars: Pirate Siege',
+    tags: ['#ACTION', '#RPG', '#ARCADE'],
+    supports2P: false
+  },
+  {
+    id: 'heist',
+    title: 'The Grand Heist',
+    tags: ['#RPG', '#ACTION'],
+    supports2P: false
+  },
+  {
+    id: 'campsite',
+    title: '8-Bit Cryptid Camp',
+    tags: ['#8BIT', '#RPG', '#ARCADE'],
+    supports2P: false
+  },
+  {
+    id: 'linerider',
+    title: 'Line Rider Studio',
+    tags: ['#ARCADE', '#ACTION'],
+    supports2P: false
   }
+  */
 ];
 
 const DEFAULT_CSV_TEXT = `game,player,score
+towerfall,MATT_ARCHER,4200
+towerfall,CELESTE_PRO,2850
+stickman,SMASH_CHAMP,3400
+stickman,BLOX_NINJA,2100
+tanks,SCORCH_KING,2450
+tanks,BOMB_BOSS,1750
+tanks,KYLE,1200
 hotdog,GLIZZY_GOD,1850
-hotdog,MUSTARD_KING,1240
-hotdog,KYLE,920
-stickman,BLOX_NINJA,1200
-stickman,VICTORY_ROYALE,950
-stickman,KYLE,700
-tanks,TANK_BOSS,1600
-tanks,BLASTER_99,1100
-tanks,KYLE,800
-pinball,PIXEL_KING,4250
-pinball,NEON_FOX,3100
-pinball,KYLE,2400
-snake,SPEED_VIPER,950
-snake,GLITCH_KID,650
-snake,KYLE,450
-dodger,STAR_PILOT,1420
-dodger,ASTRO_KID,890`;
+hotdog,MUSTARD_KING,1240`;
 
 const KID_AI_PROMPT = `Make me a single-file HTML5 game! Put all HTML, CSS, and JS in one file using a 720x460 canvas. On Game Over, send the score with: window.parent.postMessage({ type: 'NEO_ARCADE_SCORE', score: finalScore }, '*');`;
 
@@ -153,43 +102,68 @@ const KID_AI_PROMPT = `Make me a single-file HTML5 game! Put all HTML, CSS, and 
 // ACTUAL VISUAL GAME PREVIEW ARTWORK (NO EMOJIS)
 // ============================================================================
 const GamePreviewThumb = ({ gameId }) => {
-  if (gameId === 'hotdog') {
+  if (gameId === 'towerfall') {
     return (
       <div className="game-preview-thumb">
-        <svg viewBox="0 0 80 54">
-          <rect width="80" height="54" fill="#090d1a" />
-          {/* 3D Bun & Sausage */}
-          <g transform="translate(40,28) rotate(-18)">
-            <rect x="-24" y="-9" width="48" height="18" rx="9" fill="#d97706" />
-            <rect x="-28" y="-5" width="56" height="10" rx="5" fill="#b91c1c" />
-            <path d="M-20,0 Q-10,-5 0,0 T20,0" stroke="#ffd60a" strokeWidth="2.5" fill="none" />
-          </g>
-          {/* Glowing Katana Slash */}
-          <line x1="10" y1="46" x2="70" y2="8" stroke="#00e5ff" strokeWidth="3" />
-          <circle cx="52" cy="16" r="2.5" fill="#ffd60a" />
-          <circle cx="28" cy="38" r="2" fill="#ef4444" />
+        <svg viewBox="0 0 80 54" shapeRendering="crispEdges">
+          {/* Dark Castle Arena */}
+          <rect width="80" height="54" fill="#0a0d18" />
+          <rect x="0" y="44" width="80" height="10" fill="#1e293b" />
+          <rect x="0" y="44" width="80" height="2" fill="#64748b" />
+          {/* Floating Stone Ledge */}
+          <rect x="18" y="28" width="44" height="6" fill="#334155" />
+          <rect x="18" y="28" width="44" height="2" fill="#94a3b8" />
+          {/* Torch Flicker */}
+          <rect x="66" y="24" width="3" height="6" fill="#64748b" />
+          <rect x="66" y="20" width="3" height="4" fill="#f97316" />
+          {/* Green Archer with Bow */}
+          <rect x="22" y="14" width="8" height="14" fill="#10b981" />
+          <rect x="24" y="12" width="6" height="4" fill="#047857" />
+          <rect x="29" y="16" width="2" height="10" fill="#fde047" />
+          {/* Flying Arrow with blue streak */}
+          <line x1="33" y1="20" x2="48" y2="18" stroke="#38bdf8" strokeWidth="1.5" />
+          <rect x="48" y="17" width="3" height="3" fill="#f8fafc" />
+          {/* Enemy Bat / Slime */}
+          <rect x="56" y="16" width="7" height="6" fill="#a855f7" />
+          <rect x="54" y="18" width="2" height="3" fill="#ef4444" />
         </svg>
       </div>
     );
   }
-  if (gameId === 'stickman') {
+  if (gameId === 'movie8bit') {
     return (
       <div className="game-preview-thumb">
         <svg viewBox="0 0 80 54">
-          <rect width="80" height="54" fill="#090d1a" />
-          <rect x="10" y="42" width="60" height="4" fill="#00e5ff" />
-          {/* Green Stickman */}
-          <circle cx="26" cy="20" r="4.5" stroke="#00e676" strokeWidth="2.2" fill="none" />
-          <line x1="26" y1="25" x2="26" y2="35" stroke="#00e676" strokeWidth="2.2" />
-          <line x1="26" y1="28" x2="37" y2="25" stroke="#00e676" strokeWidth="2.2" />
-          <line x1="26" y1="35" x2="21" y2="42" stroke="#00e676" strokeWidth="2.2" />
-          <line x1="26" y1="35" x2="31" y2="42" stroke="#00e676" strokeWidth="2.2" />
-          {/* Pink Stickman */}
-          <circle cx="54" cy="20" r="4.5" stroke="#ff2a85" strokeWidth="2.2" fill="none" />
-          <line x1="54" y1="25" x2="54" y2="35" stroke="#ff2a85" strokeWidth="2.2" />
-          <line x1="54" y1="28" x2="43" y2="25" stroke="#ff2a85" strokeWidth="2.2" />
-          <line x1="54" y1="35" x2="49" y2="42" stroke="#ff2a85" strokeWidth="2.2" />
-          <line x1="54" y1="35" x2="59" y2="42" stroke="#ff2a85" strokeWidth="2.2" />
+          <rect width="80" height="54" fill="#060914" />
+          {/* 8-Bit Film Strip Clapperboard & Pixel Hero */}
+          <rect x="8" y="8" width="64" height="10" fill="#1e293b" stroke="#ffd60a" strokeWidth="1.2" />
+          <line x1="18" y1="8" x2="14" y2="18" stroke="#ffd60a" strokeWidth="2" />
+          <line x1="34" y1="8" x2="30" y2="18" stroke="#ffd60a" strokeWidth="2" />
+          <line x1="50" y1="8" x2="46" y2="18" stroke="#ffd60a" strokeWidth="2" />
+          <rect x="8" y="42" width="64" height="5" fill="#00e676" />
+          {/* 8-Bit Hero & Boss */}
+          <rect x="20" y="29" width="8" height="13" fill="#00e5ff" />
+          <rect x="28" y="33" width="8" height="3" fill="#ffd60a" />
+          <rect x="52" y="25" width="11" height="17" fill="#ff2a85" />
+        </svg>
+      </div>
+    );
+  }
+  if (gameId === 'escher') {
+    return (
+      <div className="game-preview-thumb">
+        <svg viewBox="0 0 80 54">
+          <rect width="80" height="54" fill="#1d1e2c" />
+          {/* Impossible Penrose Triangle / Monument Valley Arch */}
+          <polygon points="14,42 36,42 40,36 18,36" fill="#f2cc8f" />
+          <rect x="14" y="42" width="22" height="7" fill="#e07a5f" />
+          <polygon points="40,30 68,30 72,24 44,24" fill="#a8dadc" />
+          <rect x="40" y="30" width="28" height="7" fill="#457b9d" />
+          {/* Golden Rotor Wheel */}
+          <circle cx="38" cy="34" r="4.5" fill="#ffb703" stroke="#ffffff" strokeWidth="1.2" />
+          {/* Pilgrim in Conical Hat */}
+          <polygon points="24,25 20,36 28,36" fill="#ffffff" />
+          <polygon points="24,18 19,26 29,26" fill="#ffb703" />
         </svg>
       </div>
     );
@@ -197,41 +171,142 @@ const GamePreviewThumb = ({ gameId }) => {
   if (gameId === 'tanks') {
     return (
       <div className="game-preview-thumb">
-        <svg viewBox="0 0 80 54">
-          <rect width="80" height="54" fill="#090d1a" />
-          <rect x="37" y="14" width="6" height="26" fill="#1e293b" stroke="#00e5ff" strokeWidth="1" />
-          <rect x="10" y="21" width="14" height="12" rx="2" fill="#00e676" />
-          <rect x="20" y="25" width="9" height="4" fill="#fff" />
-          <rect x="56" y="21" width="14" height="12" rx="2" fill="#ff2a85" />
-          <rect x="51" y="25" width="9" height="4" fill="#fff" />
-          <circle cx="32" cy="27" r="2.5" fill="#ffd60a" />
+        <svg viewBox="0 0 80 54" shapeRendering="crispEdges">
+          {/* 16-Bit Stepped Sunset Sky */}
+          <rect width="80" height="12" fill="#2a0b38" />
+          <rect y="12" width="80" height="10" fill="#6e1848" />
+          <rect y="22" width="80" height="12" fill="#d9383a" />
+          <rect y="34" width="80" height="20" fill="#ff8c24" />
+          {/* Sliced Pixel Sun */}
+          <rect x="44" y="14" width="18" height="4" fill="#fff1d0" />
+          <rect x="42" y="19" width="22" height="4" fill="#ffbe0b" />
+          <rect x="44" y="25" width="18" height="3" fill="#ff6b2b" />
+          {/* Stepped Pixel Terrain */}
+          <rect x="0" y="34" width="28" height="20" fill="#8c222a" />
+          <rect x="28" y="38" width="22" height="16" fill="#8c222a" />
+          <rect x="50" y="32" width="30" height="22" fill="#8c222a" />
+          <rect x="0" y="34" width="28" height="3" fill="#ffbe0b" />
+          <rect x="28" y="38" width="22" height="3" fill="#ffbe0b" />
+          <rect x="50" y="32" width="30" height="3" fill="#ffbe0b" />
+          {/* 8-Bit Tank & Pixel Arc */}
+          <rect x="8" y="28" width="14" height="6" fill="#ffbe0b" />
+          <rect x="11" y="25" width="8" height="3" fill="#fff1d0" />
+          <rect x="19" y="24" width="8" height="2" fill="#fff1d0" />
+          <rect x="30" y="18" width="3" height="3" fill="#fff1d0" />
+          <rect x="38" y="14" width="3" height="3" fill="#ffbe0b" />
+          <rect x="46" y="16" width="3" height="3" fill="#ffbe0b" />
+          <rect x="54" y="23" width="5" height="5" fill="#ff3864" />
         </svg>
       </div>
     );
   }
-  if (gameId === 'pinball') {
+  if (gameId === 'raftwars') {
     return (
       <div className="game-preview-thumb">
         <svg viewBox="0 0 80 54">
-          <rect width="80" height="54" fill="#090d1a" />
-          <circle cx="26" cy="16" r="6" fill="#00e5ff" />
-          <circle cx="54" cy="16" r="6" fill="#ff2a85" />
-          <circle cx="40" cy="25" r="7" fill="#ffd60a" />
-          <circle cx="44" cy="36" r="3.5" fill="#fff" />
-          <line x1="20" y1="46" x2="35" y2="41" stroke="#00e676" strokeWidth="3.5" strokeLinecap="round" />
-          <line x1="60" y1="46" x2="45" y2="41" stroke="#00e676" strokeWidth="3.5" strokeLinecap="round" />
+          <rect width="80" height="54" fill="#09152b" />
+          <path d="M0,40 Q20,36 40,40 T80,40 L80,54 L0,54 Z" fill="#00b4d8" />
+          {/* Raft */}
+          <polygon points="8,36 28,36 24,41 12,41" fill="#ca8a04" />
+          <circle cx="18" cy="30" r="3.5" fill="#fde047" />
+          {/* Pirate Ship */}
+          <polygon points="48,34 74,34 69,41 53,41" fill="#78350f" />
+          <line x1="61" y1="34" x2="61" y2="15" stroke="#fff" strokeWidth="1.8" />
+          <rect x="61" y="15" width="11" height="8" fill="#ef4444" />
         </svg>
       </div>
     );
   }
-  if (gameId === 'snake') {
+  if (gameId === 'heist') {
     return (
       <div className="game-preview-thumb">
         <svg viewBox="0 0 80 54">
-          <rect width="80" height="54" fill="#090d1a" />
-          <polyline points="12,38 28,38 28,20 46,20" fill="none" stroke="#00e676" strokeWidth="5" strokeLinecap="square" />
-          <polyline points="68,14 54,14 54,36" fill="none" stroke="#ff2a85" strokeWidth="5" strokeLinecap="square" />
-          <rect x="38" y="32" width="6" height="6" fill="#ffd60a" />
+          <rect width="80" height="54" fill="#070b16" />
+          {/* Vault Door */}
+          <rect x="44" y="10" width="28" height="34" rx="3" fill="#1e293b" stroke="#ffd60a" strokeWidth="2" />
+          <circle cx="58" cy="27" r="8" fill="none" stroke="#ffd60a" strokeWidth="2" />
+          {/* Laser & Operative */}
+          <line x1="34" y1="6" x2="34" y2="48" stroke="#ff2a85" strokeWidth="1.5" strokeDasharray="3,2" />
+          <circle cx="18" cy="28" r="5" fill="#00e676" />
+        </svg>
+      </div>
+    );
+  }
+  if (gameId === 'campsite') {
+    return (
+      <div className="game-preview-thumb">
+        <svg viewBox="0 0 80 54">
+          <rect width="80" height="54" fill="#060913" />
+          <rect x="0" y="42" width="80" height="12" fill="#052e16" />
+          {/* 8-Bit Tent & Campfire */}
+          <polygon points="14,42 26,24 38,42" fill="#d97706" />
+          <rect x="44" y="34" width="8" height="8" fill="#f97716" />
+          <rect x="46" y="29" width="4" height="6" fill="#fde047" />
+          {/* UFO & Sasquatch */}
+          <ellipse cx="60" cy="14" rx="9" ry="3.5" fill="#00e676" />
+          <rect x="62" y="28" width="8" height="14" fill="#78350f" />
+        </svg>
+      </div>
+    );
+  }
+  if (gameId === 'linerider') {
+    return (
+      <div className="game-preview-thumb">
+        <svg viewBox="0 0 80 54">
+          <rect width="80" height="54" fill="#070b16" />
+          <path d="M8,16 Q32,42 52,32 T74,18" fill="none" stroke="#00e5ff" strokeWidth="3" />
+          <circle cx="38" cy="23" r="3.5" fill="#ffffff" />
+          <line x1="29" y1="29" x2="45" y2="27" stroke="#ffd60a" strokeWidth="2.5" />
+          <path d="M35,23 Q26,21 20,25" fill="none" stroke="#ff2a85" strokeWidth="2.5" />
+        </svg>
+      </div>
+    );
+  }
+  if (gameId === 'hotdog') {
+    return (
+      <div className="game-preview-thumb">
+        <svg viewBox="0 0 80 54" shapeRendering="crispEdges">
+          {/* Stepped Sunset Sky */}
+          <rect width="80" height="14" fill="#240933" />
+          <rect y="14" width="80" height="14" fill="#6b1546" />
+          <rect y="28" width="80" height="14" fill="#bd2d3b" />
+          <rect y="42" width="80" height="12" fill="#f26427" />
+          {/* 16-Bit Pixel Hot Dog */}
+          <rect x="18" y="20" width="44" height="14" fill="#e07a24" />
+          <rect x="12" y="23" width="56" height="8" fill="#c92a2a" />
+          <rect x="20" y="26" width="8" height="3" fill="#ffbe0b" />
+          <rect x="30" y="24" width="8" height="3" fill="#ffbe0b" />
+          <rect x="40" y="26" width="8" height="3" fill="#ffbe0b" />
+          <rect x="50" y="24" width="8" height="3" fill="#ffbe0b" />
+          {/* Stepped Pixel Fire Blade Slash */}
+          <rect x="14" y="40" width="8" height="4" fill="#ff3864" />
+          <rect x="24" y="34" width="10" height="4" fill="#ff6b2b" />
+          <rect x="36" y="26" width="10" height="4" fill="#ffbe0b" />
+          <rect x="48" y="18" width="10" height="4" fill="#fff1d0" />
+          <rect x="60" y="10" width="8" height="4" fill="#ffbe0b" />
+        </svg>
+      </div>
+    );
+  }
+  if (gameId === 'stickman') {
+    return (
+      <div className="game-preview-thumb">
+        <svg viewBox="0 0 80 54" shapeRendering="crispEdges">
+          <rect width="80" height="54" fill="#080c18" />
+          {/* Floating Smash Island */}
+          <rect x="12" y="38" width="56" height="8" fill="#1e293b" />
+          <rect x="12" y="38" width="56" height="2" fill="#38bdf8" />
+          {/* P1 Blaze (Red) */}
+          <rect x="22" y="18" width="8" height="20" fill="#ef4444" />
+          <rect x="20" y="20" width="12" height="3" fill="#f97316" />
+          <rect x="28" y="23" width="8" height="4" fill="#ffd60a" />
+          {/* P2 Frost (Cyan) Launching into air */}
+          <rect x="48" y="14" width="8" height="20" fill="#06b6d4" />
+          <rect x="48" y="16" width="12" height="3" fill="#38bdf8" />
+          <circle cx="44" cy="22" r="3" fill="#ffd60a" />
+          {/* % Badge */}
+          <rect x="52" y="3" width="24" height="8" fill="#ef4444" />
+          <text x="64" y="9" fill="#fff" fontSize="5" fontFamily="monospace" textAnchor="middle">120%</text>
         </svg>
       </div>
     );
@@ -268,41 +343,42 @@ function rowsToCsv(rows) {
 }
 
 // ============================================================================
-// 3D HOT DOG RENDERER HELPER (Draws Whole or Sliced 3D Hot Dogs on Canvas)
+// 16-BIT PIXEL ART HOT DOG & GRILL BOMB RENDERER (Chunky Stepped Pixel Blocks)
 // ============================================================================
 function draw3DHotDog(ctx, item) {
   ctx.save();
-  ctx.translate(item.x, item.y);
-  ctx.rotate(item.angle);
+  ctx.translate(Math.round(item.x), Math.round(item.y));
+  // Snap rotation to 16 discrete retro sprite angles for authentic 16-bit feel!
+  const qAngle = Math.round(item.angle / (Math.PI / 8)) * (Math.PI / 8);
+  ctx.rotate(qAngle);
   const s = item.scale || 1;
   ctx.scale(s, s);
 
   if (item.isBomb) {
-    // 3D Spiky Grill Bomb
-    const grad = ctx.createRadialGradient(-8, -8, 3, 0, 0, 26);
-    grad.addColorStop(0, '#64748b');
-    grad.addColorStop(0.6, '#1e293b');
-    grad.addColorStop(1, '#020617');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(0, 0, 24, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#ff2a85';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    // 8-Bit Stepped Pixel Grill Bomb
+    ctx.fillStyle = '#12041c';
+    ctx.fillRect(-20, -16, 40, 32);
+    ctx.fillRect(-16, -20, 32, 40);
 
-    // Burning Fuse + Spark
-    ctx.strokeStyle = '#f59e0b';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(14, -14);
-    ctx.quadraticCurveTo(24, -26, 30, -20);
-    ctx.stroke();
+    ctx.fillStyle = '#38124a';
+    ctx.fillRect(-16, -12, 32, 24);
+    ctx.fillRect(-12, -16, 24, 32);
 
-    ctx.fillStyle = Math.random() > 0.5 ? '#ffd60a' : '#ff2a85';
-    ctx.beginPath();
-    ctx.arc(30, -20, 6, 0, Math.PI * 2);
-    ctx.fill();
+    // Pixel highlight & danger skull cross
+    ctx.fillStyle = '#ff3864';
+    ctx.fillRect(-8, -4, 16, 8);
+    ctx.fillRect(-4, -8, 8, 16);
+    ctx.fillStyle = '#fff1d0';
+    ctx.fillRect(-12, -12, 6, 6);
+
+    // Stepped Pixel Fuse & Flickering 8-Bit Spark
+    ctx.fillStyle = '#ff8c24';
+    ctx.fillRect(12, -20, 6, 4);
+    ctx.fillRect(18, -24, 6, 4);
+    ctx.fillStyle = Math.random() > 0.5 ? '#ffbe0b' : '#ff3864';
+    ctx.fillRect(22, -30, 10, 10);
+    ctx.fillStyle = '#fff1d0';
+    ctx.fillRect(25, -27, 4, 4);
     ctx.restore();
     return;
   }
@@ -311,74 +387,59 @@ function draw3DHotDog(ctx, item) {
   const half = item.half; // 0 = whole, -1 = left half, 1 = right half
   if (half === -1) {
     ctx.beginPath();
-    ctx.rect(-65, -40, 65, 80);
+    ctx.rect(-68, -40, 68, 80);
     ctx.clip();
   } else if (half === 1) {
     ctx.beginPath();
-    ctx.rect(0, -40, 65, 80);
+    ctx.rect(0, -40, 68, 80);
     ctx.clip();
   }
 
-  // 3D Drop Shadow
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-  ctx.beginPath();
-  ctx.roundRect(-42, -14, 84, 34, 16);
-  ctx.fill();
+  // 8-Bit Pixel Outline Shadow
+  ctx.fillStyle = '#160622';
+  ctx.fillRect(-44, -18, 88, 36);
+  ctx.fillRect(-56, -10, 112, 20);
 
-  // Bottom 3D Toasted Bun Cushion
-  const bunBottomGrad = ctx.createLinearGradient(0, -18, 0, 18);
-  bunBottomGrad.addColorStop(0, '#fbbf24');
-  bunBottomGrad.addColorStop(0.5, '#d97706');
-  bunBottomGrad.addColorStop(1, '#78350f');
-  ctx.fillStyle = bunBottomGrad;
-  ctx.beginPath();
-  ctx.roundRect(-42, -16, 84, 32, 15);
-  ctx.fill();
+  // Bottom Toasted Pixel Bun (Stepped 4px blocks)
+  ctx.fillStyle = '#b54818';
+  ctx.fillRect(-40, -14, 80, 28);
+  ctx.fillStyle = '#f28c28';
+  ctx.fillRect(-36, -14, 72, 12);
+  ctx.fillStyle = '#ffbe0b';
+  ctx.fillRect(-32, -14, 64, 4);
 
-  // 3D Glossy Sausage Link (sticks out both ends of the bun)
-  const meatGrad = ctx.createLinearGradient(0, -12, 0, 12);
-  meatGrad.addColorStop(0, '#f87171');
-  meatGrad.addColorStop(0.35, '#dc2626');
-  meatGrad.addColorStop(0.8, '#991b1b');
-  meatGrad.addColorStop(1, '#450a0a');
-  ctx.fillStyle = meatGrad;
-  ctx.beginPath();
-  ctx.roundRect(-54, -10, 108, 20, 10);
-  ctx.fill();
+  // 16-Bit Pixel Sausage Link (Sticks out both ends of bun)
+  ctx.fillStyle = '#8c1d2c';
+  ctx.fillRect(-52, -8, 104, 16);
+  ctx.fillStyle = '#d9383a';
+  ctx.fillRect(-48, -8, 96, 12);
+  // Crisp Pixel Specular Shine Blocks on Sausage
+  ctx.fillStyle = '#fff1d0';
+  ctx.fillRect(-42, -6, 16, 3);
+  ctx.fillRect(-18, -6, 28, 3);
+  ctx.fillRect(18, -6, 14, 3);
 
-  // 3D Specular Highlight on Sausage
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.32)';
-  ctx.beginPath();
-  ctx.roundRect(-46, -7, 92, 5, 3);
-  ctx.fill();
-
-  // Wavy Yellow Mustard + Red Ketchup Squiggle
-  ctx.strokeStyle = '#fde047';
-  ctx.lineWidth = 3.5;
-  ctx.lineCap = 'round';
-  ctx.beginPath();
-  for (let x = -38; x <= 38; x += 4) {
-    const y = Math.sin(x * 0.28) * 4.5;
-    if (x === -38) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+  // Stepped 8-Bit Pixel Mustard & Ketchup Zig-Zag Blocks
+  for (let x = -36; x <= 32; x += 8) {
+    const stepY = ((x / 8) % 2 === 0) ? -3 : 1;
+    ctx.fillStyle = '#ffbe0b';
+    ctx.fillRect(x, stepY, 8, 4);
+    ctx.fillStyle = '#ff3864';
+    ctx.fillRect(x + 2, -stepY, 6, 3);
   }
-  ctx.stroke();
 
-  // Top Bun Rim Overlap for 3D Depth
-  const bunTopGrad = ctx.createLinearGradient(0, 4, 0, 18);
-  bunTopGrad.addColorStop(0, '#f59e0b');
-  bunTopGrad.addColorStop(1, '#92400e');
-  ctx.fillStyle = bunTopGrad;
-  ctx.beginPath();
-  ctx.roundRect(-40, 5, 80, 11, 6);
-  ctx.fill();
+  // Top Pixel Bun Rim Overlap
+  ctx.fillStyle = '#d96b1f';
+  ctx.fillRect(-38, 6, 76, 8);
+  ctx.fillStyle = '#ff9e22';
+  ctx.fillRect(-34, 6, 68, 4);
 
-  // If sliced, draw the 3D cross-section meat cut face at x=0!
+  // If sliced, draw the 8-bit pixel meat cross-section at x=0!
   if (half !== 0) {
-    ctx.fillStyle = '#fca5a5';
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 5, 10, 0, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillStyle = '#ff8fa3';
+    ctx.fillRect(-4, -8, 8, 16);
+    ctx.fillStyle = '#fff1d0';
+    ctx.fillRect(-2, -4, 4, 8);
   }
 
   ctx.restore();
@@ -387,13 +448,22 @@ function draw3DHotDog(ctx, item) {
 const NeoArcade = () => {
   const location = useLocation();
 
-  const [selectedTag, setSelectedTag] = useState('ALL');
-  const [selectedGameId, setSelectedGameId] = useState('hotdog');
+  const [gamePage, setGamePage] = useState(0);
+  const [selectedGameId, setSelectedGameId] = useState('towerfall');
+  const [showHomeMenu, setShowHomeMenu] = useState(true);
   const [showUploadScreen, setShowUploadScreen] = useState(false);
   const [mode, setMode] = useState('1P');
   const [difficulty, setDifficulty] = useState('MEDIUM'); // 'EASY' | 'MEDIUM' | 'HARD'
   const [restartKey, setRestartKey] = useState(0);
   const [toast, setToast] = useState('');
+  const [activeMovieTitle, setActiveMovieTitle] = useState('Jaws');
+
+  // Miyazaki-inspired Arcade Theme: 'warm' (golden sunset) vs 'cool' (twilight night)
+  // Defaults based on local system time (warm during day 6AM-7PM, cool at night)
+  const [arcadeTheme, setArcadeTheme] = useState(() => {
+    const h = new Date().getHours();
+    return (h >= 6 && h < 19) ? 'warm' : 'cool';
+  });
 
   // Live visual state for keyboard keycaps on the bottom arcade deck
   const [pressedUI, setPressedUI] = useState({});
@@ -419,10 +489,17 @@ const NeoArcade = () => {
   // Upload inputs
   const [newGameTitle, setNewGameTitle] = useState('');
   const [newGameHtml, setNewGameHtml] = useState('');
+  const [gameError, setGameError] = useState(null);
 
   const canvasRef = useRef(null);
   // Shared virtual input state so the bottom Arcade Deck Joystick & Buttons control the games too!
   const virtualKeysRef = useRef({});
+
+  const handleGameCrash = useCallback((err) => {
+    console.error('Arcade cartridge error:', err);
+    const msg = err && err.message ? String(err.message) : 'Unexpected cartridge runtime error.';
+    setGameError(msg);
+  }, []);
 
   const triggerToast = (msg) => {
     setToast(msg);
@@ -452,18 +529,23 @@ const NeoArcade = () => {
         setUploadedGames(prev => [customObj, ...prev]);
         setSelectedGameId(sharedId);
         setShowUploadScreen(false);
+        setShowHomeMenu(false);
         return;
       } catch {}
     }
     if (sharedGame) {
       setSelectedGameId(sharedGame);
       setShowUploadScreen(false);
+      setShowHomeMenu(false);
     }
     if (sharedMode === '2P' || sharedMode === '1P') {
       setMode(sharedMode);
     }
     if (['EASY', 'MEDIUM', 'HARD'].includes(sharedDiff)) {
       setDifficulty(sharedDiff);
+    }
+    if (sharedTitle) {
+      setActiveMovieTitle(sharedTitle);
     }
   }, [location.search]);
 
@@ -498,10 +580,13 @@ const NeoArcade = () => {
     return () => window.removeEventListener('message', onMessage);
   }, [selectedGameId, addHighScore]);
 
-  const allGames = [...BUILTIN_GAMES, ...uploadedGames];
-  const filteredGames = selectedTag === 'ALL'
-    ? allGames
-    : allGames.filter(g => (g.tags || []).includes(selectedTag));
+  const allGames = useMemo(() => [...BUILTIN_GAMES, ...uploadedGames], [uploadedGames]);
+  const totalPages = Math.max(1, Math.ceil(allGames.length / GAMES_PER_PAGE));
+  const safePage = Math.min(gamePage, totalPages - 1);
+  const pagedGames = allGames.slice(
+    safePage * GAMES_PER_PAGE,
+    safePage * GAMES_PER_PAGE + GAMES_PER_PAGE
+  );
 
   const activeGame = allGames.find(g => g.id === selectedGameId) || BUILTIN_GAMES[0];
 
@@ -510,13 +595,57 @@ const NeoArcade = () => {
     .sort((a, b) => b.score - a.score)
     .slice(0, 3);
 
-  // Cycle games via Arcade Cabinet Deck buttons
-  const cycleGame = (dir) => {
+  // Cycle games via Arcade Cabinet Deck buttons & auto-turn page
+  const cycleGame = useCallback((dir) => {
     setShowUploadScreen(false);
-    const idx = allGames.findIndex(g => g.id === activeGame.id);
-    const nextIdx = (idx + dir + allGames.length) % allGames.length;
-    setSelectedGameId(allGames[nextIdx].id);
-  };
+    setSelectedGameId(prevId => {
+      const idx = allGames.findIndex(g => g.id === prevId);
+      const nextIdx = (idx + dir + allGames.length) % allGames.length;
+      setGamePage(Math.floor(nextIdx / GAMES_PER_PAGE));
+      return allGames[nextIdx].id;
+    });
+  }, [allGames]);
+
+  // Global keyboard listener to animate the joystick and 3D pushbuttons in real time
+  useEffect(() => {
+    const onGlobalKeyDown = (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+        return;
+      }
+      const k = e.key.toLowerCase();
+      setPressedUI(prev => ({ ...prev, [k]: true, [e.key]: true }));
+
+      // If on Home Menu, use WASD / Arrows to navigate cartridges and Space / Enter to play!
+      if (showHomeMenu && !showUploadScreen) {
+        if (k === 'a' || k === 'arrowleft') {
+          e.preventDefault();
+          cycleGame(-1);
+        } else if (k === 'd' || k === 'arrowright') {
+          e.preventDefault();
+          cycleGame(1);
+        } else if (k === ' ' || k === 'enter') {
+          e.preventDefault();
+          setShowHomeMenu(false);
+        }
+      } else {
+        if (k === 'escape') {
+          setShowHomeMenu(true);
+        }
+      }
+    };
+
+    const onGlobalKeyUp = (e) => {
+      const k = e.key.toLowerCase();
+      setPressedUI(prev => ({ ...prev, [k]: false, [e.key]: false }));
+    };
+
+    window.addEventListener('keydown', onGlobalKeyDown);
+    window.addEventListener('keyup', onGlobalKeyUp);
+    return () => {
+      window.removeEventListener('keydown', onGlobalKeyDown);
+      window.removeEventListener('keyup', onGlobalKeyUp);
+    };
+  }, [showHomeMenu, showUploadScreen, cycleGame]);
 
   // Share Game Link
   const handleShareGame = (gameToShare = activeGame) => {
@@ -553,6 +682,17 @@ const NeoArcade = () => {
 
   // Dynamic labels for the keyboard deck based on active game
   const getDeckLabels = () => {
+    if (selectedGameId === 'towerfall') {
+      return {
+        wasdCaption: 'A/D: RUN • W: JUMP • S: AIM/DROP • SHIFT/B: DODGE',
+        wSub: 'JUMP',
+        aSub: 'LEFT',
+        sSub: 'DROP',
+        dSub: 'RIGHT',
+        spaceLabel: 'SPACE — SHOOT ARROW!',
+        showMouse: false
+      };
+    }
     if (selectedGameId === 'hotdog') {
       return {
         wasdCaption: 'WASD / ARROWS: SLASH ZONES',
@@ -564,48 +704,92 @@ const NeoArcade = () => {
         showMouse: true
       };
     }
-    if (selectedGameId === 'pinball') {
-      return {
-        wasdCaption: 'A / D or ◄ / ►: FLIPPERS',
-        wSub: 'BUMP',
-        aSub: 'FLIP L',
-        sSub: 'PULL',
-        dSub: 'FLIP R',
-        spaceLabel: 'SPACE — LAUNCH BALL!',
-        showMouse: false
-      };
-    }
     if (selectedGameId === 'stickman') {
       return {
-        wasdCaption: mode === '2P' ? 'P1: WASD MOVE & JUMP' : 'WASD / ARROWS: MOVE & JUMP',
+        wasdCaption: mode === '2P' ? 'P1: WASD MOVE | P2: ARROWS' : 'WASD/ARROWS: MOVE • W: JUMP • E: SPECIAL',
         wSub: 'JUMP',
         aSub: 'LEFT',
-        sSub: 'DROP',
+        sSub: 'DOWN',
         dSub: 'RIGHT',
-        spaceLabel: 'SPACE — PUNCH / HIT!',
+        spaceLabel: 'SPACE — SMASH ATTACK!',
         showMouse: false
       };
     }
     if (selectedGameId === 'tanks') {
       return {
-        wasdCaption: mode === '2P' ? 'P1: WASD DRIVE' : 'WASD / ARROWS: DRIVE TANK',
-        wSub: 'UP',
+        wasdCaption: 'A/D: MOVE TANK  |  W/S: ANGLE  |  Q/E: POWER',
+        wSub: 'ANG+',
         aSub: 'LEFT',
-        sSub: 'DOWN',
+        sSub: 'ANG-',
         dSub: 'RIGHT',
-        spaceLabel: 'SPACE — FIRE SHELL!',
-        showMouse: false
+        spaceLabel: 'SPACE — FIRE BOMB!',
+        showMouse: true
       };
     }
-    if (selectedGameId === 'snake') {
+    if (selectedGameId === 'raftwars') {
       return {
-        wasdCaption: mode === '2P' ? 'P1: WASD TURN' : 'WASD / ARROWS: STEER SNAKE',
+        wasdCaption: 'W/S: AIM ANGLE  |  A/D: SHOT POWER',
+        wSub: 'ANG+',
+        aSub: 'PWR-',
+        sSub: 'ANG-',
+        dSub: 'PWR+',
+        spaceLabel: 'SPACE — FIRE VOLLEY!',
+        showMouse: true
+      };
+    }
+    if (selectedGameId === 'heist') {
+      return {
+        wasdCaption: 'WASD: SNEAK  |  KEYS 1-4: CREW SKILLS',
         wSub: 'UP',
         aSub: 'LEFT',
         sSub: 'DOWN',
         dSub: 'RIGHT',
-        spaceLabel: 'SPACE — RESTART',
-        showMouse: false
+        spaceLabel: 'SPACE — CRACK / DRILL!',
+        showMouse: true
+      };
+    }
+    if (selectedGameId === 'campsite') {
+      return {
+        wasdCaption: 'IDLE CHANCE ENCOUNTERS  |  SAVE/LOAD FILE',
+        wSub: 'CALL',
+        aSub: 'LEFT',
+        sSub: 'SAVE',
+        dSub: 'RIGHT',
+        spaceLabel: 'SPACE — STOKE FIRE / ZAP!',
+        showMouse: true
+      };
+    }
+    if (selectedGameId === 'linerider') {
+      return {
+        wasdCaption: 'MOUSE: DRAW TRACK  |  A/D: AIR FLIP',
+        wSub: 'PAN ▲',
+        aSub: 'FLIP L',
+        sSub: 'PAN ▼',
+        dSub: 'FLIP R',
+        spaceLabel: 'SPACE — RIDE / EDIT!',
+        showMouse: true
+      };
+    }
+    if (selectedGameId === 'movie8bit') {
+      return {
+        wasdCaption: 'SELECT CARTRIDGE ABOVE  |  WASD: MOVE  |  E: INTERACT',
+        wSub: 'UP',
+        aSub: 'LEFT',
+        sSub: 'DOWN',
+        dSub: 'RIGHT',
+        spaceLabel: 'SPACE — MAIN MOVIE ACTION!',
+        showMouse: true
+      };
+    }
+    if (selectedGameId === 'escher') {
+      return {
+        wasdCaption: 'A/D: RUN  |  W/SPACE: JUMP  |  S/Q: FLIP GRAVITY  |  E/CLICK: ROTATE BRIDGES',
+        wSub: 'JUMP',
+        aSub: 'LEFT',
+        sSub: 'GRAV ⇅',
+        dSub: 'RIGHT',
+        spaceLabel: 'SPACE — JUMP / STOMP CROWS!',
+        showMouse: true
       };
     }
     return {
@@ -625,10 +809,18 @@ const NeoArcade = () => {
   // MAIN CANVAS GAME ENGINES
   // ============================================================================
   useEffect(() => {
-    if (showUploadScreen || activeGame.isCustom) return;
+    setGameError(null);
+  }, [showUploadScreen, showHomeMenu, selectedGameId, restartKey]);
+
+  useEffect(() => {
+    if (showUploadScreen || showHomeMenu || activeGame.isCustom || gameError) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      handleGameCrash(new Error('2D display context unavailable.'));
+      return undefined;
+    }
 
     let animId = null;
     const keys = {};
@@ -636,6 +828,9 @@ const NeoArcade = () => {
     const isPressed = (k) => Boolean(keys[k] || virtualKeysRef.current[k]);
 
     const onKeyDown = (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+        return;
+      }
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
         e.preventDefault();
       }
@@ -657,11 +852,13 @@ const NeoArcade = () => {
 
     const scoreMult = difficulty === 'HARD' ? 1.5 : difficulty === 'MEDIUM' ? 1.25 : 1;
 
+    try {
     // ==========================================================================
     // 1. 3D HOT DOG NINJA (Fruit Ninja with 3D Shaded Hot Dogs!)
     // ==========================================================================
     if (selectedGameId === 'hotdog') {
       const W = 760, H = 480;
+      let crashed = false;
       let score = 0;
       let misses = 0;
       const maxMisses = difficulty === 'EASY' ? 5 : 3;
@@ -669,6 +866,7 @@ const NeoArcade = () => {
       const bombChance = difficulty === 'EASY' ? 0.06 : difficulty === 'HARD' ? 0.25 : 0.14;
       const grav = difficulty === 'EASY' ? 0.2 : difficulty === 'HARD' ? 0.31 : 0.25;
       let gameOver = false;
+      let inStartScreen = true;
       let spawnTimer = 0;
 
       const hotdogs = [];
@@ -679,15 +877,19 @@ const NeoArcade = () => {
 
       const getCanvasPos = (clientX, clientY) => {
         const rect = canvas.getBoundingClientRect();
+        const rw = rect.width || W;
+        const rh = rect.height || H;
         return {
-          x: (clientX - rect.left) * (W / rect.width),
-          y: (clientY - rect.top) * (H / rect.height)
+          x: (clientX - rect.left) * (W / rw),
+          y: (clientY - rect.top) * (H / rh)
         };
       };
 
       const sliceAt = (px, py) => {
-        bladeTrail.push({ x: px, y: py, life: 12 });
-        if (gameOver) return;
+        if (bladeTrail.length < 24) {
+          bladeTrail.push({ x: px, y: py, life: 12 });
+        }
+        if (inStartScreen || gameOver) return;
 
         for (let i = hotdogs.length - 1; i >= 0; i--) {
           const hd = hotdogs[i];
@@ -697,15 +899,16 @@ const NeoArcade = () => {
               // Bomb Exploded!
               gameOver = true;
               addHighScore('hotdog', score);
-              for (let s = 0; s < 35; s++) {
+              const blastCount = Math.min(20, Math.max(0, 70 - splatters.length));
+              for (let s = 0; s < blastCount; s++) {
                 splatters.push({
                   x: hd.x,
                   y: hd.y,
-                  vx: (Math.random() - 0.5) * 16,
-                  vy: (Math.random() - 0.5) * 16,
-                  r: 4 + Math.random() * 6,
+                  vx: (Math.random() - 0.5) * 14,
+                  vy: (Math.random() - 0.5) * 14,
+                  r: 4 + Math.random() * 5,
                   color: s % 2 === 0 ? '#ff2a85' : '#ffd60a',
-                  life: 40
+                  life: 36
                 });
               }
               return;
@@ -736,16 +939,17 @@ const NeoArcade = () => {
               }
             );
 
-            // Ketchup & Mustard Splatter Particles
-            for (let s = 0; s < 16; s++) {
+            // Ketchup & Mustard Splatter Particles (capped cleanly)
+            const splatCount = Math.min(10, Math.max(0, 70 - splatters.length));
+            for (let s = 0; s < splatCount; s++) {
               splatters.push({
                 x: hd.x,
                 y: hd.y,
-                vx: (Math.random() - 0.5) * 11,
-                vy: (Math.random() - 0.5) * 11,
-                r: 3 + Math.random() * 5,
+                vx: (Math.random() - 0.5) * 10,
+                vy: (Math.random() - 0.5) * 10,
+                r: 3 + Math.random() * 4,
                 color: s % 2 === 0 ? '#fde047' : '#ef4444',
-                life: 32
+                life: 28
               });
             }
 
@@ -769,12 +973,17 @@ const NeoArcade = () => {
       };
 
       const onClick = () => {
+        if (inStartScreen) {
+          inStartScreen = false;
+          return;
+        }
         if (gameOver) {
           score = 0;
           misses = 0;
           hotdogs.length = 0;
           halves.length = 0;
           splatters.length = 0;
+          bladeTrail.length = 0;
           gameOver = false;
         }
       };
@@ -784,12 +993,125 @@ const NeoArcade = () => {
       canvas.addEventListener('mousedown', onClick);
 
       const loop = () => {
-        // Dojo Wood / Cyber Grill Backdrop
-        const bgGrad = ctx.createRadialGradient(W / 2, H / 2, 40, W / 2, H / 2, 460);
-        bgGrad.addColorStop(0, '#161f38');
-        bgGrad.addColorStop(1, '#060913');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, W, H);
+        if (crashed) return;
+        try {
+        ctx.imageSmoothingEnabled = false;
+
+        if (inStartScreen) {
+          if (isPressed(' ') || isPressed('enter')) inStartScreen = false;
+
+          // Background
+          ctx.fillStyle = '#0a0d18';
+          ctx.fillRect(0, 0, W, H);
+
+          ctx.fillStyle = 'rgba(6, 9, 18, 0.9)';
+          ctx.fillRect(70, 50, W - 140, H - 100);
+          ctx.strokeStyle = '#ffd60a';
+          ctx.lineWidth = 4;
+          ctx.strokeRect(70, 50, W - 140, H - 100);
+          ctx.strokeStyle = '#ff3864';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(76, 56, W - 152, H - 112);
+
+          ctx.fillStyle = '#ffd60a';
+          ctx.font = '18px "Press Start 2P", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('3D HOT DOG NINJA', W / 2, 115);
+
+          ctx.fillStyle = '#ff6b2b';
+          ctx.font = '10px "Press Start 2P", monospace';
+          ctx.fillText('DOJO SLICE COMBAT // 1989 COIN-OP', W / 2, 142);
+
+          // Pixel Hot Dog Icon
+          ctx.fillStyle = '#e07a24';
+          ctx.fillRect(W / 2 - 24, 168, 48, 16);
+          ctx.fillStyle = '#c92a2a';
+          ctx.fillRect(W / 2 - 32, 171, 64, 10);
+          ctx.fillStyle = '#ffd60a';
+          ctx.fillRect(W / 2 - 20, 174, 40, 4);
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = '9px "Press Start 2P", monospace';
+          ctx.fillText('• SWIPE MOUSE OR PRESS [A / D] FOR SWEEP SLASHES', W / 2, 230);
+          ctx.fillText('• SLICE FLYING 3D HOT DOGS FOR +50 POINTS', W / 2, 255);
+          ctx.fillText('• BEWARE OF BOMB TRAPS - DO NOT SLICE BOMBS!', W / 2, 280);
+          ctx.fillText(`• MAXIMUM STRIKES: ${maxMisses} MISSES`, W / 2, 305);
+
+          const pulse = Math.floor(Date.now() / 350) % 2 === 0;
+          ctx.fillStyle = pulse ? '#ffd60a' : '#f59e0b';
+          ctx.font = '12px "Press Start 2P", monospace';
+          ctx.fillText('► PRESS SPACE / CLICK TO BEGIN DOJO ◄', W / 2, 360);
+
+          animId = requestAnimationFrame(loop);
+          return;
+        }
+
+        // 16-Bit Stepped Horizon Backdrop (Miyazaki Day Sunset vs Cool Night)
+        const isWarm = arcadeTheme === 'warm';
+        const skyBands = isWarm
+          ? ['#191024', '#2c123d', '#521447', '#8a1d45', '#c43338', '#f06226', '#ff9e22', '#fcd34d']
+          : ['#030712', '#081734', '#0d284f', '#143b6b', '#1a5276', '#147487', '#2dd4bf', '#a7f3d0'];
+
+        const bandH = Math.ceil(H / skyBands.length);
+        for (let b = 0; b < skyBands.length; b++) {
+          ctx.fillStyle = skyBands[b];
+          ctx.fillRect(0, b * bandH, W, bandH + 2);
+          if (b > 0) {
+            ctx.fillStyle = skyBands[b - 1];
+            for (let dx = (b % 2) * 4; dx < W; dx += 8) {
+              ctx.fillRect(dx, b * bandH, 4, 4);
+            }
+          }
+        }
+
+        // Stepped Celestial Body (Warm Sunset Sun or Cool Moon + Stars)
+        if (!isWarm) {
+          // Pixel Stars in the upper twilight sky
+          ctx.fillStyle = '#a7f3d0';
+          const starSeed = [
+            [40, 30], [120, 55], [200, 25], [310, 70], [450, 35], [560, 60], [680, 28],
+            [90, 85], [250, 95], [390, 110], [510, 80], [640, 105], [710, 75]
+          ];
+          starSeed.forEach(([sx, sy], sIdx) => {
+            const twinkle = ((Date.now() >> 8) + sIdx) % 3 === 0;
+            const sz = twinkle ? 4 : 2;
+            ctx.fillRect(sx, sy, sz, sz);
+          });
+        }
+
+        // Giant Sliced 16-Bit Sun / Moon
+        const sunCx = W >> 1;
+        const sunCy = 250;
+        const sunR = 86;
+        for (let py = -sunR; py <= sunR; py += 4) {
+          if (py > 8 && Math.floor(py / 4) % 3 === 0) continue;
+          const halfW = Math.floor(Math.sqrt(Math.max(0, sunR * sunR - py * py)) / 4) * 4;
+          const tRatio = (py + sunR) / (2 * sunR);
+          if (isWarm) {
+            ctx.fillStyle = tRatio < 0.35 ? '#fff1d0' : tRatio < 0.7 ? '#ffbe0b' : '#ff3864';
+          } else {
+            ctx.fillStyle = tRatio < 0.35 ? '#e0f2fe' : tRatio < 0.7 ? '#38bdf8' : '#0284c7';
+          }
+          ctx.fillRect(sunCx - halfW, sunCy + py, halfW * 2, 4);
+        }
+
+        // 8-Bit Pixel Clouds drifting across the sky
+        const timeSec = Date.now() * 0.0008;
+        const drawPixelCloud = (cx, cy, clr) => {
+          ctx.fillStyle = clr;
+          ctx.fillRect(cx - 32, cy, 64, 12);
+          ctx.fillRect(cx - 20, cy - 8, 44, 8);
+          ctx.fillRect(cx - 8, cy - 14, 24, 6);
+        };
+        const cloudColor = isWarm ? 'rgba(255, 235, 205, 0.42)' : 'rgba(167, 243, 208, 0.28)';
+        drawPixelCloud(Math.floor((timeSec * 35) % (W + 120)) - 60, 68, cloudColor);
+        drawPixelCloud(Math.floor(((timeSec * 22) + 380) % (W + 120)) - 60, 118, cloudColor);
+
+        // 8-Bit Dojo Roof / Horizon Silhouette at Bottom
+        ctx.fillStyle = isWarm ? '#14051e' : '#040816';
+        ctx.fillRect(0, H - 36, W, 36);
+        ctx.fillStyle = isWarm ? '#ff6b2b' : '#2dd4bf';
+        ctx.fillRect(0, H - 36, W, 4);
 
         if (!gameOver) {
           // Keyboard Zone & Spin Slash support so playing with WASD / Arrows / Space is super easy!
@@ -840,10 +1162,11 @@ const NeoArcade = () => {
           hotdogs.length = 0;
           halves.length = 0;
           splatters.length = 0;
+          bladeTrail.length = 0;
           gameOver = false;
         }
 
-        // Splatters on background
+        // 8-Bit Square Pixel Splatters on background
         for (let i = splatters.length - 1; i >= 0; i--) {
           const sp = splatters[i];
           sp.x += sp.vx;
@@ -853,14 +1176,13 @@ const NeoArcade = () => {
           sp.life--;
           ctx.fillStyle = sp.color;
           ctx.globalAlpha = Math.max(0, sp.life / 35);
-          ctx.beginPath();
-          ctx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
-          ctx.fill();
+          const sz = Math.max(4, Math.round(sp.r * 1.5));
+          ctx.fillRect(Math.round(sp.x) - (sz >> 1), Math.round(sp.y) - (sz >> 1), sz, sz);
           ctx.globalAlpha = 1;
           if (sp.life <= 0) splatters.splice(i, 1);
         }
 
-        // Update & Draw Whole 3D Hot Dogs
+        // Update & Draw Whole 16-Bit Pixel Hot Dogs
         for (let i = hotdogs.length - 1; i >= 0; i--) {
           const hd = hotdogs[i];
           if (!gameOver) {
@@ -884,7 +1206,7 @@ const NeoArcade = () => {
           }
         }
 
-        // Update & Draw Sliced 3D Half Hot Dogs
+        // Update & Draw Sliced 16-Bit Half Hot Dogs
         for (let i = halves.length - 1; i >= 0; i--) {
           const hf = halves[i];
           hf.vy += 0.32;
@@ -895,62 +1217,70 @@ const NeoArcade = () => {
           if (hf.y > H + 80) halves.splice(i, 1);
         }
 
-        // Glowing Katana Blade Trail
+        // Stepped 16-Bit Sunset Fire Katana Blade Trail
         if (bladeTrail.length > 1) {
-          ctx.save();
           for (let i = 1; i < bladeTrail.length; i++) {
             const p0 = bladeTrail[i - 1];
             const p1 = bladeTrail[i];
-            ctx.strokeStyle = '#00e5ff';
-            ctx.shadowColor = '#00e5ff';
-            ctx.shadowBlur = 14;
-            ctx.lineWidth = (p1.life / 12) * 8;
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(p0.x, p0.y);
-            ctx.lineTo(p1.x, p1.y);
-            ctx.stroke();
+            const steps = 5;
+            for (let s = 0; s <= steps; s++) {
+              const tx = Math.round(p0.x + ((p1.x - p0.x) * s) / steps);
+              const ty = Math.round(p0.y + ((p1.y - p0.y) * s) / steps);
+              const sz = Math.max(4, Math.round((p1.life / 12) * 10));
+              ctx.fillStyle = p1.life > 8 ? '#fff1d0' : p1.life > 4 ? '#ffbe0b' : '#ff3864';
+              ctx.fillRect(tx - (sz >> 1), ty - (sz >> 1), sz, sz);
+            }
           }
-          ctx.restore();
         }
         for (let i = bladeTrail.length - 1; i >= 0; i--) {
           bladeTrail[i].life--;
           if (bladeTrail[i].life <= 0) bladeTrail.splice(i, 1);
         }
 
-        // Minimal HUD: Score + X Strikes
-        ctx.fillStyle = '#ffd60a';
-        ctx.font = 'bold 22px sans-serif';
+        // 8-Bit Pixel HUD: Score + X Strikes
+        ctx.fillStyle = '#160622';
+        ctx.fillRect(14, 12, 160, 34);
+        ctx.strokeStyle = '#ffbe0b';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(14, 12, 160, 34);
+        ctx.fillStyle = '#ffbe0b';
+        ctx.font = '14px "Press Start 2P", monospace';
         ctx.textAlign = 'left';
-        ctx.fillText(`${score}`, 22, 38);
+        ctx.fillText(`${score}`, 26, 35);
 
         ctx.textAlign = 'right';
-        ctx.font = 'bold 22px sans-serif';
+        ctx.font = '16px "Press Start 2P", monospace';
         for (let m = 0; m < maxMisses; m++) {
-          ctx.fillStyle = m < misses ? '#ff2a85' : 'rgba(255,255,255,0.2)';
-          ctx.fillText('✖', W - 22 - m * 28, 38);
+          ctx.fillStyle = m < misses ? '#ff3864' : 'rgba(255, 241, 208, 0.28)';
+          ctx.fillText('X', W - 22 - m * 28, 36);
         }
 
         if (gameOver) {
-          ctx.fillStyle = 'rgba(5, 8, 18, 0.85)';
-          ctx.fillRect(210, 160, 340, 150);
-          ctx.strokeStyle = '#00e5ff';
-          ctx.lineWidth = 3;
-          ctx.strokeRect(210, 160, 340, 150);
-          ctx.fillStyle = '#ffd60a';
-          ctx.font = 'bold 28px sans-serif';
+          ctx.fillStyle = '#180726';
+          ctx.fillRect(190, 155, 380, 155);
+          ctx.strokeStyle = '#ffbe0b';
+          ctx.lineWidth = 4;
+          ctx.strokeRect(190, 155, 380, 155);
+          ctx.fillStyle = '#ffbe0b';
+          ctx.font = '18px "Press Start 2P", monospace';
           ctx.textAlign = 'center';
           ctx.fillText(`SCORE: ${score}`, 380, 215);
-          ctx.fillStyle = '#00e676';
-          ctx.font = 'bold 18px sans-serif';
-          ctx.fillText('CLICK OR PRESS SPACE', 380, 265);
+          ctx.fillStyle = '#ff6b2b';
+          ctx.font = '11px "Press Start 2P", monospace';
+          ctx.fillText('PRESS SPACE TO SLICE AGAIN', 380, 265);
         }
 
         animId = requestAnimationFrame(loop);
+        } catch (err) {
+          crashed = true;
+          if (animId) cancelAnimationFrame(animId);
+          handleGameCrash(err);
+        }
       };
       loop();
 
       return () => {
+        crashed = true;
         if (animId) cancelAnimationFrame(animId);
         canvas.removeEventListener('mousemove', onMouseMove);
         canvas.removeEventListener('touchmove', onTouchMove);
@@ -961,590 +1291,210 @@ const NeoArcade = () => {
     }
 
     // ==========================================================================
-    // 2. STICKMAN BRAWL
+    // 2. SUPER STICK BRAWL (Super Smash Bros Homage - CSS, %, Knockback & Stocks)
     // ==========================================================================
-    if (selectedGameId === 'stickman') {
-      const W = 760, H = 480;
-      let score = 0, gameOver = false, winnerText = '';
-      const startLives = difficulty === 'EASY' ? 4 : 3;
-      const botSpeedMult = difficulty === 'EASY' ? 0.6 : difficulty === 'HARD' ? 1.22 : 0.92;
-      const botAttackProb = difficulty === 'EASY' ? 0.06 : difficulty === 'HARD' ? 0.28 : 0.16;
-
-      const makeFighter = (x, color, isBot) => ({
-        x, y: 240, vx: 0, vy: 0, hp: 100, lives: isBot ? 3 : startLives, facing: isBot ? -1 : 1,
-        color, isBot, cooldown: 0, punchTimer: 0, grounded: false
+    else if (selectedGameId === 'stickman') {
+      const cleanupGame = initSmashBrawlGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        mode,
+        difficulty,
+        playerName,
+        isPressed,
+        addHighScore,
+        theme: arcadeTheme,
+        onCrash: handleGameCrash
       });
-
-      const p1 = makeFighter(220, '#00e676', false);
-      const p2 = makeFighter(540, '#ff2a85', mode !== '2P');
-      const platforms = [
-        { x: 110, y: 375, w: 540, h: 16 },
-        { x: 185, y: 265, w: 145, h: 12 },
-        { x: 430, y: 265, w: 145, h: 12 }
-      ];
-
-      const updateFighter = (f, enemy, ctrl) => {
-        const accel = f.isBot ? 0.9 * botSpeedMult : 0.9;
-        if (ctrl.left) { f.vx -= accel; f.facing = -1; }
-        if (ctrl.right) { f.vx += accel; f.facing = 1; }
-        if (ctrl.jump && f.grounded) { f.vy = -12; f.grounded = false; }
-
-        if (f.cooldown > 0) f.cooldown--;
-        if (f.punchTimer > 0) f.punchTimer--;
-
-        if (ctrl.attack && f.cooldown === 0) {
-          f.cooldown = 20;
-          f.punchTimer = 10;
-          const dx = enemy.x - f.x;
-          const dy = Math.abs(enemy.y - f.y);
-          if (Math.sign(dx) === f.facing && Math.abs(dx) < 78 && dy < 55) {
-            const dmg = !f.isBot && difficulty === 'EASY' ? 20 : 15;
-            enemy.hp = Math.max(0, enemy.hp - dmg);
-            enemy.vx = f.facing * (8 + (100 - enemy.hp) * 0.12);
-            enemy.vy = -6.5;
-            if (f === p1) score += Math.round(50 * scoreMult);
-          }
-        }
-
-        f.vy += 0.52;
-        f.vx *= 0.85;
-        f.x += f.vx;
-        f.y += f.vy;
-        f.grounded = false;
-
-        platforms.forEach(p => {
-          if (f.vy >= 0 && f.x > p.x - 10 && f.x < p.x + p.w + 10 && f.y >= p.y && f.y - f.vy <= p.y + 12) {
-            f.y = p.y;
-            f.vy = 0;
-            f.grounded = true;
-          }
-        });
-
-        if (f.y > H + 50 || f.x < -50 || f.x > W + 50 || f.hp <= 0) {
-          f.lives--;
-          if (f === p2) score += 250;
-          if (f.lives <= 0) {
-            gameOver = true;
-            winnerText = f === p2 ? `${playerName} WINS!` : (mode === '2P' ? 'P2 WINS!' : 'BOT WINS!');
-            addHighScore('stickman', score);
-          } else {
-            f.x = f === p1 ? 230 : 530;
-            f.y = 140;
-            f.vx = 0;
-            f.vy = 0;
-            f.hp = 100;
-          }
-        }
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
       };
-
-      const drawFighter = (f, name) => {
-        const hx = f.x, hy = f.y - 44;
-        ctx.strokeStyle = f.color;
-        ctx.lineWidth = 5;
-        ctx.beginPath();
-        ctx.arc(hx, hy, 11, 0, Math.PI * 2);
-        ctx.moveTo(hx, hy + 11);
-        ctx.lineTo(hx, f.y - 18);
-        ctx.moveTo(hx, f.y - 18);
-        ctx.lineTo(hx - 11, f.y);
-        ctx.moveTo(hx, f.y - 18);
-        ctx.lineTo(hx + 11, f.y);
-        const reach = f.punchTimer > 0 ? f.facing * 32 : f.facing * 14;
-        ctx.moveTo(hx - f.facing * 10, hy + 20);
-        ctx.lineTo(hx + reach, hy + 16);
-        ctx.stroke();
-
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 12px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(`${name} (${'●'.repeat(f.lives)})`, hx, hy - 26);
-        ctx.fillStyle = '#1e293b';
-        ctx.fillRect(hx - 24, hy - 20, 48, 6);
-        ctx.fillStyle = f.color;
-        ctx.fillRect(hx - 24, hy - 20, (f.hp / 100) * 48, 6);
-      };
-
-      const loop = () => {
-        ctx.fillStyle = '#070a14';
-        ctx.fillRect(0, 0, W, H);
-
-        platforms.forEach(p => {
-          ctx.fillStyle = '#1e293b';
-          ctx.fillRect(p.x, p.y, p.w, p.h);
-          ctx.strokeStyle = '#00e5ff';
-          ctx.lineWidth = 2;
-          ctx.strokeRect(p.x, p.y, p.w, p.h);
-        });
-
-        if (!gameOver) {
-          const c1 = {
-            left: isPressed('a') || (mode === '1P' && isPressed('arrowleft')),
-            right: isPressed('d') || (mode === '1P' && isPressed('arrowright')),
-            jump: isPressed('w') || (mode === '1P' && isPressed('arrowup')),
-            attack: isPressed(' ') || isPressed('f')
-          };
-          const dist = p1.x - p2.x;
-          const c2 = mode === '2P'
-            ? { left: isPressed('arrowleft'), right: isPressed('arrowright'), jump: isPressed('arrowup'), attack: isPressed('enter') || isPressed('/') }
-            : { left: dist < -35, right: dist > 35, jump: p1.y < p2.y - 30 && Math.random() < 0.07, attack: Math.abs(dist) < 70 && Math.random() < botAttackProb };
-
-          updateFighter(p1, p2, c1);
-          updateFighter(p2, p1, c2);
-        } else if (isPressed(' ') || isPressed('r')) {
-          p1.lives = startLives; p1.hp = 100; p1.x = 220; p1.y = 200;
-          p2.lives = 3; p2.hp = 100; p2.x = 540; p2.y = 200;
-          score = 0; gameOver = false;
-        }
-
-        drawFighter(p1, playerName);
-        drawFighter(p2, mode === '2P' ? 'P2' : 'BOT');
-
-        ctx.fillStyle = '#ffd60a';
-        ctx.font = 'bold 20px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(`${score}`, 22, 36);
-
-        if (gameOver) {
-          ctx.fillStyle = 'rgba(0,0,0,0.85)';
-          ctx.fillRect(210, 160, 340, 140);
-          ctx.fillStyle = '#ffd60a';
-          ctx.font = 'bold 26px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(winnerText, 380, 215);
-          ctx.fillStyle = '#00e676';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText('PRESS SPACE', 380, 260);
-        }
-
-        animId = requestAnimationFrame(loop);
-      };
-      loop();
     }
 
     // ==========================================================================
-    // 3. TANK BATTLE ROYALE
+    // TOWERFALL: ARROW ASCENT (Matt Makes Games Homage - Archery, Air Dash & Waves)
+    // ==========================================================================
+    else if (selectedGameId === 'towerfall') {
+      const cleanupGame = initTowerfallGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        difficulty,
+        playerName,
+        isPressed,
+        addHighScore,
+        theme: arcadeTheme,
+        onCrash: handleGameCrash
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
+      };
+    }
+
+    // ==========================================================================
+    // 3. SCORCHED TANKS 2D (Turn-Based Destructible Pixel Terrain + Upgrades)
     // ==========================================================================
     else if (selectedGameId === 'tanks') {
-      const W = 760, H = 480;
-      let score = 0, gameOver = false, winner = '';
-      const botDriveSpd = difficulty === 'EASY' ? 1.2 : difficulty === 'HARD' ? 2.5 : 1.9;
-      const botFireChance = difficulty === 'EASY' ? 0.018 : difficulty === 'HARD' ? 0.065 : 0.038;
-      const shellSpeed = difficulty === 'EASY' ? 5.6 : difficulty === 'HARD' ? 8.2 : 6.8;
-      const maxBounces = difficulty === 'HARD' ? 3 : 2;
-      const walls = [
-        { x: 220, y: 120, w: 28, h: 240 },
-        { x: 512, y: 120, w: 28, h: 240 },
-        { x: 350, y: 215, w: 60, h: 50 }
-      ];
-      const p1 = { x: 100, y: 240, angle: 0, hp: 100, cd: 0, color: '#00e676' };
-      const p2 = { x: 660, y: 240, angle: Math.PI, hp: 100, cd: 0, color: '#ff2a85' };
-      const bullets = [];
-
-      const fire = (t, owner) => {
-        if (t.cd > 0) return;
-        t.cd = 18;
-        bullets.push({
-          x: t.x + Math.cos(t.angle) * 22,
-          y: t.y + Math.sin(t.angle) * 22,
-          vx: Math.cos(t.angle) * shellSpeed,
-          vy: Math.sin(t.angle) * shellSpeed,
-          bounces: maxBounces,
-          owner
-        });
+      const cleanupGame = initTankGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        mode,
+        difficulty,
+        playerName,
+        isPressed,
+        addHighScore,
+        theme: arcadeTheme,
+        onCrash: handleGameCrash
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
       };
-
-      const move = (t, dx, dy) => {
-        const nx = Math.max(24, Math.min(W - 24, t.x + dx));
-        const ny = Math.max(24, Math.min(H - 24, t.y + dy));
-        if (!walls.some(w => nx + 16 > w.x && nx - 16 < w.x + w.w && ny + 16 > w.y && ny - 16 < w.y + w.h)) {
-          t.x = nx; t.y = ny;
-        }
-        if (dx !== 0 || dy !== 0) t.angle = Math.atan2(dy, dx);
-      };
-
-      const loop = () => {
-        ctx.fillStyle = '#070a14';
-        ctx.fillRect(0, 0, W, H);
-
-        walls.forEach(w => {
-          ctx.fillStyle = '#1e293b';
-          ctx.fillRect(w.x, w.y, w.w, w.h);
-          ctx.strokeStyle = '#00e5ff';
-          ctx.strokeRect(w.x, w.y, w.w, w.h);
-        });
-
-        if (!gameOver) {
-          if (p1.cd > 0) p1.cd--;
-          if (p2.cd > 0) p2.cd--;
-
-          let dx1 = 0, dy1 = 0;
-          if (isPressed('a') || (mode === '1P' && isPressed('arrowleft'))) dx1 -= 3.2;
-          if (isPressed('d') || (mode === '1P' && isPressed('arrowright'))) dx1 += 3.2;
-          if (isPressed('w') || (mode === '1P' && isPressed('arrowup'))) dy1 -= 3.2;
-          if (isPressed('s') || (mode === '1P' && isPressed('arrowdown'))) dy1 += 3.2;
-          move(p1, dx1, dy1);
-          if (isPressed(' ') || isPressed('f')) fire(p1, 'p1');
-
-          if (mode === '2P') {
-            let dx2 = 0, dy2 = 0;
-            if (isPressed('arrowleft')) dx2 -= 3.2;
-            if (isPressed('arrowright')) dx2 += 3.2;
-            if (isPressed('arrowup')) dy2 -= 3.2;
-            if (isPressed('arrowdown')) dy2 += 3.2;
-            move(p2, dx2, dy2);
-            if (isPressed('enter') || isPressed('/')) fire(p2, 'p2');
-          } else {
-            const ang = Math.atan2(p1.y - p2.y, p1.x - p2.x);
-            p2.angle = ang;
-            if (Math.hypot(p1.x - p2.x, p1.y - p2.y) > 150) {
-              move(p2, Math.cos(ang) * botDriveSpd, Math.sin(ang) * botDriveSpd);
-            }
-            if (Math.random() < botFireChance) fire(p2, 'p2');
-          }
-
-          for (let i = bullets.length - 1; i >= 0; i--) {
-            const b = bullets[i];
-            b.x += b.vx; b.y += b.vy;
-            if (b.x < 8 || b.x > W - 8) { b.vx *= -1; b.bounces--; }
-            if (b.y < 8 || b.y > H - 8) { b.vy *= -1; b.bounces--; }
-            walls.forEach(w => {
-              if (b.x > w.x && b.x < w.x + w.w && b.y > w.y && b.y < w.y + w.h) {
-                b.vx *= -1; b.bounces--;
-              }
-            });
-
-            if (b.owner !== 'p1' && Math.hypot(b.x - p1.x, b.y - p1.y) < 18) {
-              p1.hp = Math.max(0, p1.hp - 25);
-              bullets.splice(i, 1);
-              if (p1.hp <= 0) {
-                gameOver = true;
-                winner = mode === '2P' ? 'P2 WINS!' : 'BOT WINS!';
-                addHighScore('tanks', score);
-              }
-              continue;
-            }
-            if (b.owner !== 'p2' && Math.hypot(b.x - p2.x, b.y - p2.y) < 18) {
-              p2.hp = Math.max(0, p2.hp - 25);
-              bullets.splice(i, 1);
-              score += 100;
-              if (p2.hp <= 0) {
-                if (mode === '1P') {
-                  score += 300;
-                  p2.hp = 100;
-                  p2.x = p1.x < 380 ? 660 : 100;
-                  p2.y = 80 + Math.random() * 320;
-                } else {
-                  gameOver = true;
-                  winner = `${playerName} WINS!`;
-                  addHighScore('tanks', score);
-                }
-              }
-              continue;
-            }
-            if (b.bounces < 0) bullets.splice(i, 1);
-          }
-        } else if (isPressed(' ') || isPressed('r')) {
-          p1.hp = 100; p1.x = 100; p1.y = 240;
-          p2.hp = 100; p2.x = 660; p2.y = 240;
-          bullets.length = 0; score = 0; gameOver = false;
-        }
-
-        [ [p1, playerName], [p2, mode === '2P' ? 'P2' : 'BOT'] ].forEach(([t, label]) => {
-          ctx.save();
-          ctx.translate(t.x, t.y);
-          ctx.rotate(t.angle);
-          ctx.fillStyle = t.color;
-          ctx.fillRect(-16, -13, 32, 26);
-          ctx.fillStyle = '#fff';
-          ctx.fillRect(0, -4, 24, 8);
-          ctx.restore();
-          ctx.fillStyle = '#fff';
-          ctx.font = 'bold 12px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(`${label} (${t.hp}%)`, t.x, t.y - 22);
-        });
-
-        bullets.forEach(b => {
-          ctx.fillStyle = '#ffd60a';
-          ctx.beginPath(); ctx.arc(b.x, b.y, 5, 0, Math.PI * 2); ctx.fill();
-        });
-
-        ctx.fillStyle = '#ffd60a';
-        ctx.font = 'bold 20px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(`${score}`, 22, 36);
-
-        if (gameOver) {
-          ctx.fillStyle = 'rgba(0,0,0,0.85)';
-          ctx.fillRect(210, 160, 340, 140);
-          ctx.fillStyle = '#ffd60a';
-          ctx.font = 'bold 26px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(winner, 380, 215);
-          ctx.fillStyle = '#00e676';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText('PRESS SPACE', 380, 260);
-        }
-
-        animId = requestAnimationFrame(loop);
-      };
-      loop();
     }
 
     // ==========================================================================
-    // 4. CYBER PINBALL
+    // 4. LINE RIDER STUDIO
     // ==========================================================================
-    else if (selectedGameId === 'pinball') {
-      const W = 760, H = 480;
-      const startBalls = difficulty === 'EASY' ? 5 : difficulty === 'HARD' ? 2 : 3;
-      const pinGravity = difficulty === 'EASY' ? 0.17 : difficulty === 'HARD' ? 0.28 : 0.22;
-      const flipLen = difficulty === 'EASY' ? 72 : difficulty === 'HARD' ? 58 : 65;
-      let score = 0, balls = startBalls, gameOver = false, charge = 0;
-      const ball = { x: 568, y: 390, vx: 0, vy: 0, r: 9, inChute: true };
-      const bumpers = [
-        { x: 290, y: 130, r: 26, pts: 150, color: '#00e5ff', flash: 0 },
-        { x: 410, y: 130, r: 26, pts: 150, color: '#ff2a85', flash: 0 },
-        { x: 350, y: 210, r: 30, pts: 250, color: '#ffd60a', flash: 0 },
-        { x: 265, y: 270, r: 22, pts: 100, color: '#00e676', flash: 0 },
-        { x: 435, y: 270, r: 22, pts: 100, color: '#9d4edd', flash: 0 },
-        ...(difficulty === 'EASY' ? [{ x: 364, y: 422, r: 14, pts: 50, color: '#00e676', flash: 0 }] : [])
-      ];
-
-      const resetBall = () => {
-        ball.x = 568; ball.y = 390; ball.vx = 0; ball.vy = 0; ball.inChute = true;
+    else if (selectedGameId === 'linerider') {
+      const cleanupGame = initLineRiderGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        difficulty,
+        isPressed,
+        addHighScore
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
       };
-
-      const loop = () => {
-        ctx.fillStyle = '#070a14';
-        ctx.fillRect(0, 0, W, H);
-
-        ctx.strokeStyle = '#00e5ff';
-        ctx.lineWidth = 3;
-        ctx.strokeRect(180, 18, 408, 442);
-        ctx.beginPath();
-        ctx.moveTo(548, 95); ctx.lineTo(548, 458);
-        ctx.moveTo(180, 340); ctx.lineTo(265, 410);
-        ctx.moveTo(548, 340); ctx.lineTo(463, 410);
-        ctx.stroke();
-
-        const lAct = isPressed('arrowleft') || isPressed('a');
-        const rAct = isPressed('arrowright') || isPressed('d') || isPressed('f');
-        const lAng = lAct ? -0.42 : 0.35;
-        const rAng = rAct ? Math.PI + 0.42 : Math.PI - 0.35;
-
-        if (!gameOver) {
-          if (ball.inChute) {
-            if (isPressed(' ') || isPressed('arrowdown') || isPressed('s') || isPressed('w') || isPressed('arrowup')) {
-              ball.vy = -16.5;
-              ball.vx = -2;
-              charge = 0;
-            }
-          }
-
-          if (!ball.inChute || ball.vy < 0) {
-            ball.vy += pinGravity;
-            ball.x += ball.vx;
-            ball.y += ball.vy;
-            if (ball.inChute && ball.y < 85) {
-              ball.inChute = false;
-              ball.vx = -5 - Math.random() * 2;
-              ball.vy = 2;
-            }
-          }
-
-          if (ball.y < 30) { ball.y = 30; ball.vy = Math.abs(ball.vy) * 0.85; }
-          if (ball.x < 192) { ball.x = 192; ball.vx = Math.abs(ball.vx) * 0.88; }
-          if (!ball.inChute && ball.x > 538) { ball.x = 538; ball.vx = -Math.abs(ball.vx) * 0.88; }
-
-          if (!ball.inChute && ball.y > 340 && ball.y < 415) {
-            if (ball.x < 265) { ball.vx = Math.abs(ball.vx) + 2; ball.vy = -Math.abs(ball.vy) * 0.7; }
-            else if (ball.x > 463) { ball.vx = -Math.abs(ball.vx) - 2; ball.vy = -Math.abs(ball.vy) * 0.7; }
-          }
-
-          const checkFlip = (px, py, ang, act) => {
-            const tx = px + Math.cos(ang) * flipLen, ty = py + Math.sin(ang) * flipLen;
-            const dx = tx - px, dy = ty - py, len2 = dx * dx + dy * dy;
-            const t = Math.max(0, Math.min(1, ((ball.x - px) * dx + (ball.y - py) * dy) / len2));
-            const cx = px + t * dx, cy = py + t * dy;
-            if (Math.hypot(ball.x - cx, ball.y - cy) < ball.r + 7 && ball.vy > -2) {
-              ball.y = cy - ball.r - 7;
-              ball.vy = act ? -12.5 : -Math.abs(ball.vy) * 0.75 - 3;
-              ball.vx += (ball.x - 364) * 0.06;
-              score += Math.round(25 * scoreMult);
-            }
-          };
-          checkFlip(270, 415, lAng, lAct);
-          checkFlip(458, 415, rAng, rAct);
-
-          bumpers.forEach(b => {
-            if (b.flash > 0) b.flash--;
-            if (Math.hypot(ball.x - b.x, ball.y - b.y) < ball.r + b.r) {
-              const ang = Math.atan2(ball.y - b.y, ball.x - b.x);
-              const spd = Math.min(13, Math.hypot(ball.vx, ball.vy) + 3.5);
-              ball.vx = Math.cos(ang) * spd;
-              ball.vy = Math.sin(ang) * spd;
-              b.flash = 10;
-              score += Math.round(b.pts * scoreMult);
-            }
-          });
-
-          if (ball.y > 465) {
-            balls--;
-            if (balls <= 0) {
-              gameOver = true;
-              addHighScore('pinball', score);
-            } else resetBall();
-          }
-        } else if (isPressed(' ') || isPressed('r')) {
-          score = 0; balls = startBalls; gameOver = false; resetBall();
-        }
-
-        bumpers.forEach(b => {
-          ctx.fillStyle = b.flash > 0 ? '#fff' : b.color;
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = '#070a14';
-          ctx.font = 'bold 12px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(`+${b.pts}`, b.x, b.y + 4);
-        });
-
-        ctx.strokeStyle = '#00e676';
-        ctx.lineWidth = 10;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(270, 415); ctx.lineTo(270 + Math.cos(lAng) * flipLen, 415 + Math.sin(lAng) * flipLen);
-        ctx.moveTo(458, 415); ctx.lineTo(458 + Math.cos(rAng) * flipLen, 415 + Math.sin(rAng) * flipLen);
-        ctx.stroke();
-
-        ctx.fillStyle = '#ff2a85';
-        ctx.fillRect(556, 405 + charge * 1.5, 24, 35);
-
-        ctx.fillStyle = '#ffd60a';
-        ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2); ctx.fill();
-
-        ctx.fillStyle = '#ffd60a';
-        ctx.font = 'bold 22px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(`${score}`, 24, 44);
-        ctx.fillStyle = '#00e676';
-        ctx.font = 'bold 18px sans-serif';
-        ctx.fillText(`${'● '.repeat(balls)}`, 24, 74);
-
-        if (gameOver) {
-          ctx.fillStyle = 'rgba(0,0,0,0.85)';
-          ctx.fillRect(210, 160, 340, 140);
-          ctx.fillStyle = '#ffd60a';
-          ctx.font = 'bold 24px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(`SCORE: ${score}`, 380, 215);
-          ctx.fillStyle = '#00e676';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText('PRESS SPACE', 380, 260);
-        }
-
-        animId = requestAnimationFrame(loop);
-      };
-      loop();
     }
 
     // ==========================================================================
-    // 5. NEON SNAKE RACE
+    // 6. RAFT WARS: PIRATE SIEGE
     // ==========================================================================
-    else if (selectedGameId === 'snake') {
-      const W = 760, H = 480, G = 20, COLS = W / G, ROWS = H / G;
-      const tickInterval = difficulty === 'EASY' ? 7 : difficulty === 'HARD' ? 3 : 5;
-      const scoreMult = difficulty === 'EASY' ? 1 : difficulty === 'HARD' ? 2.5 : 1.5;
-      const obstacles = difficulty === 'HARD' ? [
-        { x: 18, y: 7 }, { x: 19, y: 7 }, { x: 18, y: 16 }, { x: 19, y: 16 }
-      ] : [];
-      let score = 0, gameOver = false, msg = '', tick = 0;
-      const s1 = { body: [{ x: 8, y: 12 }, { x: 7, y: 12 }, { x: 6, y: 12 }], dx: 1, dy: 0, color: '#00e676' };
-      const s2 = { body: [{ x: 29, y: 12 }, { x: 30, y: 12 }, { x: 31, y: 12 }], dx: -1, dy: 0, color: '#ff2a85', active: mode === '2P' };
-      let apple = { x: 19, y: 12 };
-
-      const loop = () => {
-        tick++;
-        if ((isPressed('w') || (mode === '1P' && isPressed('arrowup'))) && s1.dy === 0) { s1.dx = 0; s1.dy = -1; }
-        else if ((isPressed('s') || (mode === '1P' && isPressed('arrowdown'))) && s1.dy === 0) { s1.dx = 0; s1.dy = 1; }
-        else if ((isPressed('a') || (mode === '1P' && isPressed('arrowleft'))) && s1.dx === 0) { s1.dx = -1; s1.dy = 0; }
-        else if ((isPressed('d') || (mode === '1P' && isPressed('arrowright'))) && s1.dx === 0) { s1.dx = 1; s1.dy = 0; }
-
-        if (s2.active) {
-          if (isPressed('arrowup') && s2.dy === 0) { s2.dx = 0; s2.dy = -1; }
-          else if (isPressed('arrowdown') && s2.dy === 0) { s2.dx = 0; s2.dy = 1; }
-          else if (isPressed('arrowleft') && s2.dx === 0) { s2.dx = -1; s2.dy = 0; }
-          else if (isPressed('arrowright') && s2.dx === 0) { s2.dx = 1; s2.dy = 0; }
-        }
-
-        if (!gameOver && tick % tickInterval === 0) {
-          const step = (sn, other, name) => {
-            let head = { x: sn.body[0].x + sn.dx, y: sn.body[0].y + sn.dy };
-            if (difficulty === 'EASY') {
-              head.x = (head.x + COLS) % COLS;
-              head.y = (head.y + ROWS) % ROWS;
-            }
-            if (
-              head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS ||
-              obstacles.some(o => o.x === head.x && o.y === head.y) ||
-              sn.body.some(b => b.x === head.x && b.y === head.y) ||
-              (other.active && other.body.some(b => b.x === head.x && b.y === head.y))
-            ) {
-              gameOver = true;
-              msg = `${name} CRASHED!`;
-              addHighScore('snake', score);
-              return;
-            }
-            sn.body.unshift(head);
-            if (head.x === apple.x && head.y === apple.y) {
-              score += Math.round(50 * scoreMult);
-              apple = { x: 2 + Math.floor(Math.random() * (COLS - 4)), y: 2 + Math.floor(Math.random() * (ROWS - 4)) };
-            } else sn.body.pop();
-          };
-          step(s1, s2, playerName);
-          if (s2.active && !gameOver) step(s2, { ...s1, active: true }, 'P2');
-        } else if (gameOver && (isPressed(' ') || isPressed('r'))) {
-          s1.body = [{ x: 8, y: 12 }, { x: 7, y: 12 }, { x: 6, y: 12 }]; s1.dx = 1; s1.dy = 0;
-          s2.body = [{ x: 29, y: 12 }, { x: 30, y: 12 }, { x: 31, y: 12 }]; s2.dx = -1; s2.dy = 0;
-          score = 0; gameOver = false;
-        }
-
-        ctx.fillStyle = '#070a14';
-        ctx.fillRect(0, 0, W, H);
-        ctx.fillStyle = '#ffd60a';
-        ctx.fillRect(apple.x * G + 2, apple.y * G + 2, G - 4, G - 4);
-
-        obstacles.forEach(o => {
-          ctx.fillStyle = '#ff3d00';
-          ctx.fillRect(o.x * G + 1, o.y * G + 1, G - 2, G - 2);
-        });
-
-        [s1, ...(s2.active ? [s2] : [])].forEach(sn => {
-          sn.body.forEach((b, i) => {
-            ctx.fillStyle = i === 0 ? '#fff' : sn.color;
-            ctx.fillRect(b.x * G + 1, b.y * G + 1, G - 2, G - 2);
-          });
-        });
-
-        ctx.fillStyle = '#ffd60a';
-        ctx.font = 'bold 20px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(`${score}`, 22, 36);
-
-        if (gameOver) {
-          ctx.fillStyle = 'rgba(0,0,0,0.85)';
-          ctx.fillRect(210, 160, 340, 140);
-          ctx.fillStyle = '#ffd60a';
-          ctx.font = 'bold 24px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(msg, 380, 215);
-          ctx.fillStyle = '#00e676';
-          ctx.font = 'bold 16px sans-serif';
-          ctx.fillText('PRESS SPACE', 380, 260);
-        }
-
-        animId = requestAnimationFrame(loop);
+    else if (selectedGameId === 'raftwars') {
+      const cleanupGame = initRaftWarsGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        difficulty,
+        playerName,
+        isPressed,
+        addHighScore
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
       };
-      loop();
+    }
+
+    // ==========================================================================
+    // 7. THE GRAND HEIST
+    // ==========================================================================
+    else if (selectedGameId === 'heist') {
+      const cleanupGame = initHeistGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        difficulty,
+        isPressed,
+        addHighScore
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
+      };
+    }
+
+    // ==========================================================================
+    // 8. 8-BIT CRYPTID CAMP (Idle Chance Encounters + Save/Load Camp File)
+    // ==========================================================================
+    else if (selectedGameId === 'campsite') {
+      const cleanupGame = initCampsiteGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        playerName,
+        isPressed,
+        addHighScore,
+        triggerToast
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
+      };
+    }
+
+    // ==========================================================================
+    // 9. 8-BIT BLOCKBUSTERS: CURATED HAND-CRAFTED MOVIE GAMES
+    // ==========================================================================
+    else if (selectedGameId === 'movie8bit') {
+      const cleanupGame = initMovie8BitGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        movieQuery: activeMovieTitle,
+        difficulty,
+        keys,
+        isPressed,
+        addHighScore,
+        triggerToast
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
+      };
+    }
+
+    // ==========================================================================
+    // 10. ESCHER VALLEY: IMPOSSIBLE ODYSSEY (Monument Valley + Mario Platformer)
+    // ==========================================================================
+    else if (selectedGameId === 'escher') {
+      const cleanupGame = initEscherGame({
+        canvas,
+        ctx,
+        W: 760,
+        H: 480,
+        difficulty,
+        keys,
+        isPressed,
+        addHighScore,
+        triggerToast
+      });
+      return () => {
+        if (cleanupGame) cleanupGame();
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
+      };
+    }
+
+    } catch (err) {
+      if (animId) cancelAnimationFrame(animId);
+      handleGameCrash(err);
+      return () => {
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onKeyUp);
+      };
     }
 
     return () => {
@@ -1552,7 +1502,7 @@ const NeoArcade = () => {
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [showUploadScreen, selectedGameId, activeGame.isCustom, mode, difficulty, playerName, restartKey, addHighScore]);
+  }, [showUploadScreen, showHomeMenu, selectedGameId, activeGame.isCustom, mode, difficulty, playerName, restartKey, addHighScore, activeMovieTitle, arcadeTheme, gameError, handleGameCrash]);
 
   // ============================================================================
   // UPLOAD HTML HANDLERS
@@ -1597,19 +1547,52 @@ const NeoArcade = () => {
     triggerToast(`🚀 Playing ${customObj.title}!`);
   };
 
+  // Live deflection for 8-way ball-top joystick (-1, 0, 1)
+  const joyX = (pressedUI['d'] || pressedUI['arrowright'] ? 1 : 0) - (pressedUI['a'] || pressedUI['arrowleft'] ? 1 : 0);
+  const joyY = (pressedUI['s'] || pressedUI['arrowdown'] ? 1 : 0) - (pressedUI['w'] || pressedUI['arrowup'] ? 1 : 0);
+  const isJoyTilted = joyX !== 0 || joyY !== 0;
+
   return (
-    <div className="neo-arcade-shell">
+    <div className={`neo-arcade-shell theme-${arcadeTheme}`}>
       {/* =====================================================================
-          LEFT: GIANT ARCADE CABINET (BEZEL SCREEN + JOYSTICK & BUTTONS DECK)
+          ARCADE CABINET MACHINE BOX
           ===================================================================== */}
       <div className="arcade-cabinet-outer">
-        {/* Thin Cabinet Marquee Strip */}
+        {/* Top Illuminated Arcade Marquee Strip */}
         <div className="arcade-marquee-strip">
-          <span className="arcade-marquee-title">
-            {showUploadScreen ? 'UPLOAD HTML GAME' : activeGame.title.toUpperCase()}
-          </span>
+          <div className="arcade-marquee-left">
+            <span className="arcade-marquee-badge">1989 COIN-OP</span>
+            <span className="arcade-marquee-title">
+              {showUploadScreen
+                ? 'UPLOAD HTML GAME'
+                : showHomeMenu
+                ? '★ SELECT YOUR GAME ★'
+                : activeGame.title.toUpperCase()}
+            </span>
+          </div>
+
           <div className="arcade-marquee-right">
-            {!showUploadScreen && (!activeGame.isCustom || activeGame.id === 'dodger') && (
+            <button
+              type="button"
+              className="theme-switch-btn"
+              onClick={() => setArcadeTheme(t => (t === 'warm' ? 'cool' : 'warm'))}
+              title="Toggle Miyazaki Day Sunset / Cool Twilight Night"
+            >
+              {arcadeTheme === 'warm' ? '☀️ DAY SUNSET' : '🌙 COOL NIGHT'}
+            </button>
+
+            {!showHomeMenu && !showUploadScreen && (
+              <button
+                type="button"
+                className="deck-pill-btn home-menu-btn"
+                onClick={() => setShowHomeMenu(true)}
+                title="Return to Game Selection (ESC)"
+              >
+                ◀ MENU
+              </button>
+            )}
+
+            {(!activeGame.isCustom || activeGame.id === 'dodger') && (
               <div className="diff-selector" role="group" aria-label="Difficulty">
                 {['EASY', 'MEDIUM', 'HARD'].map(d => (
                   <button
@@ -1623,15 +1606,25 @@ const NeoArcade = () => {
                 ))}
               </div>
             )}
-            {(activeGame.tags || []).map(t => (
-              <span key={t} className="arcade-tag-chip-header">{t}</span>
-            ))}
           </div>
         </div>
 
-        {/* Giant Game Screen Bezel */}
+        {/* Giant CRT Game Screen Bezel */}
         <div className="arcade-Bezel">
           {toast && <div className="arcade-toast">{toast}</div>}
+
+          {/* Quick Floating Top Bar when inside an active game */}
+          {!showHomeMenu && !showUploadScreen && (
+            <div className="crt-in-game-hud-strip">
+              <button
+                type="button"
+                className="crt-menu-return-btn"
+                onClick={() => setShowHomeMenu(true)}
+              >
+                ◀ MENU (ESC)
+              </button>
+            </div>
+          )}
 
           {showUploadScreen ? (
             <div className="upload-screen-panel">
@@ -1643,10 +1636,10 @@ const NeoArcade = () => {
                   handleHtmlFileSelect(e.dataTransfer.files);
                 }}
               >
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#00e5ff' }}>
+                <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffbe0b' }}>
                   DROP .HTML FILE HERE
                 </div>
-                <div style={{ fontSize: '13px', color: '#9eb0d2' }}>
+                <div style={{ fontSize: '10px', color: '#f5c299' }}>
                   Or click to pick an HTML game file
                 </div>
                 <button
@@ -1696,11 +1689,167 @@ const NeoArcade = () => {
                 </div>
               </form>
             </div>
+          ) : showHomeMenu ? (
+            /* ===================================================================
+               ON-SCREEN RETRO ARCADE "SELECT YOUR GAME" HOMEPAGE MENU (NO SCROLL)
+               =================================================================== */
+            <div className="crt-home-screen">
+              <div className="crt-pixel-scenery">
+                <div className="crt-celestial-body" />
+                <div className="crt-pixel-mountains" />
+              </div>
+
+              <div className="crt-home-header">
+                <div className="crt-home-title-block">
+                  <h2 className="crt-home-main-title">★ SELECT GAME ★</h2>
+                  <span className="crt-home-subtitle">
+                    [A/D / ARROWS] SELECT • [SPACE] PLAY
+                  </span>
+                </div>
+
+                {totalPages > 1 && (
+                  <div className="crt-pager" role="navigation" aria-label="Game Pages">
+                    <button
+                      type="button"
+                      className="tag-filter-pill"
+                      onClick={() => setGamePage(p => (p - 1 + totalPages) % totalPages)}
+                    >
+                      ◄
+                    </button>
+                    <span className="crt-page-indicator">
+                      PAGE {safePage + 1}/{totalPages}
+                    </span>
+                    <button
+                      type="button"
+                      className="tag-filter-pill"
+                      onClick={() => setGamePage(p => (p + 1) % totalPages)}
+                    >
+                      ►
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Paged Cartridge Grid (Fits cleanly inside CRT screen with zero scrolling) */}
+              <div className="crt-cartridge-grid">
+                {pagedGames.map(g => {
+                  const isSelected = selectedGameId === g.id;
+                  return (
+                    <div
+                      key={g.id}
+                      className={`crt-cartridge-card ${isSelected ? 'focused' : ''}`}
+                      onClick={() => {
+                        setSelectedGameId(g.id);
+                        setShowHomeMenu(false);
+                      }}
+                    >
+                      <div className="crt-cartridge-art">
+                        <GamePreviewThumb gameId={g.id} />
+                      </div>
+
+                      <h3 className="crt-cartridge-title">{g.title}</h3>
+
+                      {g.desc && (
+                        <p className="crt-cartridge-desc">{g.desc}</p>
+                      )}
+
+                      <button
+                        type="button"
+                        className="crt-cartridge-play-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedGameId(g.id);
+                          setShowHomeMenu(false);
+                        }}
+                      >
+                        {isSelected ? 'PLAY NOW ▶' : 'SELECT'}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* CRT Footer Bar: High Scores & Quick Actions */}
+              <div className="crt-home-footer">
+                <div className="crt-scores-inline">
+                  <span style={{ color: '#ffbe0b' }}>TOP:</span>
+                  {activeGameScores.length > 0 ? (
+                    activeGameScores.map((r, i) => (
+                      <span key={i} className="crt-score-pill">
+                        #{i + 1} {r.player}: {r.score}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="crt-score-pill">NO SCORES YET</span>
+                  )}
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input
+                    type="text"
+                    maxLength={10}
+                    className="sidebar-name-mini"
+                    value={playerName}
+                    onChange={(e) => setPlayerName(e.target.value.toUpperCase())}
+                    placeholder="PLAYER"
+                    title="Player Name"
+                  />
+                  <button
+                    type="button"
+                    className="tag-filter-pill"
+                    onClick={handleDownloadCsv}
+                    title="Download highscores.csv"
+                  >
+                    CSV ⬇
+                  </button>
+                  <button
+                    type="button"
+                    className="tag-filter-pill"
+                    style={{ background: '#ff6b2b', color: '#160622', borderColor: '#ffbe0b' }}
+                    onClick={() => setShowUploadScreen(true)}
+                  >
+                    + UPLOAD
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : gameError ? (
+            <div className="crt-crash-screen" role="alert">
+              <div className="crt-crash-box">
+                <h3 className="crt-crash-title">⚠ CARTRIDGE FAULT ⚠</h3>
+                <p className="crt-crash-subtitle">
+                  {activeGame.title} hit a runtime exception and halted safely.
+                </p>
+                <div className="crt-crash-detail">{gameError}</div>
+                <div className="crt-crash-actions">
+                  <button
+                    type="button"
+                    className="crt-cartridge-play-btn"
+                    onClick={() => {
+                      setGameError(null);
+                      setRestartKey(k => k + 1);
+                    }}
+                  >
+                    ↻ REBOOT GAME
+                  </button>
+                  <button
+                    type="button"
+                    className="tag-filter-pill"
+                    onClick={() => {
+                      setGameError(null);
+                      setShowHomeMenu(true);
+                    }}
+                  >
+                    ◄ SELECT GAME
+                  </button>
+                </div>
+              </div>
+            </div>
           ) : activeGame.isCustom ? (
             <iframe
               key={`${activeGame.id}-${difficulty}-${restartKey}`}
               title={activeGame.title}
-              srcDoc={activeGame.id === 'dodger' ? buildDodgerHtml(difficulty) : activeGame.htmlContent}
+              srcDoc={activeGame.htmlContent}
               sandbox="allow-scripts allow-pointer-lock allow-modals"
               className="arcade-iframe"
             />
@@ -1714,154 +1863,213 @@ const NeoArcade = () => {
           )}
         </div>
 
-        {/* Bottom Arcade Keyboard Control Deck (Interactive Keycaps) */}
+        {/* =====================================================================
+            SLANTED ARCADE CONTROL PANEL (ANIMATED JOYSTICK + 3D PUSHBUTTONS)
+            ===================================================================== */}
         <div className="arcade-control-deck">
-          <div className="key-cluster-wrap">
-            {/* WASD Mechanical Keycap Cluster */}
-            <div className="key-cluster">
-              <div className="key-row">
+          <div className="deck-left-hardware">
+            {/* 8-Way Animated Physical Joystick */}
+            <div className="joystick-station">
+              <div
+                className={`joystick-base-plate ${isJoyTilted ? 'tilted' : ''}`}
+                style={{ '--jx': joyX, '--jy': joyY }}
+              >
                 <button
-                  className={`arcade-keycap ${pressedUI['w'] || pressedUI['arrowup'] ? 'pressed' : ''}`}
+                  type="button"
+                  className={`joy-dir-sensor up ${pressedUI['w'] || pressedUI['arrowup'] ? 'active' : ''}`}
                   onMouseDown={() => holdVirtualKey('w', true)}
                   onMouseUp={() => holdVirtualKey('w', false)}
                   onMouseLeave={() => holdVirtualKey('w', false)}
+                  title="Up (W / ArrowUp)"
                 >
-                  <span>W</span>
-                  <span className="keycap-sub">{deckLabels.wSub}</span>
+                  ▲
                 </button>
-              </div>
-              <div className="key-row">
                 <button
-                  className={`arcade-keycap ${pressedUI['a'] || (mode === '1P' && pressedUI['arrowleft']) ? 'pressed' : ''}`}
-                  onMouseDown={() => holdVirtualKey('a', true)}
+                  type="button"
+                  className={`joy-dir-sensor left ${pressedUI['a'] || pressedUI['arrowleft'] ? 'active' : ''}`}
+                  onMouseDown={() => {
+                    holdVirtualKey('a', true);
+                    if (showHomeMenu) cycleGame(-1);
+                  }}
                   onMouseUp={() => holdVirtualKey('a', false)}
                   onMouseLeave={() => holdVirtualKey('a', false)}
+                  title="Left (A / ArrowLeft)"
                 >
-                  <span>A</span>
-                  <span className="keycap-sub">{deckLabels.aSub}</span>
+                  ◄
+                </button>
+                <div className="joystick-dust-washer">
+                  <div className="joystick-shaft" />
+                  <div className="joystick-ball-top" />
+                </div>
+                <button
+                  type="button"
+                  className={`joy-dir-sensor right ${pressedUI['d'] || pressedUI['arrowright'] ? 'active' : ''}`}
+                  onMouseDown={() => {
+                    holdVirtualKey('d', true);
+                    if (showHomeMenu) cycleGame(1);
+                  }}
+                  onMouseUp={() => holdVirtualKey('d', false)}
+                  onMouseLeave={() => holdVirtualKey('d', false)}
+                  title="Right (D / ArrowRight)"
+                >
+                  ►
                 </button>
                 <button
-                  className={`arcade-keycap ${pressedUI['s'] || (mode === '1P' && pressedUI['arrowdown']) ? 'pressed' : ''}`}
+                  type="button"
+                  className={`joy-dir-sensor down ${pressedUI['s'] || pressedUI['arrowdown'] ? 'active' : ''}`}
                   onMouseDown={() => holdVirtualKey('s', true)}
                   onMouseUp={() => holdVirtualKey('s', false)}
                   onMouseLeave={() => holdVirtualKey('s', false)}
+                  title="Down (S / ArrowDown)"
                 >
-                  <span>S</span>
-                  <span className="keycap-sub">{deckLabels.sSub}</span>
-                </button>
-                <button
-                  className={`arcade-keycap ${pressedUI['d'] || (mode === '1P' && pressedUI['arrowright']) ? 'pressed' : ''}`}
-                  onMouseDown={() => holdVirtualKey('d', true)}
-                  onMouseUp={() => holdVirtualKey('d', false)}
-                  onMouseLeave={() => holdVirtualKey('d', false)}
-                >
-                  <span>D</span>
-                  <span className="keycap-sub">{deckLabels.dSub}</span>
+                  ▼
                 </button>
               </div>
-              <span className="key-cluster-caption">{deckLabels.wasdCaption}</span>
+              <span className="key-cluster-caption">
+                {showHomeMenu ? 'SELECT: [A/D/ARROWS]' : deckLabels.wasdCaption}
+              </span>
             </div>
 
-            {/* Wide SPACE Bar Action Keycap */}
-            <div className="key-cluster">
-              <button
-                className={`arcade-keycap space-key ${pressedUI[' '] ? 'pressed' : ''}`}
-                onMouseDown={() => holdVirtualKey(' ', true)}
-                onMouseUp={() => holdVirtualKey(' ', false)}
-                onMouseLeave={() => holdVirtualKey(' ', false)}
-              >
-                <span>[ SPACE ]</span>
-                <span className="keycap-sub">{deckLabels.spaceLabel}</span>
-              </button>
-              <span className="key-cluster-caption">MAIN ACTION KEY</span>
+            {/* 3D Physical Pushbuttons (Animated Plungers that press into sockets) */}
+            <div className="arcade-pushbuttons-grid">
+              {/* PRIMARY FIRE / ACTION RED PLUNGER */}
+              <div className="arcade-btn-col">
+                <div className="arcade-socket">
+                  <button
+                    type="button"
+                    className={`arcade-plunger btn-fire ${pressedUI[' '] || pressedUI['enter'] ? 'pressed' : ''}`}
+                    onMouseDown={() => {
+                      holdVirtualKey(' ', true);
+                      if (showHomeMenu) setShowHomeMenu(false);
+                    }}
+                    onMouseUp={() => holdVirtualKey(' ', false)}
+                    onMouseLeave={() => holdVirtualKey(' ', false)}
+                    title="Fire / Jump / Action (Space / Enter)"
+                  >
+                    <span className="plunger-key-badge">[ SPACE ]</span>
+                    <span className="plunger-sub-label">
+                      {showHomeMenu ? 'PLAY GAME' : deckLabels.spaceLabel.split('—')[1] || 'FIRE'}
+                    </span>
+                  </button>
+                </div>
+                <span className="key-cluster-caption">ACTION 1</span>
+              </div>
+
+              {/* SECONDARY ALT / SHOP / BOMB GOLD PLUNGER */}
+              <div className="arcade-btn-col">
+                <div className="arcade-socket">
+                  <button
+                    type="button"
+                    className={`arcade-plunger btn-gold ${pressedUI['b'] ? 'pressed' : ''}`}
+                    onMouseDown={() => holdVirtualKey('b', true)}
+                    onMouseUp={() => holdVirtualKey('b', false)}
+                    onMouseLeave={() => holdVirtualKey('b', false)}
+                    title="Shop / Bomb / Special (B)"
+                  >
+                    <span className="plunger-key-badge">[ B ]</span>
+                    <span className="plunger-sub-label">SHOP / BOMB</span>
+                  </button>
+                </div>
+                <span className="key-cluster-caption">ACTION 2</span>
+              </div>
+
+              {/* AUXILIARY PWR- / ANG- ORANGE PLUNGER */}
+              <div className="arcade-btn-col">
+                <div className="arcade-socket">
+                  <button
+                    type="button"
+                    className={`arcade-plunger btn-orange ${pressedUI['q'] ? 'pressed' : ''}`}
+                    onMouseDown={() => holdVirtualKey('q', true)}
+                    onMouseUp={() => holdVirtualKey('q', false)}
+                    onMouseLeave={() => holdVirtualKey('q', false)}
+                    title="Power - / Elevation (Q)"
+                  >
+                    <span className="plunger-key-badge">[ Q ]</span>
+                    <span className="plunger-sub-label">PWR -</span>
+                  </button>
+                </div>
+                <span className="key-cluster-caption">POWER -</span>
+              </div>
+
+              {/* AUXILIARY PWR+ / ANG+ VIOLET PLUNGER */}
+              <div className="arcade-btn-col">
+                <div className="arcade-socket">
+                  <button
+                    type="button"
+                    className={`arcade-plunger btn-violet ${pressedUI['e'] ? 'pressed' : ''}`}
+                    onMouseDown={() => holdVirtualKey('e', true)}
+                    onMouseUp={() => holdVirtualKey('e', false)}
+                    onMouseLeave={() => holdVirtualKey('e', false)}
+                    title="Power + / Elevation (E)"
+                  >
+                    <span className="plunger-key-badge">[ E ]</span>
+                    <span className="plunger-sub-label">PWR +</span>
+                  </button>
+                </div>
+                <span className="key-cluster-caption">POWER +</span>
+              </div>
+
+              {/* WEAPON CYCLE PLUNGER */}
+              <div className="arcade-btn-col">
+                <div className="arcade-socket">
+                  <button
+                    type="button"
+                    className={`arcade-plunger btn-gold ${pressedUI['c'] ? 'pressed' : ''}`}
+                    onMouseDown={() => holdVirtualKey('c', true)}
+                    onMouseUp={() => holdVirtualKey('c', false)}
+                    onMouseLeave={() => holdVirtualKey('c', false)}
+                    title="Cycle Weapon (C)"
+                  >
+                    <span className="plunger-key-badge">[ C ]</span>
+                    <span className="plunger-sub-label">WEAPON</span>
+                  </button>
+                </div>
+                <span className="key-cluster-caption">CYCLE</span>
+              </div>
             </div>
-
-            {/* Mouse Swipe Badge for Hot Dog Ninja / Custom Games */}
-            {deckLabels.showMouse && (
-              <div className="mouse-hint-badge">
-                <span>🖱️ MOUSE SWIPE</span>
-                <span style={{ fontSize: '10px', color: '#fff' }}>OR PRESS SPACE</span>
-              </div>
-            )}
-
-            {/* Player 2 Arrow Key Cluster when 2P Mode is ON */}
-            {activeGame.supports2P && mode === '2P' && (
-              <div className="key-cluster">
-                <div className="key-row">
-                  <button
-                    className={`arcade-keycap p2-key ${pressedUI['arrowup'] ? 'pressed' : ''}`}
-                    onMouseDown={() => holdVirtualKey('ArrowUp', true)}
-                    onMouseUp={() => holdVirtualKey('ArrowUp', false)}
-                    onMouseLeave={() => holdVirtualKey('ArrowUp', false)}
-                  >
-                    <span>▲</span>
-                  </button>
-                  <button
-                    className={`arcade-keycap p2-key ${pressedUI['enter'] ? 'pressed' : ''}`}
-                    onMouseDown={() => holdVirtualKey('Enter', true)}
-                    onMouseUp={() => holdVirtualKey('Enter', false)}
-                    onMouseLeave={() => holdVirtualKey('Enter', false)}
-                  >
-                    <span>ENTER</span>
-                    <span className="keycap-sub">P2 ACT</span>
-                  </button>
-                </div>
-                <div className="key-row">
-                  <button
-                    className={`arcade-keycap p2-key ${pressedUI['arrowleft'] ? 'pressed' : ''}`}
-                    onMouseDown={() => holdVirtualKey('ArrowLeft', true)}
-                    onMouseUp={() => holdVirtualKey('ArrowLeft', false)}
-                    onMouseLeave={() => holdVirtualKey('ArrowLeft', false)}
-                  >
-                    <span>◄</span>
-                  </button>
-                  <button
-                    className={`arcade-keycap p2-key ${pressedUI['arrowdown'] ? 'pressed' : ''}`}
-                    onMouseDown={() => holdVirtualKey('ArrowDown', true)}
-                    onMouseUp={() => holdVirtualKey('ArrowDown', false)}
-                    onMouseLeave={() => holdVirtualKey('ArrowDown', false)}
-                  >
-                    <span>▼</span>
-                  </button>
-                  <button
-                    className={`arcade-keycap p2-key ${pressedUI['arrowright'] ? 'pressed' : ''}`}
-                    onMouseDown={() => holdVirtualKey('ArrowRight', true)}
-                    onMouseUp={() => holdVirtualKey('ArrowRight', false)}
-                    onMouseLeave={() => holdVirtualKey('ArrowRight', false)}
-                  >
-                    <span>►</span>
-                  </button>
-                </div>
-                <span className="key-cluster-caption" style={{ color: '#ff85b3' }}>
-                  PLAYER 2 KEYS
-                </span>
-              </div>
-            )}
           </div>
 
-          {/* Right Cabinet Navigation & Mode Keys */}
+          {/* Right Cabinet System Controls */}
           <div className="deck-center-controls">
-            <button className="deck-pill-btn" onClick={() => cycleGame(-1)} title="Previous Game">
-              ◀ PREV
+            <button
+              type="button"
+              className="deck-pill-btn home-menu-btn"
+              onClick={() => setArcadeTheme(t => (t === 'warm' ? 'cool' : 'warm'))}
+              title="Toggle Miyazaki Day Sunset / Cool Twilight Night"
+            >
+              {arcadeTheme === 'warm' ? '☀️ DAY' : '🌙 NIGHT'}
             </button>
-            <button className="deck-pill-btn" onClick={() => cycleGame(1)} title="Next Game">
-              NEXT ▶
+
+            <button
+              type="button"
+              className={`deck-pill-btn home-menu-btn ${showHomeMenu ? 'pressed' : ''}`}
+              onClick={() => setShowHomeMenu(m => !m)}
+              title="Toggle Game Selection Menu"
+            >
+              {showHomeMenu ? 'RESUME ▶' : '🕹️ MENU'}
             </button>
+
             {activeGame.supports2P && (
               <button
+                type="button"
                 className={`deck-pill-btn ${mode === '2P' ? 'active-mode' : ''}`}
                 onClick={() => setMode(m => (m === '1P' ? '2P' : '1P'))}
               >
                 {mode === '2P' ? '👥 2P ON' : '1P / 2P'}
               </button>
             )}
+
             <button
+              type="button"
               className="deck-pill-btn"
               onClick={() => setRestartKey(k => k + 1)}
+              title="Reset Round"
             >
               ↻ RESET
             </button>
+
             <button
+              type="button"
               className="deck-pill-btn share-btn"
               onClick={() => handleShareGame(activeGame)}
             >
@@ -1870,105 +2078,6 @@ const NeoArcade = () => {
           </div>
         </div>
       </div>
-
-      {/* =====================================================================
-          RIGHT SIDEBAR: ADDICTINGGAMES STYLE (UPLOAD + TAGS + VISUAL CARDS)
-          ===================================================================== */}
-      <aside className="arcade-sidebar">
-        <button
-          className="sidebar-upload-btn"
-          onClick={() => setShowUploadScreen(s => !s)}
-        >
-          {showUploadScreen ? '◀ BACK TO GAME' : '+ UPLOAD HTML GAME'}
-        </button>
-
-        {/* Tag Filters */}
-        <div className="sidebar-tag-bar">
-          {ALL_TAGS.map(tag => (
-            <button
-              key={tag}
-              className={`tag-filter-pill ${selectedTag === tag ? 'active' : ''}`}
-              onClick={() => setSelectedTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-
-        {/* Related Games with Visual Previews */}
-        <div className="sidebar-games-list">
-          {filteredGames.map(g => (
-            <div
-              key={g.id}
-              className={`sidebar-game-card ${!showUploadScreen && selectedGameId === g.id ? 'selected' : ''}`}
-              onClick={() => {
-                setSelectedGameId(g.id);
-                setShowUploadScreen(false);
-              }}
-            >
-              <GamePreviewThumb gameId={g.id} />
-
-              <div className="sidebar-card-info">
-                <h4 className="sidebar-card-title">{g.title}</h4>
-                <div className="sidebar-card-tags">
-                  {(g.tags || []).map(t => (
-                    <span
-                      key={t}
-                      className="mini-tag"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedTag(t);
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                className="sidebar-share-icon-btn"
-                title="Copy Share Link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleShareGame(g);
-                }}
-              >
-                🔗
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* Compact CSV High Scores Footer */}
-        <div className="sidebar-scores-box">
-          <div className="sidebar-scores-header">
-            <span>TOP SCORES</span>
-            <input
-              type="text"
-              maxLength={10}
-              className="sidebar-name-mini"
-              value={playerName}
-              onChange={(e) => setPlayerName(e.target.value.toUpperCase())}
-              placeholder="NAME"
-            />
-            <button
-              className="tag-filter-pill"
-              style={{ padding: '2px 6px', fontSize: '10px' }}
-              onClick={handleDownloadCsv}
-              title="Download highscores.csv"
-            >
-              CSV ⬇
-            </button>
-          </div>
-          {activeGameScores.map((r, i) => (
-            <div key={i} className="sidebar-score-row">
-              <span>#{i + 1} {r.player}</span>
-              <span style={{ color: '#ffd60a', fontWeight: 700 }}>{r.score}</span>
-            </div>
-          ))}
-        </div>
-      </aside>
     </div>
   );
 };

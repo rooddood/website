@@ -3,241 +3,320 @@ import { useNavigate } from 'react-router-dom';
 import './CodingProjects.css';
 import './TagBubble.css';
 
-const CodingProjects = () => {
-    const navigate = useNavigate();
-    const holdTimerRef = useRef(null);
+const CLIENT_WORK = [
+  {
+    id: 'nodus',
+    title: 'Nodus',
+    url: 'https://www.nodus.io/',
+    logo: `${process.env.PUBLIC_URL}/images/nodus-logo.png`,
+    tags: ['Python', 'AI Agents'],
+    summary: 'AI agent architecture & Pydantic-AI MCP server on Docker/Next.JS.',
+    details: (
+      <>
+        <p>Advised on AI agent workflows and implemented a Python (Pydantic-AI) MCP server to source live web data, integrated into a Dockerized Next.JS stack.</p>
+        <a href="https://www.nodus.io/" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          Visit Nodus &#8599;
+        </a>
+      </>
+    )
+  },
+  {
+    id: 'hilltop',
+    title: 'Hilltop-App',
+    url: 'https://www.hilltop-app.com/',
+    logo: `${process.env.PUBLIC_URL}/images/hilltop-logo.png`,
+    tags: ['Next.JS', 'RAG'],
+    summary: 'Context-aware AI assistant UI & legislative LangChain RAG pipeline.',
+    details: (
+      <>
+        <p>Rebuilt the Next.JS/Angular assistant interface and engineered RAG pipelines + Python verification harnesses grounding AI responses in legislative data.</p>
+        <a href="https://www.hilltop-app.com/" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          Visit Hilltop-App &#8599;
+        </a>
+      </>
+    )
+  },
+  {
+    id: 'ssr',
+    title: 'Strategic Solutions Research',
+    url: 'https://strategicsolutionsresearch.com/',
+    logo: `${process.env.PUBLIC_URL}/images/ssr-logo.png`,
+    tags: ['Python', 'React'],
+    summary: 'Automated React data visualizations, ETL pipelines & custom BERT NLP.',
+    details: (
+      <>
+        <p>Built React client reporting dashboards, scalable Python ETL pipelines, and custom HuggingFace BERT topic/sentiment models for deeper client insights.</p>
+        <a href="https://strategicsolutionsresearch.com/" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          Visit SSR &#8599;
+        </a>
+      </>
+    )
+  }
+];
 
-    const startSecretHold = (targetPath) => {
-        if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
-        holdTimerRef.current = setTimeout(() => {
-            navigate(targetPath);
-        }, 3000);
-    };
-
-    const cancelSecretHold = () => {
-        if (holdTimerRef.current) {
-            clearTimeout(holdTimerRef.current);
-            holdTimerRef.current = null;
-        }
-    };
-
-    useEffect(() => {
-        return () => {
-            if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
-        };
-    }, []);
-    // Reorder so AMOS and AmberVision are last, for bottom row
-    const projects = [
-        {
-            title: 'Dicta - AI Writing Assistant',
-            description: (
-                <>
-                    <div className="project-logo">
-                        <img
-                            src={`${process.env.PUBLIC_URL}/images/voicescribe.png`}
-                            alt="Script Writing App Logo"
-                            style={{ display: 'block', margin: '0 auto', maxWidth: '200px' }}
-                        />
-                    </div>
-                    <p>This is an ongoing project that focuses on leveraging local AI models to assist users in script writing by converting voice input into formatted text.</p>
-                    <h5>Background</h5>
-                    <p>I spend a lot of time formatting my writing, and I thought this would be a great way to streamline the process. I can talk faster than I can type, so why not just do that?</p>
-                    <h5>Current Features</h5>
-                    <p>The app currently supports voice-to-text transcription using local AI models, which allows me to develop open source, without being tied to a specific company.</p>
-                    <h5>In Progress</h5>
-                    <p>I am working on auto formatting in different ways with AI. I want to allow the user to write any type of text, and have it correctly formatted, ready for copy and paste to another source.</p>
-                    <h5>GitHub Repository</h5>
-                    <p>You can find the code for this project on <a href="https://github.com/rooddood/script-writing-app" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
-                </>
-            ),
-            technologies: ['Python', 'Local LLMs', 'Speech Recognition', 'React', 'HTML/CSS']
-        },
-        {
-            title: 'AI Contract Negotiator',
-            description: (
-                <>
-                    <p>This tool is designed to explore the use of different models for automatic contract negotiation and generation. It leverages large language models (LLMs) from Hugging Face to facilitate these tasks.</p>
-                    <h5>Background</h5>
-                    <p>Using minimal input about the contractor and the hirer, this tool generates a contract that works for both parties. It is an innovative approach to simplifying contract creation and negotiation.</p>
-                    <h5>Value and Potential Use</h5>
-                    <p>The AI Contract Negotiator has the potential to revolutionize the way contracts are created and negotiated. By automating the process, it reduces the time and effort required to draft agreements, making it particularly valuable for small businesses, freelancers, and organizations that frequently deal with contracts. The tool ensures fairness and clarity in agreements, minimizing misunderstandings and disputes.</p>
-                    <p>Additionally, the use of advanced language models allows for customization and adaptability, enabling the tool to cater to a wide range of industries and contract types. This makes it a versatile solution for modern contract management challenges.</p>
-                    <h5>GitHub Repository</h5>
-                    <p>You can find the code for this project on <a href="https://github.com/rooddood/ai-contract-negotiator/tree/main" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
-                </>
-            ),
-            technologies: ['Python', 'Hugging Face Models', 'Large Language Models (LLMs)']
-        },
-        {
-            title: 'FlickPick',
-            description: (
-                <>
-                    <p><strong>FlickPick</strong> is an AI-powered app that helps you decide what to watch next. It uses advanced models to recommend movies and shows based on your preferences, making the decision process fun and easy.</p>
-                    <h5>Features</h5>
-                    <ul>
-                        <li>AI-driven recommendations for movies and TV shows</li>
-                        <li>Simple, interactive interface</li>
-                        <li>Connects to popular databases for up-to-date suggestions</li>
-                    </ul>
-                    <h5>Demo Video</h5>
-                    <div style={{ textAlign: 'center' }}>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/aDI4ZdjhDLE" title="FlickPick Demo" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                    </div>
-                    <h5>GitHub Repository</h5>
-                    <p>
-                        Check out the code and learn more on <a href="https://github.com/rooddood/flickpick" target="_blank" rel="noopener noreferrer">GitHub</a>.
-                    </p>
-                </>
-            ),
-            technologies: ['React', 'Python', 'AI', 'OpenAI API', 'Movie/TV APIs']
-        },
-        {
-            title: 'AmberVision',
-            description: (
-                <>
-                    <p>As part of GW’s computer science program, every senior is required to work with a team on a capstone project. My team and I worked with Dr. Robert Pless to develop <a href="https://gw-cs-sd.github.io/sd-20-fernandez-rood-shah/" target="_blank" rel="noopener noreferrer">AmberVision</a>.</p>
-                    <h5>Background</h5>
-                    <p>AmberVision is one part of a solution to the question: how can we leverage existing technology to search for Amber Alert victims? AmberVision has a simple goal -- detect cars and display these detections to law enforcement.</p>
-                    <h5>Tech</h5>
-                    <p>We opted for a real-time object detection tool that allows law enforcement to view a web app and see the detected vehicles on the streets of DC.</p>
-                    <h5>Data Collection</h5>
-                    <p>We reached out to <a href="http://www.trafficland.com/" target="_blank" rel="noopener noreferrer">TrafficLand</a>, a company with a majority stake of traffic cameras in DC, to access their API for free from September 2019 to May 2020.</p>
-                    <h5>Object Detection</h5>
-                    <p>We used <a href="https://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener noreferrer">You Only Look Once (YOLO)</a> for object detection due to its ideal speed and accuracy for our low-resolution traffic cameras.</p>
-                    <h5>Color Detection</h5>
-                    <p>We used PCA embedding to classify the RGB values and find the correlated colors, although it proved to be very difficult due to the grainy and low-res images.</p>
-                    <h5>Results</h5>
-                    <p>The image below shows detected cars, buses, and trucks in one frame with a different color based on each size.</p>
-                    <div className="project-images">
-                        <img src={`${process.env.PUBLIC_URL}/images/amber_vision_detection.png`} alt="AmberVision screenshot 1" />
-                        <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision screenshot 2" />
-                    </div>
-                    <p>We created this project in Vue.js, showing a map of the location of the cameras in DC and the latest image with the vehicles detected.</p>
-                    <h5>Why This is Important</h5>
-                    <p>We demonstrated the powerful effect of using our skills for social good. Although we were unable to fully develop this project into a full-scale application, someone else can, with the ideas we started.</p>
-                </>
-            ),
-            technologies: ['Python Flask', 'MongoDB', 'Sklearn', 'cv2', 'Matplotlib', 'Pandas', 'Scipy', 'Vue.js', 'Leaflet', 'Axios', 'Bootstrap-Vue', 'Vanilla JS', 'HTML']
-        },
-        {
-            title: 'Artistree',
-            description: (
-                <>
-                    <p style={{ marginTop: '20px' }}>An app to help you discover new artists by tracing the inspiration of your favorites. By exploring your favorite artist's favorite artists, you can build a tree of inspiration and see exactly where certain musical ideas originated.</p>
-                </>
-            ),
-            technologies: ['React', 'Data', 'AI'],
-            comingSoon: false
-        },
-        {
-            title: 'AMOS: The Archive of Many Outdoor Scenes',
-            description: (
-                <>
-                    <p>I worked on this project the bulk of my sophomore year of college. I reached out to a professor at the time and he allowed me to work on AMOS. It has been a very rewarding experience.</p>
-                    <h5>Background</h5>
-                    <p>The Archive of Many Outdoor Scenes (AMOS) is a collection of long-term time lapse imagery from publicly accessible outdoor web cams around the world. This research focuses on exploring how to use these images to learn about the world around us and understanding changes in natural environments and how people use public spaces. This project was built from the ground up using a Python web framework Flask. The dataset contains over 7,000 publicly accessible webcams and over 1,000,000 images.</p>
-                    <p>The site is no longer live through GW's computer science department, but you can find the code on <a href="https://github.com/GWUvision/AMOSEast" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
-                </>
-            ),
-            technologies: ['Python Flask', 'Threading', 'OpenCV', 'Numpy', 'PostgreSQL', 'HTML/CSS']
-        }
-    ];
-
-    const [expandedProject, setExpandedProject] = useState(null);
-
-    const handleExpand = (index) => {
-        setExpandedProject(index);
-    };
-
-    const handleClose = (event) => {
-        event.stopPropagation();
-        setExpandedProject(null);
-    };
-
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (expandedProject !== null && !event.target.closest('.project-card.expanded')) {
-                setExpandedProject(null);
-            }
-        };
-
-        if (expandedProject !== null) {
-            document.addEventListener('click', handleOutsideClick);
-        } else {
-            document.removeEventListener('click', handleOutsideClick);
-        }
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [expandedProject]);
-
-    return (
-        <div className="coding-projects-container">
-            <header className="coding-projects-header">
-                <h1>Coding Projects</h1>
-                <a href="https://github.com/rooddood" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '10px' }}>
-                    <button className="home__download-btn" style={{ padding: '10px 20px', minHeight: 'auto', fontSize: '1em' }}>
-                        View GitHub Profile
-                    </button>
-                </a>
-            </header>
-            <section className="coding-projects-list">
-                {projects.slice(0, 6).map((project, index) => {
-                    const isComingSoon = project.comingSoon;
-                    return (
-                        <div
-                            key={index}
-                            className={`project-card${expandedProject === index && !isComingSoon ? ' expanded' : ''}${isComingSoon ? ' coming-soon' : ''}`}
-                            onClick={isComingSoon ? undefined : (e) => { e.stopPropagation(); handleExpand(index); }}
-                            style={{ cursor: isComingSoon ? 'default' : 'pointer', opacity: isComingSoon ? 0.7 : 1 }}
-                        >
-                            <h3>{project.title}</h3>
-                            <div className="skill-tag-container">
-                                {project.technologies.map((tech, techIndex) => (
-                                    <span key={techIndex} className="skill-tag">{tech}</span>
-                                ))}
-                            </div>
-                            {(expandedProject === index && !isComingSoon) && (
-                                <>
-                                    <button className="close-btn" onClick={handleClose}>&times;</button>
-                                    <div className="project-details">
-                                        {project.description}
-                                    </div>
-                                </>
-                            )}
-                            {isComingSoon && (
-                                <div className="project-details">
-                                    {project.description}
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
-            </section>
-
-            {/* Invisible 3-Second Hold Secret Corners (Left = Arcade, Right = LitVids) */}
-            <div
-                className="secret-corner-trigger secret-corner-left"
-                onMouseDown={() => startSecretHold('/arcade')}
-                onMouseUp={cancelSecretHold}
-                onMouseLeave={cancelSecretHold}
-                onTouchStart={() => startSecretHold('/arcade')}
-                onTouchEnd={cancelSecretHold}
-                onTouchCancel={cancelSecretHold}
-                aria-hidden="true"
-            />
-            <div
-                className="secret-corner-trigger secret-corner-right"
-                onMouseDown={() => startSecretHold('/litvids')}
-                onMouseUp={cancelSecretHold}
-                onMouseLeave={cancelSecretHold}
-                onTouchStart={() => startSecretHold('/litvids')}
-                onTouchEnd={cancelSecretHold}
-                onTouchCancel={cancelSecretHold}
-                aria-hidden="true"
-            />
+const PROJECTS = [
+  {
+    id: 'dicta',
+    title: 'Dicta — AI Writing Assistant',
+    tags: ['Python', 'Local LLMs'],
+    summary: 'Local AI voice-to-text assistant for formatted script writing.',
+    details: (
+      <>
+        <div className="eng-media-center">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/voicescribe.png`}
+            alt="Dicta logo"
+            className="eng-thumb-logo"
+          />
         </div>
-    );
+        <p>Converts voice input into structured, copy-ready scripts using open-source local LLMs and speech recognition—keeping workflows fast and private.</p>
+        <a href="https://github.com/rooddood/script-writing-app" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          View on GitHub &#8599;
+        </a>
+      </>
+    )
+  },
+  {
+    id: 'contract',
+    title: 'AI Contract Negotiator',
+    tags: ['Hugging Face', 'LLMs'],
+    summary: 'Automated contract drafting and negotiation powered by LLMs.',
+    details: (
+      <>
+        <p>Generates balanced contractor/hirer agreements from minimal inputs, reducing legal drafting friction for freelancers and small teams while adapting across contract types.</p>
+        <a href="https://github.com/rooddood/ai-contract-negotiator/tree/main" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          View on GitHub &#8599;
+        </a>
+      </>
+    )
+  },
+  {
+    id: 'flickpick',
+    title: 'FlickPick',
+    tags: ['React', 'OpenAI API'],
+    summary: 'AI movie & TV recommender tailored to personal taste.',
+    details: (
+      <>
+        <p>Pairs OpenAI recommendations with live movie/TV databases in a fast, interactive interface to solve decision fatigue.</p>
+        <div className="eng-video-wrap" onClick={(e) => e.stopPropagation()}>
+          <iframe
+            src="https://www.youtube.com/embed/aDI4ZdjhDLE"
+            title="FlickPick Demo"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+        <a href="https://github.com/rooddood/flickpick" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          View on GitHub &#8599;
+        </a>
+      </>
+    )
+  },
+  {
+    id: 'ambervision',
+    title: 'AmberVision',
+    tags: ['YOLO', 'Computer Vision'],
+    summary: 'Real-time DC traffic-cam vehicle & color detection for Amber Alerts.',
+    details: (
+      <>
+        <p>GWU senior capstone with Dr. Robert Pless using TrafficLand DC camera feeds, YOLO object detection, and PCA color classification mapped in Vue.js.</p>
+        <div className="eng-screenshots">
+          <img src={`${process.env.PUBLIC_URL}/images/amber_vision_detection.png`} alt="AmberVision vehicle detection" />
+          <img src={`${process.env.PUBLIC_URL}/images/ambervision_webpage.jpg`} alt="AmberVision map dashboard" />
+        </div>
+        <a href="https://gw-cs-sd.github.io/sd-20-fernandez-rood-shah/" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          Project Page &#8599;
+        </a>
+      </>
+    )
+  },
+  {
+    id: 'artistree',
+    title: 'Artistree',
+    tags: ['React', 'Music AI'],
+    summary: 'Discover new musicians by tracing artist-to-artist influence trees.',
+    details: (
+      <>
+        <p>Maps inspiration lineages across artists so listeners can trace where musical styles and sounds originated and uncover overlooked favorites.</p>
+      </>
+    )
+  },
+  {
+    id: 'amos',
+    title: 'AMOS: Outdoor Scenes Archive',
+    tags: ['Flask', 'OpenCV'],
+    summary: 'Time-lapse dataset archiving 1B+ images from 7,000+ public webcams.',
+    details: (
+      <>
+        <p>Built full-stack infrastructure (Python Flask, OpenCV, PostgreSQL) at GWU to collect and study long-term environmental and urban imagery globally.</p>
+        <a href="https://github.com/GWUvision/AMOSEast" target="_blank" rel="noopener noreferrer" className="eng-inline-link" onClick={(e) => e.stopPropagation()}>
+          View on GitHub &#8599;
+        </a>
+      </>
+    )
+  }
+];
+
+const CodingProjects = () => {
+  const navigate = useNavigate();
+  const holdTimerRef = useRef(null);
+  const [expandedId, setExpandedId] = useState(null);
+
+  const startSecretHold = (targetPath) => {
+    if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+    holdTimerRef.current = setTimeout(() => {
+      navigate(targetPath);
+    }, 3000);
+  };
+
+  const cancelSecretHold = () => {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+    };
+  }, []);
+
+  const toggleCard = (id) => {
+    setExpandedId((prev) => (prev === id ? null : id));
+  };
+
+  return (
+    <div className="eng-page">
+      <div className="eng-inner">
+        <header className="eng-header">
+          <h1>Software Engineering</h1>
+          <p className="eng-subtitle">Full Stack AI Engineer &bull; Remote / Washington D.C.</p>
+          <div className="eng-actions">
+            <a href="https://github.com/rooddood" target="_blank" rel="noopener noreferrer" className="eng-action-pill">
+              GitHub
+            </a>
+            <a href={`${process.env.PUBLIC_URL}/Kyle_Rood_Resume_Whole_2026.pdf`} target="_blank" rel="noopener noreferrer" className="eng-action-pill eng-action-pill--primary">
+              Resume PDF
+            </a>
+            <a href="https://www.upwork.com/freelancers/~013ea7305f186f0b3d?mp_source=share" target="_blank" rel="noopener noreferrer" className="eng-action-pill">
+              Upwork
+            </a>
+            <a href="https://www.fiverr.com/s/WE3pj2B" target="_blank" rel="noopener noreferrer" className="eng-action-pill">
+              Fiverr
+            </a>
+            <a href="mailto:kylerood16@gmail.com" className="eng-action-pill">
+              Email
+            </a>
+          </div>
+        </header>
+
+        <section className="eng-section">
+          <h2 className="eng-section-title">Client &amp; Freelance Work</h2>
+          <div className="eng-clients-grid">
+            {CLIENT_WORK.map((client) => {
+              const isOpen = expandedId === client.id;
+              return (
+                <div
+                  key={client.id}
+                  className={`eng-card eng-card--client${isOpen ? ' is-open' : ''}`}
+                  onClick={() => toggleCard(client.id)}
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isOpen}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleCard(client.id);
+                    }
+                  }}
+                >
+                  <div className="eng-card-top">
+                    <div className="eng-client-brand">
+                      <img src={client.logo} alt={`${client.title} logo`} className="eng-client-logo" />
+                      <h3>{client.title}</h3>
+                    </div>
+                    <span className={`eng-chevron${isOpen ? ' rotated' : ''}`}>&#9662;</span>
+                  </div>
+                  <p className="eng-card-summary">{client.summary}</p>
+                  <div className="eng-tags">
+                    {client.tags.map((tag) => (
+                      <span key={tag} className="skill-tag">{tag}</span>
+                    ))}
+                  </div>
+                  {isOpen && <div className="eng-card-details">{client.details}</div>}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="eng-section">
+          <h2 className="eng-section-title">Featured Projects</h2>
+          <div className="eng-projects-grid">
+            {PROJECTS.map((project) => {
+              const isOpen = expandedId === project.id;
+              return (
+                <div
+                  key={project.id}
+                  className={`eng-card${isOpen ? ' is-open' : ''}`}
+                  onClick={() => toggleCard(project.id)}
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isOpen}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleCard(project.id);
+                    }
+                  }}
+                >
+                  <div className="eng-card-top">
+                    <h3>{project.title}</h3>
+                    <div className="eng-card-right">
+                      <div className="eng-tags">
+                        {project.tags.map((tag) => (
+                          <span key={tag} className="skill-tag">{tag}</span>
+                        ))}
+                      </div>
+                      <span className={`eng-chevron${isOpen ? ' rotated' : ''}`}>&#9662;</span>
+                    </div>
+                  </div>
+                  <p className="eng-card-summary">{project.summary}</p>
+                  {isOpen && <div className="eng-card-details">{project.details}</div>}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      </div>
+
+      {/* Completely Invisible 3-Second Hold Secret Corners (Left = Arcade, Right = LitVids) */}
+      <div
+        className="secret-corner-trigger secret-corner-left"
+        onMouseDown={() => startSecretHold('/arcade')}
+        onMouseUp={cancelSecretHold}
+        onMouseLeave={cancelSecretHold}
+        onTouchStart={() => startSecretHold('/arcade')}
+        onTouchEnd={cancelSecretHold}
+        onTouchCancel={cancelSecretHold}
+        onContextMenu={(e) => e.preventDefault()}
+        aria-hidden="true"
+      />
+      <div
+        className="secret-corner-trigger secret-corner-right"
+        onMouseDown={() => startSecretHold('/litvids')}
+        onMouseUp={cancelSecretHold}
+        onMouseLeave={cancelSecretHold}
+        onTouchStart={() => startSecretHold('/litvids')}
+        onTouchEnd={cancelSecretHold}
+        onTouchCancel={cancelSecretHold}
+        onContextMenu={(e) => e.preventDefault()}
+        aria-hidden="true"
+      />
+    </div>
+  );
 };
 
 export default CodingProjects;

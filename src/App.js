@@ -10,8 +10,6 @@ import Cooking from './components/Cooking';
 import Meme from './components/Meme';
 import Shops from './components/Shops';
 import LitVids from './components/LitVids';
-import Freelance from './components/Freelance';
-import Resume from './components/Resume';
 import CodingProjects from './components/CodingProjects';
 import NavBar from './components/NavBar';
 import Blog from './components/Blog';
@@ -29,8 +27,7 @@ function App() {
         <NavBar /> {/* Include NavBar component here */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Home page at / and /website*/}
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/freelance" element={<Freelance />} />
+          <Route path="/freelance" element={<CodingProjects />} />
           <Route path="/projects" element={<CodingProjects />} />
           <Route path="/clothing" element={<Clothing />} />
           <Route path="/cooking" element={<Cooking />} />
